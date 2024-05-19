@@ -1,3 +1,4 @@
+# referenced: https://www.bacancytechnology.com/blog/vue-js-with-github-actions
 name: Deploy to Github Pages # Defines the name of the GitHub Actions workflow.
 
 on:
