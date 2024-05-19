@@ -11,4 +11,5 @@ jobs:
         with:
           username: 'nick1n'
           reponame: 'heat'
+          useyarn: true
           token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
