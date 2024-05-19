@@ -30,8 +30,8 @@ function shuffle(array: number[]) {
 </script>
 
 <template>
-  <div>
-    <div class="fixed left-0 top-0 z-0 flex h-screen w-screen justify-center bg-white text-center text-6xl font-bold" :class="{ 'z-10': index === -1 }">
+  <div class="h-screen w-screen">
+    <div class="fixed left-0 top-0 z-0 h-screen w-screen bg-white text-center text-6xl font-bold" :class="{ 'z-10': index === -1 }">
       Tap on screen to shuffle<br />
       or draw top card
     </div>
