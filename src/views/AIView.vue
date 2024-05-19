@@ -5,13 +5,17 @@ const CARDS = [...Array(10).keys()]
 const cards = reactive(CARDS)
 const index = ref(-1)
 const current = computed(() => cards[index.value])
+const progress = computed(() => `width: ${((index.value + 1) / cards.length) * 100}%`)
 
 function click(val: number) {
-  if (index.value === -1) {
+  if (val === -1 && index.value === -1) {
+    shuffle(cards)
     shuffle(cards)
     shuffle(cards)
   }
+
   index.value += val
+
   if (index.value < -1 || index.value >= cards.length) {
     index.value = -1
   }
@@ -27,24 +31,36 @@ function shuffle(array: number[]) {
 
 <template>
   <div>
-    <div class="fixed left-0 top-0 w-svw h-svh flex items-center justify-center text-9xl text-center font-bold bg-white z-0" :class="{ 'z-10': index === -1 }">
+    <div class="fixed left-0 top-0 z-0 flex h-screen w-screen justify-center bg-white text-center text-6xl font-bold" :class="{ 'z-10': index === -1 }">
       Tap on screen to shuffle<br />
-      and draw top card
+      or draw top card
     </div>
-    <img src="/img/card-00.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 0 }" />
-    <img src="/img/card-01.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 1 }" />
-    <img src="/img/card-02.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 2 }" />
-    <img src="/img/card-03.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 3 }" />
-    <img src="/img/card-04.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 4 }" />
-    <img src="/img/card-05.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 5 }" />
-    <img src="/img/card-06.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 6 }" />
-    <img src="/img/card-07.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 7 }" />
-    <img src="/img/card-08.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 8 }" />
-    <img src="/img/card-09.png" class="fixed left-0 top-0 w-svw h-svh z-0" :class="{ 'z-10': current === 9 }" />
-    <div class="fixed left-0 top-0 w-svw h-svh text-center font-bold z-20">{{ index === -1 ? '' : index + 1 }}</div>
-    <div class="fixed left-0 top-0 w-svw h-svh grid-cols-2 grid z-30">
-      <div @click="click(-1)" class="cursor-pointer hover:bg-sky-500/10 select-none"></div>
-      <div @click="click(1)" class="cursor-pointer hover:bg-sky-500/10 select-none"></div>
+    <img src="/img/card-00.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 0 }" />
+    <img src="/img/card-01.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 1 }" />
+    <img src="/img/card-02.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 2 }" />
+    <img src="/img/card-03.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 3 }" />
+    <img src="/img/card-04.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 4 }" />
+    <img src="/img/card-05.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 5 }" />
+    <img src="/img/card-06.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 6 }" />
+    <img src="/img/card-07.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 7 }" />
+    <img src="/img/card-08.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 8 }" />
+    <img src="/img/card-09.png" class="fixed left-0 top-0 z-0 h-screen w-screen" :class="{ 'z-10': current === 9 }" />
+    <div class="fixed left-0 top-0 z-20 bg-indigo-400 text-center text-sm font-bold text-white transition-all duration-500" :style="progress">
+      {{ index === -1 ? '' : index + 1 }}
+    </div>
+    <div class="fixed left-0 top-0 z-30 grid h-screen w-screen grid-cols-2">
+      <button
+        @click="click(-1)"
+        class="cursor-pointer select-none text-center text-5xl font-bold text-gray-800 opacity-10 transition-opacity duration-500 active:opacity-90 active:duration-0"
+      >
+        {{ index === -1 ? 'Shuffle' : 'Prev' }}
+      </button>
+      <button
+        @click="click(1)"
+        class="cursor-pointer select-none text-center text-5xl font-bold text-gray-800 opacity-10 transition-opacity duration-500 active:opacity-90 active:duration-0"
+      >
+        {{ index < cards.length - 1 ? 'Draw' : 'End' }}
+      </button>
     </div>
   </div>
 </template>
