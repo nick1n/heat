@@ -5,19 +5,22 @@ const CARDS = [...Array(10).keys()]
 const cards = reactive(CARDS)
 const index = ref(-1)
 const current = computed(() => cards[index.value])
+const interval = ref<NodeJS.Timeout>()
+const timer = ref(0)
 
 function click(val: number) {
-  if (val === -1 && index.value === -1) {
-    shuffle(cards)
-    shuffle(cards)
-    shuffle(cards)
-  }
-
   index.value += val
+  timerReset()
 
   if (index.value < -1 || index.value >= cards.length) {
     index.value = -1
   }
+}
+
+function shuffleCards() {
+  shuffle(cards)
+  shuffle(cards)
+  shuffle(cards)
 }
 
 function shuffle(array: number[]) {
@@ -25,6 +28,12 @@ function shuffle(array: number[]) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[array[i], array[j]] = [array[j], array[i]]
   }
+}
+
+function timerReset() {
+  clearInterval(interval.value)
+  timer.value = 0
+  interval.value = setInterval(() => timer.value++, 1000)
 }
 </script>
 
@@ -40,16 +49,25 @@ function shuffle(array: number[]) {
       <img :src="`/img/card-0${i}.png`" class="max-h-full" />
     </div>
     <div class="fixed bottom-0 left-0 right-0 top-0 z-10 bg-slate-100"></div>
-    <div class="fixed left-0 top-0 z-30 bg-indigo-400 text-sm text-white transition-all duration-500" :style="`width: ${((index + 1) / cards.length) * 100}%`">
-      {{ index === -1 ? '' : index + 1 }}
-    </div>
+    <div class="fixed left-0 top-0 z-30 bg-indigo-400 text-sm text-white transition-all duration-500" :style="`width: ${((index + 1) / cards.length) * 100}%`">{{ timer }}s</div>
     <div class="fixed bottom-0 left-0 right-0 top-0 z-40 grid grid-cols-2">
-      <button @click="click(-1)" class="text-shadow cursor-pointer select-none opacity-10 transition-opacity duration-500 active:opacity-90 active:duration-75">
-        {{ index === -1 ? 'Shuffle' : 'Prev' }}
+      <button
+        v-if="index === -1"
+        @click="shuffleCards"
+        class="text-shadow cursor-pointer select-none opacity-10 transition-opacity duration-300 active:opacity-90 active:duration-0"
+      >
+        Shuffle
       </button>
-      <button @click="click(1)" class="text-shadow cursor-pointer select-none opacity-10 transition-opacity duration-500 active:opacity-90 active:duration-75">
-        {{ index < cards.length - 1 ? 'Draw' : 'End' }}
+      <button v-else @click="click(-1)" class="text-shadow cursor-pointer select-none opacity-10 transition-opacity duration-300 active:opacity-90 active:duration-0">Prev</button>
+
+      <button
+        v-if="index < cards.length - 1"
+        @click="click(1)"
+        class="text-shadow cursor-pointer select-none opacity-10 transition-opacity duration-300 active:opacity-90 active:duration-0"
+      >
+        Draw
       </button>
+      <button v-else @click="click(1)" class="text-shadow cursor-pointer select-none opacity-10 transition-opacity duration-300 active:opacity-90 active:duration-0">End</button>
     </div>
   </div>
 </template>

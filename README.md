@@ -1,3 +1,9 @@
+# Credits
+
+Heat Pedal to the Metal AI Cards by Andras Madarasz (valiante)
+
+- https://boardgamegeek.com/filepage/254401/funmade-legends-cards-for-10-ai-cars
+
 # heat
 
 This template should help get you started developing with Vue 3 in Vite.
