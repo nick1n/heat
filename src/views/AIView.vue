@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onUnmounted } from 'vue'
 
 const CARDS = [...Array(10).keys()]
 const cards = reactive(CARDS)
 const index = ref(-1)
 const current = computed(() => cards[index.value])
-const interval = ref<NodeJS.Timeout>()
-const timer = ref(0)
 
 function click(val: number) {
   index.value += val
@@ -30,11 +28,34 @@ function shuffle(array: number[]) {
   }
 }
 
+const interval = ref(0)
+const time = ref('0s')
+
 function timerReset() {
   clearInterval(interval.value)
-  timer.value = 0
-  interval.value = setInterval(() => timer.value++, 1000)
+  time.value = '0s'
+  interval.value = window.setInterval(startTimer(), 1000)
 }
+
+function startTimer() {
+  const start = getTime()
+  return () => {
+    const delta = Math.floor((getTime() - start) / 1000)
+    const minutes = Math.floor(delta / 60)
+    const seconds = delta % 60
+    let t = ''
+    if (minutes > 0) {
+      t = minutes + 'm '
+    }
+    time.value = t + seconds + 's'
+  }
+}
+
+function getTime() {
+  return +new Date()
+}
+
+onUnmounted(() => clearInterval(interval.value))
 </script>
 
 <template>
@@ -49,7 +70,9 @@ function timerReset() {
       <img :src="`/img/card-0${i}.png`" class="max-h-full" />
     </div>
     <div class="fixed bottom-0 left-0 right-0 top-0 z-10 bg-slate-100"></div>
-    <div class="fixed left-0 top-0 z-30 bg-indigo-400 text-sm text-white transition-all duration-500" :style="`width: ${((index + 1) / cards.length) * 100}%`">{{ timer }}s</div>
+    <div class="fixed left-0 top-0 z-30 overflow-hidden bg-indigo-400 text-sm text-white transition-all duration-500" :style="`width: ${((index + 1) / cards.length) * 100}%`">
+      {{ time }}
+    </div>
     <div class="fixed bottom-0 left-0 right-0 top-0 z-40 grid grid-cols-2">
       <button
         v-if="index === -1"
