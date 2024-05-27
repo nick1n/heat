@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AIView from '../views/AIView.vue'
+import KingAidView from '../views/KingAidView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/ai',
       name: 'ai',
       component: AIView
+    },
+    {
+      path: '/king',
+      name: 'king',
+      component: KingAidView
     }
   ]
 })
