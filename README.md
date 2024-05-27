@@ -1,8 +1,14 @@
 # Credits
 
-Heat Pedal to the Metal AI Cards by Andras Madarasz (valiante)
+#### Heat Pedal to the Metal AI Cards by Andras Madarasz ([valiante](https://boardgamegeek.com/user/valiante))
 
 - https://boardgamegeek.com/filepage/254401/funmade-legends-cards-for-10-ai-cars
+
+#### The King's Dilemma Reference Cards by Ben Finney ([nosewhoknows](https://boardgamegeek.com/user/nosewhoknows))
+
+- https://boardgamegeek.com/filepage/218075/reference-cards-for-setup-symbols-voting-game-phas
+
+---
 
 # heat
 
