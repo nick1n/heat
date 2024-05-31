@@ -194,9 +194,9 @@ function handleAnchor(event: MouseEvent) {
       <div class="pl-6 -indent-6">Winning side spend all their <img class="inline h-12 align-top" src="/king/power.png" /> bid to Balance for future votes.</div>
     </div>
 
-    <div class="border-[2vmin] border-[#AE995B] pb-4">
-      <h2 class="px-4 text-center text-7xl leading-normal">End of Game</h2>
-      <div class="pl-4">
+    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
+      <h2 class="text-center text-7xl leading-normal">End of Game</h2>
+      <div>
         <div>
           When king <img class="inline h-12 align-top" src="/king/stability.png" /> <strong>abdicates</strong> or <img class="inline h-12 align-top" src="/king/death.png" />
           {{ ' ' }}
@@ -205,20 +205,21 @@ function handleAnchor(event: MouseEvent) {
         <div>
           <strong>Calculate <img class="inline h-12 align-top" src="/king/agenda.png" /> Scores</strong> (p. 30)
         </div>
-        <div class="ml-3">Secret Agenda (Resources, <img class="inline h-12 align-top" src="/king/coin.png" /> Ranking)</div>
-        <div class="ml-3">Open Agenda (±3 <img class="inline h-12 align-top" src="/king/agenda.png" />, ±1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
-        <div class="ml-3">Power Majority (+2 <img class="inline h-12 align-top" src="/king/agenda.png" />, +1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
+        <div class="ml-6">Secret Agenda:</div>
+        <div class="ml-12">Resources &amp; <img class="inline h-12 align-top" src="/king/coin.png" /> Ranking</div>
+        <div class="ml-6">Open Agenda (±3 <img class="inline h-12 align-top" src="/king/agenda.png" />, ±1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
+        <div class="ml-6">Power Majority (+2 <img class="inline h-12 align-top" src="/king/agenda.png" />, +1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
         <div><strong>Realm Chronicles</strong> (p. 33)</div>
-        <div class="ml-3">Record each Ranking and Score.</div>
-        <div class="ml-3">Gain <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige, <img class="inline h-12 align-top" src="/king/crave.png" /> Crave.</div>
-        <div class="ml-3">1st rank House names next King.</div>
+        <div class="ml-6">Record each Ranking and Score.</div>
+        <div class="ml-6">Gain <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige, <img class="inline h-12 align-top" src="/king/crave.png" /> Crave.</div>
+        <div class="ml-6">1st rank House names next King.</div>
         <div><strong>House Achievements</strong> <img class="inline h-12 align-top" src="/king/achievements.png" /> (p. 34)</div>
         <div><strong>House Alignment</strong> (p. 34)</div>
         <div><strong>Save Game</strong> (p. 34)</div>
-        <div class="ml-3">Secret Agenda + Vote cards</div>
-        <div class="ml-3">Trash resolved cards</div>
-        <div class="ml-3">Shuffle Trigger + Dilemma deck</div>
-        <div class="ml-3">Event cards + Story cards</div>
+        <div class="ml-6">Secret Agenda + Vote cards</div>
+        <div class="ml-6">Trash resolved cards</div>
+        <div class="ml-6">Shuffle Trigger + Dilemma deck</div>
+        <div class="ml-6">Event cards + Story cards</div>
       </div>
     </div>
 
@@ -261,7 +262,7 @@ function handleAnchor(event: MouseEvent) {
             <tr>
               <td class="border-r-2 border-gray-600 p-1">
                 3rd
-                <div class="-my-4 text-base">&</div>
+                <div class="-my-4 text-base">&amp;</div>
                 4th
               </td>
               <td class="border-r-2 border-gray-600 p-1">
