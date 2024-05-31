@@ -70,20 +70,20 @@ function handleAnchor(event: MouseEvent) {
             <div>Stability</div>
           </div>
           <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/event.png" /></div>
-            <div>Event</div>
+            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/death.png" /></div>
+            <div>King may die</div>
           </div>
           <div class="flex items-center gap-4">
             <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/trigger.png" /></div>
             <div>Trigger</div>
           </div>
           <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/death.png" /></div>
-            <div>King may die</div>
-          </div>
-          <div class="flex items-center gap-4">
             <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/envelope.png" /></div>
             <div>Envelope</div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/event.png" /></div>
+            <div>Event</div>
           </div>
           <div class="flex items-center gap-4">
             <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/sticker.png" /></div>
@@ -180,7 +180,7 @@ function handleAnchor(event: MouseEvent) {
       <div class="ml-12 hidden">Pass to <strong>Gather Power</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
       <div class="ml-12">Pass to <strong>Gather Power</strong> and +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
       <div class="ml-20">
-        <em>If first, become <img class="inline h-12 align-top" src="/king/moderator.png" /> Moderator</em>
+        <em>First to pass, become <img class="inline h-12 align-top" src="/king/moderator.png" /> Moderator</em>
       </div>
       <div>Choice cannot be changed later.</div>
       <div class="pl-6">May increase existing bid.</div>
