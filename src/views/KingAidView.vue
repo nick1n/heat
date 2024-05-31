@@ -169,17 +169,17 @@ function handleAnchor(event: MouseEvent) {
     <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
       <h2 class="text-center text-7xl leading-normal">Voting</h2>
       <div>Start at Leader. On your turn, either:</div>
-      <div class="ml-12">Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
-      <div class="ml-20">
+      <div class="ml-6">Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
+      <div class="ml-12">
         <em>If new high bid, seize <img class="inline h-12 align-top" src="/king/leader.png" /> Leader</em>
       </div>
-      <div class="ml-12 hidden">
+      <div class="ml-6 hidden">
         Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" />
       </div>
-      <div class="ml-20 hidden"><em>max. one player each vote</em></div>
-      <div class="ml-12 hidden">Pass to <strong>Gather Power</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-      <div class="ml-12">Pass to <strong>Gather Power</strong> and +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-      <div class="ml-20">
+      <div class="ml-12 hidden"><em>max. one player each vote</em></div>
+      <div class="ml-6 hidden">Pass to <strong>Gather Power</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
+      <div class="ml-6">Pass to <strong>Gather Power</strong> and +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
+      <div class="ml-12">
         <em>First to pass, become <img class="inline h-12 align-top" src="/king/moderator.png" /> Moderator</em>
       </div>
       <div>Choice cannot be changed later.</div>
@@ -205,20 +205,20 @@ function handleAnchor(event: MouseEvent) {
         <div>
           <strong>Calculate <img class="inline h-12 align-top" src="/king/agenda.png" /> Scores</strong> (p. 30)
         </div>
-        <div class="ml-5">Secret Agenda: Resources & <img class="inline h-12 align-top" src="/king/coin.png" /> Ranking</div>
-        <div class="ml-5">Open Agenda (±3 <img class="inline h-12 align-top" src="/king/agenda.png" />, ±1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
-        <div class="ml-5">Power Majority (+2 <img class="inline h-12 align-top" src="/king/agenda.png" />, +1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
+        <div class="ml-4">Secret Agenda (Resources, <img class="inline h-12 align-top" src="/king/coin.png" /> Ranking)</div>
+        <div class="ml-4">Open Agenda (±3 <img class="inline h-12 align-top" src="/king/agenda.png" />, ±1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
+        <div class="ml-4">Power Majority (+2 <img class="inline h-12 align-top" src="/king/agenda.png" />, +1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
         <div><strong>Realm Chronicles</strong> (p. 33)</div>
-        <div class="ml-5">Record each Ranking and Score.</div>
-        <div class="ml-5">Gain <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige, <img class="inline h-12 align-top" src="/king/crave.png" /> Crave.</div>
-        <div class="ml-5">1st rank House names next King.</div>
+        <div class="ml-4">Record each Ranking and Score.</div>
+        <div class="ml-4">Gain <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige, <img class="inline h-12 align-top" src="/king/crave.png" /> Crave.</div>
+        <div class="ml-4">1st rank House names next King.</div>
         <div><strong>House Achievements</strong> <img class="inline h-12 align-top" src="/king/achievements.png" /> (p. 34)</div>
         <div><strong>House Alignment</strong> (p. 34)</div>
         <div><strong>Save Game</strong> (p. 34)</div>
-        <div class="ml-5">Secret Agenda + Vote cards</div>
-        <div class="ml-5">Trash resolved cards</div>
-        <div class="ml-5">Shuffle Trigger + Dilemma deck</div>
-        <div class="ml-5">Event cards + Story cards</div>
+        <div class="ml-4">Secret Agenda + Vote cards</div>
+        <div class="ml-4">Trash resolved cards</div>
+        <div class="ml-4">Shuffle Trigger + Dilemma deck</div>
+        <div class="ml-4">Event cards + Story cards</div>
       </div>
     </div>
 
