@@ -4,6 +4,8 @@ import { ref } from 'vue'
 
 const cardLegacy = ref(true)
 const cardGame = ref(true)
+const cardEnd = ref(true)
+const cardScore = ref(true)
 
 function handleAnchor(event: MouseEvent) {
   const target = event.target as HTMLAnchorElement
@@ -143,7 +145,7 @@ function handleAnchor(event: MouseEvent) {
     </div>
 
     <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <h2 id="dilemma-resolution" class="text-center text-5xl leading-normal"><strong>Dilemma Resolution</strong> (p. 23)</h2>
+      <h2 id="dilemma-resolution" class="text-center text-5xl leading-normal">Dilemma Resolution (p. 23)</h2>
       <div>
         <div>Turn Dilemma card over for Aye or Nay. Read the <strong>Outcome</strong>.</div>
         <div>Apply Realm <strong>changes</strong> (left to right):</div>
@@ -198,9 +200,11 @@ function handleAnchor(event: MouseEvent) {
       <div class="pl-6 -indent-6">Winning side spend all their <img class="inline h-12 align-top" src="/king/power.png" /> bid to Balance for future votes.</div>
     </div>
 
-    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <h2 class="text-center text-7xl leading-normal">End of Game</h2>
-      <div>
+    <div class="border-[2vmin] border-[#AE995B]">
+      <button class="w-full" @click="() => (cardEnd = !cardEnd)">
+        <h2 class="text-center text-7xl leading-normal">End of Game</h2>
+      </button>
+      <div class="p-4 pt-0" :class="{ hidden: cardEnd }">
         <div>
           When king <img class="inline h-12 align-top" src="/king/stability.png" /> <strong>abdicates</strong> or <img class="inline h-12 align-top" src="/king/death.png" />
           {{ ' ' }}
@@ -227,9 +231,11 @@ function handleAnchor(event: MouseEvent) {
       </div>
     </div>
 
-    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0 text-3xl leading-normal">
-      <h2 class="text-center text-5xl leading-normal">Campaign Score (p. 33)</h2>
-      <div>
+    <div class="border-[2vmin] border-[#AE995B] text-3xl leading-normal">
+      <button class="w-full" @click="() => (cardScore = !cardScore)">
+        <h2 class="text-center text-5xl leading-normal">Campaign Score (p. 33)</h2>
+      </button>
+      <div class="p-4 pt-0" :class="{ hidden: cardScore }">
         <div>
           Based on <img class="inline h-12 align-top" src="/king/agenda.png" /> rank, and how the King's reign ended, each House gains
           <img class="inline h-12 align-top" src="/king/prestige.png" />/<img class="inline h-12 align-top" src="/king/crave.png" />.
@@ -302,12 +308,12 @@ function handleAnchor(event: MouseEvent) {
       </div>
     </div>
 
-    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <button class="w-full" @click="() => (cardGame = !cardGame)">
+    <div class="border-[2vmin] border-[#AE995B]">
+      <button class="w-full p-4 pt-0" @click="() => (cardGame = !cardGame)">
         <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
         <h2 class="text-center text-5xl">Every game</h2>
       </button>
-      <div :class="{ hidden: cardGame }">
+      <div class="p-4 pt-0" :class="{ hidden: cardGame }">
         <div>Set up the <strong>Realm Board:</strong> (p. 7)</div>
         <div class="pl-6">For each <strong>Resource marker:</strong></div>
         <div class="pl-12">Flip to randomise its side.</div>
@@ -337,17 +343,16 @@ function handleAnchor(event: MouseEvent) {
         <div>If this is <strong>not the first game:</strong></div>
         <div class="pl-6">Shuffle the existing <strong>Dilemma deck</strong>.</div>
         <div class="pl-12">Cover it with the cover tile. (p. 9)</div>
-        <div class="pl-6">Apply <strong>Legacy effects:</strong></div>
-        <div class="pl-12">See other side of this card. (p. 10)</div>
+        <div class="pl-6">Apply <strong>Legacy effects</strong>. (p. 10)</div>
       </div>
     </div>
 
-    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <button class="w-full" @click="() => (cardLegacy = !cardLegacy)">
+    <div class="border-[2vmin] border-[#AE995B]">
+      <button class="w-full p-4 pt-0" @click="() => (cardLegacy = !cardLegacy)">
         <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
         <h2 class="text-center text-5xl">Legacy effects</h2>
       </button>
-      <div :class="{ hidden: cardLegacy }">
+      <div class="p-4 pt-0" :class="{ hidden: cardLegacy }">
         <div class="pl-6 -indent-6"><strong>Set up Event cards:</strong> use instructions on each card. (p. 10)</div>
         <div class="pl-6 -indent-6"><strong>Story Legacy:</strong> For each Storyline:</div>
         <div class="pl-12 -indent-6">Order Story cards with highest number on top. (p. 10)</div>
