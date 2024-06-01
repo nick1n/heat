@@ -112,7 +112,7 @@ function handleAnchor(event: MouseEvent) {
         </div>
         <div class="flex items-center gap-4">
           <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/effect-each.png" /></div>
-          <div>Effect at each game set-up</div>
+          <div>Effect at each game setup</div>
         </div>
         <div class="flex items-center gap-4">
           <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/effect-when.png" /></div>
@@ -295,6 +295,68 @@ function handleAnchor(event: MouseEvent) {
           <div class="flex h-16 w-24 items-center justify-center"><img class="w-full" src="/king/crave.png" /></div>
           <div>Crave: the legacy of your House in a struggle for power with other Houses.</div>
         </div>
+      </div>
+    </div>
+
+    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
+      <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
+      <h2 class="text-center text-5xl">Every game</h2>
+      <div>
+        <div>Set up the <strong>Realm Board:</strong> (p. 7)</div>
+        <div class="pl-6">For each <strong>Resource marker:</strong></div>
+        <div class="pl-12">Flip to randomise its side.</div>
+        <div class="pl-12">Place it on the middle position.</div>
+        <div class="pl-6 -indent-6">Place the <img class="inline h-12 align-top" src="/king/stability.png" /> <strong>Stability marker</strong> on the middle position.</div>
+        <div>Place 3 <img class="inline h-12 align-top" src="/king/power.png" /> <strong>Power</strong> on the Balance.</div>
+        <div>For each player: (p. 8)</div>
+        <div class="pl-6">Set up <strong>House screen</strong>.</div>
+        <div class="pl-6">Place <strong>vote cards</strong> in front.</div>
+        <div class="pl-6">
+          Take 8 <img class="inline h-12 align-top" src="/king/power.png" /> <strong>Power</strong>, 10 <img class="inline h-12 align-top" src="/king/coin.png" />
+          {{ ' ' }}
+          <strong>Coin</strong>.
+        </div>
+        <div class="pl-12">Place behind screen.</div>
+        <div>Player with highest <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige:</div>
+        <div class="pl-6">Take <img class="inline h-12 align-top" src="/king/leader.png" /> <strong>Leader token</strong>. (p. 9)</div>
+        <div>Player with lowest <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige:</div>
+        <div class="pl-6">Take <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator token</strong>. (p. 9)</div>
+        <div><img class="inline h-12 align-top" src="/king/agenda.png" /> <strong>Secret Agendas:</strong> (p. 8)</div>
+        <div class="pl-6">Shuffle <strong>Secret Agenda</strong> cards.</div>
+        <div class="pl-6">Remove 1 random card unseen.</div>
+        <div class="pl-12 -indent-6">Each player, from lowest <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige to highest.</div>
+        <div class="pl-12 -indent-6">Choose a <strong>Secret Agenda</strong> from remaining cards.</div>
+        <div class="pl-12 -indent-6">Pass remaining cards to next player in increasing <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige order.</div>
+        <div class="pl-6">Remove remaining cards from game.</div>
+        <div>If this is <strong>not the first game:</strong></div>
+        <div class="pl-6">Shuffle the existing <strong>Dilemma deck</strong>.</div>
+        <div class="pl-12">Cover it with the cover tile. (p. 9)</div>
+        <div class="pl-6">Apply <strong>Legacy effects:</strong></div>
+        <div class="pl-12">See other side of this card. (p. 10)</div>
+      </div>
+    </div>
+
+    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
+      <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
+      <h2 class="text-center text-5xl">Legacy effects</h2>
+      <div>
+        <div class="pl-6 -indent-6"><strong>Set up Event cards:</strong> use instructions on each card. (p. 10)</div>
+        <div class="pl-6 -indent-6"><strong>Story Legacy:</strong> For each Storyline:</div>
+        <div class="pl-12 -indent-6">Order Story cards with highest number on top. (p. 10)</div>
+        <div class="pl-12 -indent-6">Top-most card is in effect.</div>
+        <div><strong>House Achievements:</strong> Each House:</div>
+        <div class="pl-12 -indent-6">Review Achievements. (p. 13) Any that are complete (all squares marked) are now in effect.</div>
+        <div class="pl-6 -indent-6">For each displayed Chronicle Sticker:</div>
+        <div class="pl-6 -indent-6"><strong>Chronicle Ageing:</strong> (p. 10) Mark 1 empty square (if any) on the sticker.</div>
+        <div class="pl-6 -indent-6"><strong>Resource Legacy:</strong> (p. 11) Change Resource position up (positive) or down (negative).</div>
+        <div class="pl-6 -indent-6"><strong>Power Legacy:</strong> (p. 11) For each House:</div>
+        <div class="pl-12 -indent-6">For every displayed Chronicle Sticker signed by that House, increase (if positive) or decrease (if negative) starting Power.</div>
+        <div><strong>Open Agendas:</strong> (p. 12)</div>
+        <div class="pl-6">For each Resource:</div>
+        <div class="pl-12 -indent-6">
+          Assign the Positive and Negative (respectively) Open Agenda to the House who signed the most recent positive or negative Chronicle Sticker for the resource.
+        </div>
+        <div class="pl-12 -indent-6">Each House should have have maximum two Positive and two Negative Open Agendas. If more, discard extras (player chooses).</div>
       </div>
     </div>
   </div>
