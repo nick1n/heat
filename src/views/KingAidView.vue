@@ -1,5 +1,9 @@
 <script setup lang="ts">
 // import IconText from '../components/IconText.vue'
+import { ref } from 'vue'
+
+const cardLegacy = ref(true)
+const cardGame = ref(true)
 
 function handleAnchor(event: MouseEvent) {
   const target = event.target as HTMLAnchorElement
@@ -299,9 +303,11 @@ function handleAnchor(event: MouseEvent) {
     </div>
 
     <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
-      <h2 class="text-center text-5xl">Every game</h2>
-      <div>
+      <button class="w-full" @click="() => (cardGame = !cardGame)">
+        <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
+        <h2 class="text-center text-5xl">Every game</h2>
+      </button>
+      <div :class="{ hidden: cardGame }">
         <div>Set up the <strong>Realm Board:</strong> (p. 7)</div>
         <div class="pl-6">For each <strong>Resource marker:</strong></div>
         <div class="pl-12">Flip to randomise its side.</div>
@@ -337,9 +343,11 @@ function handleAnchor(event: MouseEvent) {
     </div>
 
     <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
-      <h2 class="text-center text-5xl">Legacy effects</h2>
-      <div>
+      <button class="w-full" @click="() => (cardLegacy = !cardLegacy)">
+        <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
+        <h2 class="text-center text-5xl">Legacy effects</h2>
+      </button>
+      <div :class="{ hidden: cardLegacy }">
         <div class="pl-6 -indent-6"><strong>Set up Event cards:</strong> use instructions on each card. (p. 10)</div>
         <div class="pl-6 -indent-6"><strong>Story Legacy:</strong> For each Storyline:</div>
         <div class="pl-12 -indent-6">Order Story cards with highest number on top. (p. 10)</div>
