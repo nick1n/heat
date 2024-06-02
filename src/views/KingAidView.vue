@@ -2,10 +2,13 @@
 // import IconText from '../components/IconText.vue'
 import { ref } from 'vue'
 
-const cardLegacy = ref(true)
-const cardGame = ref(true)
+const cardPhases = ref(false)
+const cardVote = ref(false)
+const cardResolution = ref(true)
 const cardEnd = ref(true)
 const cardScore = ref(true)
+const cardSetup = ref(true)
+const cardLegacy = ref(true)
 
 function handleAnchor(event: MouseEvent) {
   const target = event.target as HTMLAnchorElement
@@ -127,10 +130,12 @@ function handleAnchor(event: MouseEvent) {
       </div>
     </div>
 
-    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <h2 class="text-center text-7xl leading-normal">Game round</h2>
-      <h2 class="text-center text-5xl">Phases</h2>
-      <div class="grid gap-4">
+    <div class="border-[2vmin] border-[#AE995B]">
+      <button class="w-full" @click="() => (cardPhases = !cardPhases)">
+        <h2 class="text-center text-7xl leading-normal">Game round</h2>
+        <h2 class="text-center text-5xl">Phases</h2>
+      </button>
+      <div class="grid gap-4 p-4 pt-0" :class="{ hidden: cardPhases }">
         <div><strong>Draw Dilemma Card</strong> (p. 15)</div>
         <div>Place <strong>Outcome Tokens</strong> (p. 16)</div>
         <div><strong>Vote</strong> of the Council (p. 16)</div>
@@ -144,9 +149,43 @@ function handleAnchor(event: MouseEvent) {
       </div>
     </div>
 
-    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <h2 id="dilemma-resolution" class="text-center text-5xl leading-normal">Dilemma Resolution (p. 23)</h2>
-      <div>
+    <div class="border-[2vmin] border-[#AE995B]">
+      <button class="w-full" @click="() => (cardVote = !cardVote)">
+        <h2 class="text-center text-5xl leading-normal">Vote of the Council (p. 16)</h2>
+      </button>
+      <div class="p-4 pt-0" :class="{ hidden: cardVote }">
+        <div>Start at Leader. On your turn, either:</div>
+        <div class="ml-6">Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
+        <div class="ml-12">
+          <em>If new high bid, seize <img class="inline h-12 align-top" src="/king/leader.png" /> Leader</em>
+        </div>
+        <div class="ml-6 hidden">
+          Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" />
+        </div>
+        <div class="ml-12 hidden"><em>max. one player each vote</em></div>
+        <div class="ml-6 hidden">Pass to <strong>Gather Power</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
+        <div class="ml-6">Pass to <strong>Gather Power</strong> and +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
+        <div class="ml-12">
+          <em>First to pass, become <img class="inline h-12 align-top" src="/king/moderator.png" /> Moderator</em>
+        </div>
+        <div>Choice cannot be changed later.</div>
+        <div class="pl-6">May increase existing bid.</div>
+        <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-12 align-top" src="/king/coin.png" /> exchanged.</div>
+        <div class="pl-6 -indent-6">Continue around to latest Leader.</div>
+        <div class="pl-6 -indent-6">
+          Highest total <img class="inline h-12 align-top" src="/king/power.png" /> bid <strong>wins vote</strong> and takes Leader. <em>Moderator breaks ties</em>.
+        </div>
+        <div class="pl-6 -indent-6">All players who Gather Power now equally share <img class="inline h-12 align-top" src="/king/power.png" /> from Balance.</div>
+        <div class="pl-6 -indent-6">Losing side reclaim all their <img class="inline h-12 align-top" src="/king/power.png" /> bid.</div>
+        <div class="pl-6 -indent-6">Winning side spend all their <img class="inline h-12 align-top" src="/king/power.png" /> bid to Balance for future votes.</div>
+      </div>
+    </div>
+
+    <div class="border-[2vmin] border-[#AE995B]">
+      <button class="w-full" @click="() => (cardResolution = !cardResolution)">
+        <h2 id="dilemma-resolution" class="text-center text-5xl leading-normal">Dilemma Resolution (p. 23)</h2>
+      </button>
+      <div class="p-4 pt-0" :class="{ hidden: cardResolution }">
         <div>Turn Dilemma card over for Aye or Nay. Read the <strong>Outcome</strong>.</div>
         <div>Apply Realm <strong>changes</strong> (left to right):</div>
         <div class="ml-12">
@@ -170,34 +209,6 @@ function handleAnchor(event: MouseEvent) {
         <div>Place resolved Dilemma card on</div>
         <div><strong>Time Counter</strong>.</div>
       </div>
-    </div>
-
-    <div class="border-[2vmin] border-[#AE995B] p-4 pt-0">
-      <h2 class="text-center text-7xl leading-normal">Voting</h2>
-      <div>Start at Leader. On your turn, either:</div>
-      <div class="ml-6">Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
-      <div class="ml-12">
-        <em>If new high bid, seize <img class="inline h-12 align-top" src="/king/leader.png" /> Leader</em>
-      </div>
-      <div class="ml-6 hidden">
-        Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" />
-      </div>
-      <div class="ml-12 hidden"><em>max. one player each vote</em></div>
-      <div class="ml-6 hidden">Pass to <strong>Gather Power</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-      <div class="ml-6">Pass to <strong>Gather Power</strong> and +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-      <div class="ml-12">
-        <em>First to pass, become <img class="inline h-12 align-top" src="/king/moderator.png" /> Moderator</em>
-      </div>
-      <div>Choice cannot be changed later.</div>
-      <div class="pl-6">May increase existing bid.</div>
-      <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-12 align-top" src="/king/coin.png" /> exchanged.</div>
-      <div class="pl-6 -indent-6">Continue around to latest Leader.</div>
-      <div class="pl-6 -indent-6">
-        Highest total <img class="inline h-12 align-top" src="/king/power.png" /> bid <strong>wins vote</strong> and takes Leader. <em>Moderator breaks ties</em>.
-      </div>
-      <div class="pl-6 -indent-6">All players who Gather Power now equally share <img class="inline h-12 align-top" src="/king/power.png" /> from Balance.</div>
-      <div class="pl-6 -indent-6">Losing side reclaim all their <img class="inline h-12 align-top" src="/king/power.png" /> bid.</div>
-      <div class="pl-6 -indent-6">Winning side spend all their <img class="inline h-12 align-top" src="/king/power.png" /> bid to Balance for future votes.</div>
     </div>
 
     <div class="border-[2vmin] border-[#AE995B]">
@@ -309,11 +320,11 @@ function handleAnchor(event: MouseEvent) {
     </div>
 
     <div class="border-[2vmin] border-[#AE995B]">
-      <button class="w-full p-4 pt-0" @click="() => (cardGame = !cardGame)">
+      <button class="w-full p-4 pt-0" @click="() => (cardSetup = !cardSetup)">
         <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
-        <h2 class="text-center text-5xl">Every game</h2>
+        <h2 class="text-center text-5xl">Every game (p. 7)</h2>
       </button>
-      <div class="p-4 pt-0" :class="{ hidden: cardGame }">
+      <div class="p-4 pt-0" :class="{ hidden: cardSetup }">
         <div>Set up the <strong>Realm Board:</strong> (p. 7)</div>
         <div class="pl-6">For each <strong>Resource marker:</strong></div>
         <div class="pl-12">Flip to randomise its side.</div>
@@ -348,9 +359,8 @@ function handleAnchor(event: MouseEvent) {
     </div>
 
     <div class="border-[2vmin] border-[#AE995B]">
-      <button class="w-full p-4 pt-0" @click="() => (cardLegacy = !cardLegacy)">
-        <h2 class="text-center text-7xl leading-normal">Game Setup</h2>
-        <h2 class="text-center text-5xl">Legacy effects</h2>
+      <button class="w-full" @click="() => (cardLegacy = !cardLegacy)">
+        <h2 class="text-center text-5xl leading-normal">Legacy effects (p. 10)</h2>
       </button>
       <div class="p-4 pt-0" :class="{ hidden: cardLegacy }">
         <div class="pl-6 -indent-6"><strong>Set up Event cards:</strong> use instructions on each card. (p. 10)</div>
