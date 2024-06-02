@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import IconText from '../components/IconText.vue'
+import IconText from '../components/IconText.vue'
 import { ref } from 'vue'
 
 const cardPhases = ref(false)
@@ -9,15 +9,6 @@ const cardEnd = ref(true)
 const cardScore = ref(true)
 const cardSetup = ref(true)
 const cardLegacy = ref(true)
-
-function handleAnchor(event: MouseEvent) {
-  const target = event.target as HTMLAnchorElement
-  const el = document.getElementById(target.href)
-  if (el) {
-    setTimeout(() => window.scrollTo(0, el.offsetTop))
-  }
-  event.preventDefault()
-}
 </script>
 
 <template>
@@ -26,107 +17,32 @@ function handleAnchor(event: MouseEvent) {
       <h2 class="text-center text-7xl leading-normal">Legend of Symbols</h2>
       <div class="grid gap-4">
         <div class="grid grid-cols-2 gap-4">
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/leader.png" /></div>
-            <div>Leader</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/moderator.png" /></div>
-            <div>Moderator</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/influence.png" /></div>
-            <div>Influence</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/power.png" /></div>
-            <div>Power</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/wealth.png" /></div>
-            <div>Wealth</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/coin.png" /></div>
-            <div>Coin</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/morale.png" /></div>
-            <div>Morale</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/agenda.png" /></div>
-            <div>Agenda</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/welfare.png" /></div>
-            <div>Welfare</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/prestige.png" /></div>
-            <div>Prestige</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/knowledge.png" /></div>
-            <div>Knowledge</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/crave.png" /></div>
-            <div>Crave</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/stability.png" /></div>
-            <div>Stability</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/death.png" /></div>
-            <div>King may die</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/trigger.png" /></div>
-            <div>Trigger</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/envelope.png" /></div>
-            <div>Envelope</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/event.png" /></div>
-            <div>Event</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/sticker.png" /></div>
-            <div>Add sticker</div>
-          </div>
+          <IconText :icon="'leader'">Leader</IconText>
+          <IconText :icon="'moderator'">Moderator</IconText>
+          <IconText :icon="'influence'">Influence</IconText>
+          <IconText :icon="'power'">Power</IconText>
+          <IconText :icon="'wealth'">Wealth</IconText>
+          <IconText :icon="'coin'">Coin</IconText>
+          <IconText :icon="'morale'">Morale</IconText>
+          <IconText :icon="'agenda'">Agenda</IconText>
+          <IconText :icon="'welfare'">Welfare</IconText>
+          <IconText :icon="'prestige'">Prestige</IconText>
+          <IconText :icon="'knowledge'">Knowledge</IconText>
+          <IconText :icon="'crave'">Crave</IconText>
+          <IconText :icon="'stability'">Stability</IconText>
+          <IconText :icon="'death'">King may die</IconText>
+          <IconText :icon="'trigger'">Trigger</IconText>
+          <IconText :icon="'envelope'">Envelope</IconText>
+          <IconText :icon="'event'">Event</IconText>
+          <IconText :icon="'sticker'">Add sticker</IconText>
         </div>
-        <div class="flex items-center gap-4">
-          <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/chronicle.png" /></div>
-          <div>Chronicle Sticker</div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/sign.png" /></div>
-          <div>Sign name of House</div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/mark.png" /></div>
-          <div>Mark each use</div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/achievements.png" /></div>
-          <div>House Achievements</div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/effect-one.png" /></div>
-          <div>Effect one time, when gained</div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/effect-each.png" /></div>
-          <div>Effect at each game setup</div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="flex h-16 w-16 items-center justify-center"><img class="max-h-full" src="/king/effect-when.png" /></div>
-          <div>Effect when condition is met</div>
-        </div>
+        <IconText :icon="'chronicle'">Chronicle Sticker</IconText>
+        <IconText :icon="'sign'">Sign name of House</IconText>
+        <IconText :icon="'mark'">Mark each use</IconText>
+        <IconText :icon="'achievements'">House Achievements</IconText>
+        <IconText :icon="'effect-one'">Effect one time, when gained</IconText>
+        <IconText :icon="'effect-each'">Effect at each game setup</IconText>
+        <IconText :icon="'effect-when'">Effect when condition is met</IconText>
       </div>
     </div>
 
@@ -385,7 +301,7 @@ function handleAnchor(event: MouseEvent) {
   </div>
 </template>
 
-<style>
+<style scoped>
 html {
   font-size: 2.2vmin;
 }
