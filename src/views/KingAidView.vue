@@ -56,9 +56,7 @@ const cardLegacy = ref(true)
         <div>Place <strong>Outcome Tokens</strong> (p. 16)</div>
         <div><strong>Vote</strong> of the Council (p. 16)</div>
         <div><strong>Vote Resolution</strong> (p. 20)</div>
-        <div>
-          <a href="#dilemma-resolution" @click="handleAnchor"><strong>Dilemma Resolution</strong></a> (p. 23)
-        </div>
+        <div><strong>Dilemma Resolution</strong> (p. 23)</div>
         <div>Check for <strong>Game End</strong> (p. 29)</div>
         <div class="ml-12">If king abdicates or dies, go to End of Game.</div>
         <div class="ml-12">If not: next Round.</div>
@@ -99,7 +97,7 @@ const cardLegacy = ref(true)
 
     <div class="border-[2vmin] border-[#AE995B]">
       <button class="w-full" @click="() => (cardResolution = !cardResolution)">
-        <h2 id="dilemma-resolution" class="text-center text-5xl leading-normal">Dilemma Resolution (p. 23)</h2>
+        <h2 class="text-center text-5xl leading-normal">Dilemma Resolution (p. 23)</h2>
       </button>
       <div class="p-4 pt-0" :class="{ hidden: cardResolution }">
         <div>Turn Dilemma card over for Aye or Nay. Read the <strong>Outcome</strong>.</div>
