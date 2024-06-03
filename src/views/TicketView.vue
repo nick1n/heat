@@ -1,20 +1,56 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 
+const logged = reactive<string[]>([])
+
+function log(message: string) {
+  logged.push(message)
+}
+
+const COMPANIES = ['Black', 'Red', 'Blue', 'Yellow', 'Green', 'White'] as const
+const TIERS = [20, 15, 10, 5] as const
+const shares = reactive([0, 0, 0, 0, 0, 0])
+const shareSum = computed(() => sum(shares))
+
+function handleShare(i: number, amt: number) {
+  if (shares[i] === amt) {
+    shares[i] = 0
+    log('Removed ' + COMPANIES[i] + ' Shares #' + (i + 1) + ' for $' + amt)
+  } else {
+    shares[i] = amt
+    log('Added ' + COMPANIES[i] + ' Shares #' + (i + 1) + ' for $' + amt)
+  }
+}
+
+const showTicketInput = ref(false)
 const tickets = reactive<number[]>([])
-const ticketSum = computed(() => tickets.reduce((a, b) => a + b, 0))
+const ticketSum = computed(() => sum(tickets))
 const positive = ref(true)
 
 function addTicket(amt: number) {
   if (positive.value) {
     tickets.push(amt)
+    log('Added Completed Ticket for $' + amt)
   } else {
     tickets.push(-amt)
+    log('Added Incomplete Ticket for -$' + amt)
   }
 }
 
-function removeTicket(i: number) {
-  tickets.splice(i, 1)
+function removeTicket(event: MouseEvent, i: number) {
+  if (tickets[i] < 0) {
+    log('Removed Incomplete Ticket for -$' + -tickets[i])
+  } else {
+    log('Removed Completed Ticket for $' + tickets[i])
+  }
+
+  const target = event.currentTarget as HTMLDivElement
+  target.classList.add('opacity-0')
+  setTimeout(() => tickets.splice(i, 1), 150)
+}
+
+function sum(arr: number[]) {
+  return arr.reduce((a, b) => a + b, 0)
 }
 </script>
 
@@ -57,29 +93,72 @@ function removeTicket(i: number) {
         </div>
       </div>
     </div>
-    <div class="fixed bottom-0 left-0 right-0">
-      <div class="grid grid-cols-5 gap-2 p-2 text-xl">
+
+    <div>Shares ${{ shareSum }}</div>
+    <div class="mb-2 grid grid-cols-5 gap-2">
+      <div></div>
+      <div>1st</div>
+      <div>2nd</div>
+      <div>3rd</div>
+      <div>4th</div>
+    </div>
+    <div v-for="(company, i) in COMPANIES" :key="company" class="mb-2 grid grid-cols-5 gap-2">
+      <div>{{ company }}</div>
+      <button
+        v-for="amt in TIERS"
+        :key="company + amt"
+        class="relative rounded-lg border-2 border-gray-50 p-1 hover:bg-green-300 active:bg-green-400"
+        :class="{ 'bg-green-200': shares[i] === amt }"
+        @click="handleShare(i, amt)"
+      >
+        <div class="coin"><span>$</span>{{ amt }}</div>
+        <div v-if="shares[i] === amt" class="absolute left-1 top-1 text-base">➕</div>
+      </button>
+    </div>
+
+    <button class="w-16 rounded-lg border-2 border-gray-50 p-1" @click="showTicketInput = true">{{ ticketSum }}</button>
+
+    <div class="w-full p-2 text-left">
+      <div v-for="(message, i) in logged" :key="i">{{ message }}</div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 bg-slate-100 p-2 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
+      <div class="grid grid-cols-5 gap-2">
         <button
           v-for="(amt, i) in tickets"
           :key="i + '-' + amt"
-          class="relative rounded-lg border-2 border-gray-200 p-1 hover:bg-gray-50 active:bg-gray-300"
-          @click="removeTicket(i)"
+          class="relative rounded-lg border-2 border-gray-50 p-1 transition-opacity"
+          :class="{ 'bg-green-200 hover:bg-green-300 active:bg-green-400': amt > 0, 'bg-red-200 hover:bg-red-300 active:bg-red-400': amt < 0 }"
+          @click="removeTicket($event, i)"
         >
           <div class="coin"><span>$</span>{{ Math.abs(amt) }}</div>
           <div v-if="amt > 0" class="absolute left-1 top-1 text-base">➕</div>
           <div v-else class="absolute left-1 top-1 text-base">➖</div>
         </button>
       </div>
-      <div>Tickets: {{ ticketSum }}</div>
-      <div class="grid grid-cols-5 gap-2 bg-slate-100 p-2 text-xl">
-        <button v-for="(amt, i) in 23" :key="i + '-' + amt" class="rounded-lg border-2 border-gray-50 p-1 hover:bg-gray-50 active:bg-gray-300" @click="addTicket(amt)">
+      <div>Ticket Total: {{ ticketSum }}</div>
+      <div class="grid grid-cols-5 gap-2">
+        <button
+          v-for="(amt, i) in 23"
+          :key="i + '-' + amt"
+          class="relative rounded-lg border-2 border-gray-50 p-1"
+          :class="{ 'bg-green-200 hover:bg-green-300 active:bg-green-400': positive, 'bg-red-200 hover:bg-red-300 active:bg-red-400': !positive }"
+          @click="addTicket(amt)"
+        >
           <div class="coin"><span>$</span>{{ amt }}</div>
+          <!-- <div v-if="positive" class="absolute left-1 top-1 text-base">➕</div> -->
+          <!-- <div v-else class="absolute left-1 top-1 text-base">➖</div> -->
         </button>
-        <button v-if="positive" class="rounded-lg border-2 border-green-50 bg-green-400 p-1 text-3xl leading-4 hover:bg-green-500 active:bg-green-600" @click="positive = false">
+        <button v-if="!positive" class="rounded-lg border-2 border-green-50 bg-green-200 p-1 text-3xl leading-4 hover:bg-green-300 active:bg-green-400" @click="positive = true">
           ➕
         </button>
-        <button v-else class="rounded-lg border-2 border-red-50 bg-red-400 p-1 text-3xl leading-4 hover:bg-red-500 active:bg-red-600" @click="positive = true">➖</button>
-        <button class="text-shadow rounded-lg border-2 border-gray-50 bg-gray-400 p-1 text-2xl font-normal leading-4 text-white hover:bg-gray-500 active:bg-gray-600">Done</button>
+        <button v-else class="rounded-lg border-2 border-red-50 bg-red-200 p-1 text-3xl leading-4 hover:bg-red-300 active:bg-red-400" @click="positive = false">➖</button>
+        <button
+          class="text-shadow rounded-lg border-2 border-gray-50 bg-gray-200 p-1 text-2xl font-normal leading-4 text-white hover:bg-gray-300 active:bg-gray-400"
+          @click="showTicketInput = false"
+        >
+          Done
+        </button>
       </div>
     </div>
   </div>
@@ -104,8 +183,8 @@ html {
     0 0 2px #000,
     0 0 3px #000;
   box-shadow:
-    inset -1px -1px 0 1px #e8cf76,
-    inset 1px 1px 0 1px #865b0c;
+    inset 1px 1px 0 1px #865b0c,
+    inset -1px -1px 0 1px #e8cf76;
   height: 3rem;
   width: 3rem;
   font-size: 2rem;
