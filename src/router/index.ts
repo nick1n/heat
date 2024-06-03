@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AIView from '../views/AIView.vue'
 import KingAidView from '../views/KingAidView.vue'
+import TicketView from '../views/TicketView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/king',
       name: 'king',
       component: KingAidView
+    },
+    {
+      path: '/ticket',
+      name: 'ticket',
+      component: TicketView
     }
   ]
 })
