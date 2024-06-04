@@ -181,8 +181,8 @@ function onlyNumber(event: KeyboardEvent) {
       <button
         v-for="(amt, ti) in TIERS"
         :key="company + amt"
-        class="relative rounded-lg border-2 border-gray-50 p-1 hover:bg-green-300 active:bg-green-400"
-        :class="{ 'bg-green-200': shares[ci] === amt }"
+        class="relative rounded-lg border-2 border-gray-50 p-1 hover:bg-gray-50 active:bg-green-400"
+        :class="{ 'bg-green-300 hover:bg-green-200': shares[ci] === amt }"
         @click="handleShare(ci, amt, ti)"
       >
         <div class="coin"><span>$</span>{{ amt }}</div>
