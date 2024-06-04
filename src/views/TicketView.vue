@@ -1,24 +1,53 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 
-const logged = reactive<string[]>([])
+const showLog = ref(false)
 
+const logged = reactive<string[]>([])
 function log(message: string) {
   logged.push(message)
 }
 
-const COMPANIES = ['Black', 'Red', 'Blue', 'Yellow', 'Green', 'White'] as const
-const TIERS = [20, 15, 10, 5] as const
+const coins = ref(null)
+
+const trains = ref(null)
+const trainPoints = computed(() => {
+  if (trains.value === null) {
+    return 0
+  } else if (trains.value === 0) {
+    return 16
+  } else if (trains.value === 1) {
+    return 12
+  } else if (trains.value === 2) {
+    return 9
+  } else if (trains.value === 3) {
+    return 7
+  } else if (trains.value === 4) {
+    return 6
+  } else if (trains.value >= 5 && trains.value <= 7) {
+    return 4
+  } else if (trains.value >= 8 && trains.value <= 10) {
+    return 2
+  }
+  return 0
+})
+
+const COMPANIES = ['Black', 'Blue', 'Green', 'Yellow', 'Red', 'White'] as const
+const TIERS = [20, 15, 10, 5]
 const shares = reactive([0, 0, 0, 0, 0, 0])
 const shareSum = computed(() => sum(shares))
 
-function handleShare(i: number, amt: number) {
-  if (shares[i] === amt) {
-    shares[i] = 0
-    log('Removed ' + COMPANIES[i] + ' Shares #' + (i + 1) + ' for $' + amt)
+function handleShare(ci: number, amt: number, ti: number) {
+  if (shares[ci] === amt) {
+    shares[ci] = 0
+    log('Removed ' + COMPANIES[ci] + ' Shares #' + (ti + 1) + ' for $' + amt)
   } else {
-    shares[i] = amt
-    log('Added ' + COMPANIES[i] + ' Shares #' + (i + 1) + ' for $' + amt)
+    if (shares[ci] === 0) {
+      log('Added ' + COMPANIES[ci] + ' Shares #' + (ti + 1) + ' for $' + amt)
+    } else {
+      log('Changed ' + COMPANIES[ci] + ' Shares to #' + (ti + 1) + ' for $' + amt)
+    }
+    shares[ci] = amt
   }
 }
 
@@ -52,10 +81,19 @@ function removeTicket(event: MouseEvent, i: number) {
 function sum(arr: number[]) {
   return arr.reduce((a, b) => a + b, 0)
 }
+
+const total = computed(() => (coins.value || 0) + trainPoints.value + ticketSum.value + shareSum.value)
+
+function onlyNumber(event: KeyboardEvent) {
+  console.log(event.key)
+  if (!/\d/.test(event.key)) {
+    event.preventDefault()
+  }
+}
 </script>
 
 <template>
-  <div class="text-center font-serif font-bold">
+  <div class="bg-orange-100 text-center font-serif font-bold">
     <div class="grid grid-cols-2">
       <div class="grid grid-cols-2">
         <div>Trains Left</div>
@@ -94,6 +132,42 @@ function sum(arr: number[]) {
       </div>
     </div>
 
+    <div class="mb-2 text-xl">Total: {{ total }}</div>
+
+    <div class="mb-2 grid grid-cols-5">
+      <div>Coins in Hand</div>
+      <input
+        v-model="coins"
+        @keypress="onlyNumber"
+        type="number"
+        inputmode="numeric"
+        maxlength="3"
+        min="0"
+        max="999"
+        pattern="[0-9]*"
+        class="w-16 rounded-lg border-2 border-gray-50 p-1 text-center"
+      />
+    </div>
+    <div class="mb-2 grid grid-cols-5">
+      <div>Trains Left</div>
+      <input
+        v-model="trains"
+        @keypress="onlyNumber"
+        type="number"
+        inputmode="numeric"
+        maxlength="2"
+        min="0"
+        max="99"
+        pattern="[0-9]*"
+        class="w-16 rounded-lg border-2 border-gray-50 p-1 text-center"
+      />
+      <div>${{ trainPoints }}</div>
+    </div>
+    <div class="grid grid-cols-5">
+      <div>Tickets</div>
+      <button class="w-16 rounded-lg border-2 border-gray-50 p-1" @click="showTicketInput = true">{{ ticketSum }}</button>
+    </div>
+
     <div>Shares ${{ shareSum }}</div>
     <div class="mb-2 grid grid-cols-5 gap-2">
       <div></div>
@@ -102,24 +176,25 @@ function sum(arr: number[]) {
       <div>3rd</div>
       <div>4th</div>
     </div>
-    <div v-for="(company, i) in COMPANIES" :key="company" class="mb-2 grid grid-cols-5 gap-2">
+    <div v-for="(company, ci) in COMPANIES" :key="company" class="mb-2 grid grid-cols-5 gap-2">
       <div>{{ company }}</div>
       <button
-        v-for="amt in TIERS"
+        v-for="(amt, ti) in TIERS"
         :key="company + amt"
         class="relative rounded-lg border-2 border-gray-50 p-1 hover:bg-green-300 active:bg-green-400"
-        :class="{ 'bg-green-200': shares[i] === amt }"
-        @click="handleShare(i, amt)"
+        :class="{ 'bg-green-200': shares[ci] === amt }"
+        @click="handleShare(ci, amt, ti)"
       >
         <div class="coin"><span>$</span>{{ amt }}</div>
-        <div v-if="shares[i] === amt" class="absolute left-1 top-1 text-base">➕</div>
+        <div v-if="shares[ci] === amt" class="absolute left-1 top-1 text-base">➕</div>
       </button>
     </div>
 
-    <button class="w-16 rounded-lg border-2 border-gray-50 p-1" @click="showTicketInput = true">{{ ticketSum }}</button>
-
     <div class="w-full p-2 text-left">
-      <div v-for="(message, i) in logged" :key="i">{{ message }}</div>
+      <button class="rounded-lg border-2 border-gray-50 p-1" @click="showLog = !showLog">Show Log</button>
+      <div :class="{ hidden: showLog }">
+        <div v-for="(message, i) in logged" :key="i">{{ message }}</div>
+      </div>
     </div>
 
     <div class="fixed bottom-0 left-0 right-0 bg-slate-100 p-2 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
@@ -146,8 +221,6 @@ function sum(arr: number[]) {
           @click="addTicket(amt)"
         >
           <div class="coin"><span>$</span>{{ amt }}</div>
-          <!-- <div v-if="positive" class="absolute left-1 top-1 text-base">➕</div> -->
-          <!-- <div v-else class="absolute left-1 top-1 text-base">➖</div> -->
         </button>
         <button v-if="!positive" class="rounded-lg border-2 border-green-50 bg-green-200 p-1 text-3xl leading-4 hover:bg-green-300 active:bg-green-400" @click="positive = true">
           ➕
