@@ -8,9 +8,9 @@ function log(message: string) {
   logged.push(message)
 }
 
-const coins = ref(null)
+const coins = ref<number | null>(null)
 
-const trains = ref(null)
+const trains = ref<number | null>(null)
 const trainPoints = computed(() => {
   if (trains.value === null) {
     return 0
@@ -32,7 +32,8 @@ const trainPoints = computed(() => {
   return 0
 })
 
-const COMPANIES = ['Black', 'Blue', 'Green', 'Yellow', 'Red', 'White'] as const
+const COMPANIES = ['NY CENTRAL SYSTEM', 'B&O', 'N\nH', 'ERIE', 'P\nRR', 'REEVES RAILS'] as const
+const COLORS = ['bg-gray-500 text-white', 'bg-blue-500 text-white', 'bg-green-500 text-white', 'bg-yellow-300 text-black', 'bg-red-500 text-white', 'bg-white'] as const
 const TIERS = [20, 15, 10, 5]
 const shares = reactive([0, 0, 0, 0, 0, 0])
 const shareSum = computed(() => sum(shares))
@@ -90,11 +91,19 @@ function onlyNumber(event: KeyboardEvent) {
     event.preventDefault()
   }
 }
+
+function reset() {
+  coins.value = null
+  trains.value = null
+  tickets.length = 0
+  shares.fill(0)
+  logged.length = 0
+}
 </script>
 
 <template>
-  <div class="bg-orange-100 text-center font-serif font-bold">
-    <div class="grid grid-cols-2">
+  <div class="bg-orange-50 px-2 text-center font-bold text-gray-800">
+    <div class="hidden grid-cols-2">
       <div class="grid grid-cols-2">
         <div>Trains Left</div>
         <div>Dollars Earned</div>
@@ -132,87 +141,119 @@ function onlyNumber(event: KeyboardEvent) {
       </div>
     </div>
 
-    <div class="mb-2 text-xl">Total: {{ total }}</div>
+    <div class="py-2 text-center text-2xl"><span class="text-red-800">Ticket to Ride</span> <span class="text-blue-800">1901</span><br />Scoring Sheet</div>
 
-    <div class="mb-2 grid grid-cols-5">
-      <div>Coins in Hand</div>
-      <input
-        v-model="coins"
-        @keypress="onlyNumber"
-        type="number"
-        inputmode="numeric"
-        maxlength="3"
-        min="0"
-        max="999"
-        pattern="[0-9]*"
-        class="w-16 rounded-lg border-2 border-gray-50 p-1 text-center"
-      />
-    </div>
-    <div class="mb-2 grid grid-cols-5">
-      <div>Trains Left</div>
-      <input
-        v-model="trains"
-        @keypress="onlyNumber"
-        type="number"
-        inputmode="numeric"
-        maxlength="2"
-        min="0"
-        max="99"
-        pattern="[0-9]*"
-        class="w-16 rounded-lg border-2 border-gray-50 p-1 text-center"
-      />
-      <div>${{ trainPoints }}</div>
-    </div>
-    <div class="grid grid-cols-5">
-      <div>Tickets</div>
-      <button class="w-16 rounded-lg border-2 border-gray-50 p-1" @click="showTicketInput = true">{{ ticketSum }}</button>
+    <div class="mb-2 grid grid-cols-3 items-center">
+      <div class="border-b-2 border-orange-300"></div>
+      <div class="text-2xl">Total: {{ total }}</div>
+      <div class="border-b-2 border-orange-300"></div>
     </div>
 
-    <div>Shares ${{ shareSum }}</div>
-    <div class="mb-2 grid grid-cols-5 gap-2">
+    <div class="mb-2 grid grid-cols-3 items-center justify-center gap-2 text-xl">
+      <div class="text-right">Coins in Hand</div>
+      <div>
+        <input
+          v-model="coins"
+          @keypress="onlyNumber"
+          type="number"
+          inputmode="numeric"
+          maxlength="3"
+          min="0"
+          max="999"
+          pattern="[0-9]*"
+          class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1 text-center"
+        />
+      </div>
       <div></div>
-      <div>1st</div>
-      <div>2nd</div>
-      <div>3rd</div>
-      <div>4th</div>
+      <div class="text-right">Trains<br />Remaining</div>
+      <div>
+        <input
+          v-model="trains"
+          @keypress="onlyNumber"
+          type="number"
+          inputmode="numeric"
+          maxlength="2"
+          min="0"
+          max="99"
+          pattern="[0-9]*"
+          class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1 text-center"
+        />
+      </div>
+      <div>
+        <div class="relative aspect-square h-12 w-12">
+          <div class="coin"><span>$</span>{{ trainPoints }}</div>
+          <div v-if="trainPoints !== 0" class="absolute -left-1 top-0 text-base">➕</div>
+        </div>
+      </div>
+      <div class="text-right">Tickets</div>
+      <div>
+        <button class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1" @click="showTicketInput = true">{{ ticketSum }}</button>
+      </div>
     </div>
-    <div v-for="(company, ci) in COMPANIES" :key="company" class="mb-2 grid grid-cols-5 gap-2">
-      <div>{{ company }}</div>
+
+    <div class="grid grid-cols-3 items-center text-xl">
+      <div class="border-b-2 border-orange-300"></div>
+      <div>Shares</div>
+      <div class="border-b-2 border-orange-300"></div>
+    </div>
+
+    <div class="grid grid-cols-5 gap-1 text-lg">
+      <div></div>
+      <div>1<sup>st</sup></div>
+      <div>2<sup>nd</sup></div>
+      <div>3<sup>rd</sup></div>
+      <div>4<sup>th</sup></div>
+    </div>
+    <div v-for="(company, ci) in COMPANIES" :key="company" class="-mx-2 grid grid-cols-5 items-center gap-1 whitespace-pre-wrap p-1" :class="COLORS[ci]">
+      <div class="leading-none">{{ company }}</div>
       <button
         v-for="(amt, ti) in TIERS"
         :key="company + amt"
-        class="relative rounded-lg border-2 border-gray-50 p-1 hover:bg-gray-50 active:bg-green-400"
-        :class="{ 'bg-green-300 hover:bg-green-200': shares[ci] === amt }"
+        class="rounded-lg border-2 p-1 active:bg-green-400"
+        :class="{ 'bg-green-300 border-green-400 hover:bg-green-200': shares[ci] === amt, 'border-gray-50 hover:bg-gray-50': shares[ci] !== amt }"
         @click="handleShare(ci, amt, ti)"
       >
-        <div class="coin"><span>$</span>{{ amt }}</div>
-        <div v-if="shares[ci] === amt" class="absolute left-1 top-1 text-base">➕</div>
+        <div class="relative mx-auto h-12 w-12">
+          <div class="coin"><span>$</span>{{ amt }}</div>
+          <div v-if="shares[ci] === amt" class="absolute -left-1 top-0 text-base">➕</div>
+        </div>
       </button>
     </div>
 
-    <div class="w-full p-2 text-left">
-      <button class="rounded-lg border-2 border-gray-50 p-1" @click="showLog = !showLog">Show Log</button>
-      <div :class="{ hidden: showLog }">
+    <div class="my-2 grid grid-cols-3 items-center">
+      <div class="border-b-2 border-orange-300"></div>
+      <div class="text-2xl">Total: {{ total }}</div>
+      <div class="border-b-2 border-orange-300"></div>
+    </div>
+
+    <div class="mt-4 text-left font-normal">
+      <div class="flex justify-between">
+        <button class="rounded-lg border-2 border-white p-1 px-2" @click="showLog = !showLog">Show Log</button>
+        <button class="rounded-lg border-2 border-white p-1 px-2" @click="reset">Reset</button>
+      </div>
+      <div :class="{ hidden: !showLog }">
         <div v-for="(message, i) in logged" :key="i">{{ message }}</div>
       </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-slate-100 p-2 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
-      <div class="grid grid-cols-5 gap-2">
+    <div class="fixed bottom-0 left-0 right-0 bg-slate-100 p-1 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
+      <div class="grid grid-cols-5 gap-1">
         <button
           v-for="(amt, i) in tickets"
           :key="i + '-' + amt"
-          class="relative rounded-lg border-2 border-gray-50 p-1 transition-opacity"
+          class="rounded-lg border-2 border-gray-50 p-1 transition-opacity"
           :class="{ 'bg-green-200 hover:bg-green-300 active:bg-green-400': amt > 0, 'bg-red-200 hover:bg-red-300 active:bg-red-400': amt < 0 }"
           @click="removeTicket($event, i)"
         >
-          <div class="coin"><span>$</span>{{ Math.abs(amt) }}</div>
-          <div v-if="amt > 0" class="absolute left-1 top-1 text-base">➕</div>
-          <div v-else class="absolute left-1 top-1 text-base">➖</div>
+          <div class="relative mx-auto h-12 w-12">
+            <div class="coin"><span>$</span>{{ Math.abs(amt) }}</div>
+            <div v-if="amt > 0" class="absolute -left-1 top-0 text-base">➕</div>
+            <div v-else class="absolute -left-1 top-0 text-base">➖</div>
+          </div>
         </button>
       </div>
       <div>Ticket Total: {{ ticketSum }}</div>
-      <div class="grid grid-cols-5 gap-2">
+      <div class="grid grid-cols-5 gap-1">
         <button
           v-for="(amt, i) in 23"
           :key="i + '-' + amt"
@@ -240,6 +281,9 @@ function onlyNumber(event: KeyboardEvent) {
 <style scoped>
 html {
   font-size: 2.2vmin;
+}
+
+* {
   font-family: Cambria, 'Times New Roman', Times, serif;
 }
 
