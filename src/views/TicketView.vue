@@ -8,9 +8,9 @@ function log(message: string) {
   logged.push(message)
 }
 
-const coins = ref<number | null>(null)
+const coins = ref<number | string>('')
 
-const trains = ref<number | null>(null)
+const trains = ref<number | string>('')
 const trainPoints = computed(() => {
   if (trains.value === null) {
     return 0
@@ -24,19 +24,26 @@ const trainPoints = computed(() => {
     return 7
   } else if (trains.value === 4) {
     return 6
-  } else if (trains.value >= 5 && trains.value <= 7) {
+  } else if (+trains.value >= 5 && +trains.value <= 7) {
     return 4
-  } else if (trains.value >= 8 && trains.value <= 10) {
+  } else if (+trains.value >= 8 && +trains.value <= 10) {
     return 2
   }
   return 0
 })
 
-const COMPANIES = ['NY CENTRAL SYSTEM', 'B&O', 'N\nH', 'ERIE', 'P\nRR', 'REEVES RAILS'] as const
-const COLORS = ['bg-gray-500 text-white', 'bg-blue-500 text-white', 'bg-green-500 text-white', 'bg-yellow-300 text-black', 'bg-red-500 text-white', 'bg-white'] as const
+const COMPANIES = ['NY CENTRAL SYSTEM', 'B&O', 'N\nH', 'ERIE', 'P\nЯR', 'REEVES RAILS'] as const
+const CLASSES = [
+  'bg-gray-500 text-white',
+  'bg-blue-500 text-white text-2xl',
+  'bg-green-500 text-white text-2xl',
+  'bg-yellow-300 text-black text-2xl',
+  'bg-red-500 text-white text-2xl',
+  'bg-white'
+] as const
 const TIERS = [20, 15, 10, 5]
 const shares = reactive([0, 0, 0, 0, 0, 0])
-const shareSum = computed(() => sum(shares))
+const shareSum = computed(() => shares.reduce((a, b) => a + b, 0))
 
 function handleShare(ci: number, amt: number, ti: number) {
   if (shares[ci] === amt) {
@@ -52,26 +59,36 @@ function handleShare(ci: number, amt: number, ti: number) {
   }
 }
 
+let id = 0
+function getId() {
+  return id++
+}
+
+type Ticket = {
+  id: number
+  amt: number
+}
+
 const showTicketInput = ref(false)
-const tickets = reactive<number[]>([])
-const ticketSum = computed(() => sum(tickets))
+const tickets = reactive<Ticket[]>([])
+const ticketSum = computed(() => tickets.reduce((a, b) => a + b.amt, 0))
 const positive = ref(true)
 
 function addTicket(amt: number) {
   if (positive.value) {
-    tickets.push(amt)
+    tickets.push({ id: getId(), amt })
     log('Added Completed Ticket for $' + amt)
   } else {
-    tickets.push(-amt)
+    tickets.push({ id: getId(), amt: -amt })
     log('Added Incomplete Ticket for -$' + amt)
   }
 }
 
 function removeTicket(event: MouseEvent, i: number) {
-  if (tickets[i] < 0) {
-    log('Removed Incomplete Ticket for -$' + -tickets[i])
+  if (tickets[i].amt < 0) {
+    log('Removed Incomplete Ticket for -$' + -tickets[i].amt)
   } else {
-    log('Removed Completed Ticket for $' + tickets[i])
+    log('Removed Completed Ticket for $' + tickets[i].amt)
   }
 
   const target = event.currentTarget as HTMLDivElement
@@ -79,22 +96,17 @@ function removeTicket(event: MouseEvent, i: number) {
   setTimeout(() => tickets.splice(i, 1), 150)
 }
 
-function sum(arr: number[]) {
-  return arr.reduce((a, b) => a + b, 0)
-}
-
-const total = computed(() => (coins.value || 0) + trainPoints.value + ticketSum.value + shareSum.value)
+const total = computed(() => (+coins.value || 0) + trainPoints.value + ticketSum.value + shareSum.value)
 
 function onlyNumber(event: KeyboardEvent) {
-  console.log(event.key)
-  if (!/\d/.test(event.key)) {
+  if (!/[0-9]/.test(event.key)) {
     event.preventDefault()
   }
 }
 
 function reset() {
-  coins.value = null
-  trains.value = null
+  coins.value = ''
+  trains.value = ''
   tickets.length = 0
   shares.fill(0)
   logged.length = 0
@@ -102,7 +114,7 @@ function reset() {
 </script>
 
 <template>
-  <div class="bg-orange-50 px-2 text-center font-bold text-gray-800">
+  <div class="serif bg-orange-50 px-2 text-center font-bold text-gray-800">
     <div class="hidden grid-cols-2">
       <div class="grid grid-cols-2">
         <div>Trains Left</div>
@@ -141,12 +153,23 @@ function reset() {
       </div>
     </div>
 
-    <div class="py-2 text-center text-2xl"><span class="text-red-800">Ticket to Ride</span> <span class="text-blue-800">1901</span><br />Scoring Sheet</div>
+    <div class="py-2 text-center font-sans text-2xl">
+      <span class="text-red-800" style="font-variant: small-caps">Ticket to Ride</span> <span class="text-blue-800">1901</span>
+      <div class="serif">Scoring Sheet</div>
+    </div>
 
-    <div class="mb-2 grid grid-cols-3 items-center">
-      <div class="border-b-2 border-orange-300"></div>
-      <div class="text-2xl">Total: {{ total }}</div>
-      <div class="border-b-2 border-orange-300"></div>
+    <div class="mb-2 flex items-center gap-1">
+      <div class="flex-grow border-b-2 border-orange-600"></div>
+      <div class="relative overflow-hidden whitespace-nowrap text-2xl">
+        <div class="border-2 border-orange-600 px-3 py-2">
+          Total <span class="inline-block border-[.5rem] border-r-0 border-gray-400 border-b-transparent border-t-transparent"></span> {{ total }}
+        </div>
+        <div class="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+        <div class="absolute -bottom-2 -left-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+        <div class="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+        <div class="absolute -bottom-2 -right-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+      </div>
+      <div class="flex-grow border-b-2 border-orange-600"></div>
     </div>
 
     <div class="mb-2 grid grid-cols-3 items-center justify-center gap-2 text-xl">
@@ -180,7 +203,7 @@ function reset() {
         />
       </div>
       <div>
-        <div class="relative aspect-square h-12 w-12">
+        <div class="relative h-12 w-12" :class="{ hidden: trains === null || trains === '' }">
           <div class="coin"><span>$</span>{{ trainPoints }}</div>
           <div v-if="trainPoints !== 0" class="absolute -left-1 top-0 text-base">➕</div>
         </div>
@@ -192,9 +215,9 @@ function reset() {
     </div>
 
     <div class="grid grid-cols-3 items-center text-xl">
-      <div class="border-b-2 border-orange-300"></div>
+      <div class="border-b-2 border-orange-200"></div>
       <div>Shares</div>
-      <div class="border-b-2 border-orange-300"></div>
+      <div class="border-b-2 border-orange-200"></div>
     </div>
 
     <div class="grid grid-cols-5 gap-1 text-lg">
@@ -204,7 +227,7 @@ function reset() {
       <div>3<sup>rd</sup></div>
       <div>4<sup>th</sup></div>
     </div>
-    <div v-for="(company, ci) in COMPANIES" :key="company" class="-mx-2 grid grid-cols-5 items-center gap-1 whitespace-pre-wrap p-1" :class="COLORS[ci]">
+    <div v-for="(company, ci) in COMPANIES" :key="company" class="-mx-2 grid grid-cols-5 items-center gap-1 whitespace-pre-wrap p-1" :class="CLASSES[ci]">
       <div class="leading-none">{{ company }}</div>
       <button
         v-for="(amt, ti) in TIERS"
@@ -220,10 +243,18 @@ function reset() {
       </button>
     </div>
 
-    <div class="my-2 grid grid-cols-3 items-center">
-      <div class="border-b-2 border-orange-300"></div>
-      <div class="text-2xl">Total: {{ total }}</div>
-      <div class="border-b-2 border-orange-300"></div>
+    <div class="my-2 flex items-center gap-1">
+      <div class="flex-grow border-b-2 border-orange-600"></div>
+      <div class="relative overflow-hidden whitespace-nowrap text-2xl">
+        <div class="border-2 border-orange-600 px-3 py-2">
+          Total <span class="inline-block border-[.5rem] border-r-0 border-gray-400 border-b-transparent border-t-transparent"></span> {{ total }}
+        </div>
+        <div class="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+        <div class="absolute -bottom-2 -left-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+        <div class="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+        <div class="absolute -bottom-2 -right-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+      </div>
+      <div class="flex-grow border-b-2 border-orange-600"></div>
     </div>
 
     <div class="mt-4 text-left font-normal">
@@ -239,8 +270,8 @@ function reset() {
     <div class="fixed bottom-0 left-0 right-0 bg-slate-100 p-1 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
       <div class="grid grid-cols-5 gap-1">
         <button
-          v-for="(amt, i) in tickets"
-          :key="i + '-' + amt"
+          v-for="({ id, amt }, i) in tickets"
+          :key="id"
           class="rounded-lg border-2 border-gray-50 p-1 transition-opacity"
           :class="{ 'bg-green-200 hover:bg-green-300 active:bg-green-400': amt > 0, 'bg-red-200 hover:bg-red-300 active:bg-red-400': amt < 0 }"
           @click="removeTicket($event, i)"
@@ -256,7 +287,7 @@ function reset() {
       <div class="grid grid-cols-5 gap-1">
         <button
           v-for="(amt, i) in 23"
-          :key="i + '-' + amt"
+          :key="i"
           class="relative rounded-lg border-2 border-gray-50 p-1"
           :class="{ 'bg-green-200 hover:bg-green-300 active:bg-green-400': positive, 'bg-red-200 hover:bg-red-300 active:bg-red-400': !positive }"
           @click="addTicket(amt)"
@@ -268,7 +299,7 @@ function reset() {
         </button>
         <button v-else class="rounded-lg border-2 border-red-50 bg-red-200 p-1 text-3xl leading-4 hover:bg-red-300 active:bg-red-400" @click="positive = false">➖</button>
         <button
-          class="text-shadow rounded-lg border-2 border-gray-50 bg-gray-200 p-1 text-2xl font-normal leading-4 text-white hover:bg-gray-300 active:bg-gray-400"
+          class="rounded-lg border-2 border-gray-50 bg-gray-200 p-1 text-2xl font-normal leading-4 text-black hover:bg-gray-300 active:bg-gray-400"
           @click="showTicketInput = false"
         >
           Done
@@ -283,7 +314,7 @@ html {
   font-size: 2.2vmin;
 }
 
-* {
+.serif {
   font-family: Cambria, 'Times New Roman', Times, serif;
 }
 
