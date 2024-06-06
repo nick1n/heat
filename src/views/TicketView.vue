@@ -111,159 +111,125 @@ function reset() {
   shares.fill(0)
   logged.length = 0
 }
+
+const showBonus = ref(false)
 </script>
 
 <template>
-  <div class="serif bg-orange-50 px-2 text-center font-bold text-gray-800">
-    <div class="hidden grid-cols-2">
-      <div class="grid grid-cols-2">
-        <div>Trains Left</div>
-        <div>Dollars Earned</div>
-        <div>0</div>
-        <div>16</div>
-        <div>1</div>
-        <div>12</div>
-        <div>2</div>
-        <div>9</div>
-        <div>3</div>
-        <div>7</div>
-        <div>4</div>
-        <div>6</div>
-        <div>5-7</div>
-        <div>4</div>
-        <div>8-10</div>
-        <div>2</div>
-        <div>11+</div>
-        <div>0</div>
+  <div class="serif bg-orange-50 text-center font-bold text-gray-800">
+    <div class="px-2" :class="{ 'blur-sm': showBonus || showTicketInput }">
+      <div class="py-2 text-center font-sans text-2xl">
+        <span class="text-red-800" style="font-variant: small-caps">Ticket to Ride</span> <span class="text-blue-800">1901</span>
+        <div class="serif">Scoring Sheet</div>
       </div>
-      <div>
+
+      <div class="mb-2 flex items-center gap-1">
+        <div class="flex-grow border-b-2 border-orange-600"></div>
+        <div class="relative overflow-hidden whitespace-nowrap text-2xl">
+          <div class="border-2 border-orange-600 px-3 py-2">
+            Total <span class="inline-block border-[.5rem] border-r-0 border-gray-400 border-b-transparent border-t-transparent"></span> {{ total }}
+          </div>
+          <div class="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+          <div class="absolute -bottom-2 -left-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+          <div class="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+          <div class="absolute -bottom-2 -right-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+        </div>
+        <div class="flex-grow border-b-2 border-orange-600"></div>
+      </div>
+
+      <div class="mb-2 grid grid-cols-3 items-center justify-center gap-2 text-xl">
+        <div class="text-right">Coins in Hand</div>
+        <div>
+          <input
+            v-model="coins"
+            @keypress="onlyNumber"
+            type="number"
+            inputmode="numeric"
+            maxlength="3"
+            min="0"
+            max="999"
+            pattern="[0-9]*"
+            class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1 text-center"
+          />
+        </div>
+        <div></div>
+        <div class="cursor-pointer text-right" @click="showBonus = true"><span class="text-lg font-normal text-gray-300">ⓘ</span> Trains<br />Remaining</div>
+        <div>
+          <input
+            v-model="trains"
+            @keypress="onlyNumber"
+            type="number"
+            inputmode="numeric"
+            maxlength="2"
+            min="0"
+            max="99"
+            pattern="[0-9]*"
+            class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1 text-center"
+          />
+        </div>
+        <div>
+          <div class="relative h-12 w-12" :class="{ hidden: trains === null || trains === '' }">
+            <div class="coin"><span>$</span>{{ trainPoints }}</div>
+            <div v-if="trainPoints !== 0" class="absolute -left-1 top-0 text-base">➕</div>
+          </div>
+        </div>
+        <div class="text-right">Tickets</div>
+        <div>
+          <button class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1" @click="showTicketInput = true">{{ ticketSum }}</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 items-center text-xl">
+        <div class="border-b-2 border-orange-200"></div>
         <div>Shares</div>
-        <div class="grid grid-cols-2">
-          <div>Trains Left</div>
-          <div>Dollars Earned</div>
-          <div>1st</div>
-          <div>20</div>
-          <div>2nd</div>
-          <div>15</div>
-          <div>3rd</div>
-          <div>10</div>
-          <div>4th</div>
-          <div>5</div>
+        <div class="border-b-2 border-orange-200"></div>
+      </div>
+
+      <div class="grid grid-cols-5 gap-1 text-lg">
+        <div></div>
+        <div>1<sup>st</sup></div>
+        <div>2<sup>nd</sup></div>
+        <div>3<sup>rd</sup></div>
+        <div>4<sup>th</sup></div>
+      </div>
+      <div v-for="(company, ci) in COMPANIES" :key="company" class="-mx-2 grid grid-cols-5 items-center gap-1 whitespace-pre-wrap p-1" :class="CLASSES[ci]">
+        <div class="leading-none">{{ company }}</div>
+        <button
+          v-for="(amt, ti) in TIERS"
+          :key="company + amt"
+          class="rounded-lg border-2 p-1 active:bg-green-400"
+          :class="{ 'bg-green-300 border-green-400 hover:bg-green-200': shares[ci] === amt, 'border-gray-50 hover:bg-gray-50': shares[ci] !== amt }"
+          @click="handleShare(ci, amt, ti)"
+        >
+          <div class="relative mx-auto h-12 w-12">
+            <div class="coin"><span>$</span>{{ amt }}</div>
+            <div v-if="shares[ci] === amt" class="absolute -left-1 top-0 text-base">➕</div>
+          </div>
+        </button>
+      </div>
+
+      <div class="my-2 flex items-center gap-1">
+        <div class="flex-grow border-b-2 border-orange-600"></div>
+        <div class="relative overflow-hidden whitespace-nowrap text-2xl">
+          <div class="border-2 border-orange-600 px-3 py-2">
+            Total <span class="inline-block border-[.5rem] border-r-0 border-gray-400 border-b-transparent border-t-transparent"></span> {{ total }}
+          </div>
+          <div class="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+          <div class="absolute -bottom-2 -left-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+          <div class="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
+          <div class="absolute -bottom-2 -right-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
         </div>
+        <div class="flex-grow border-b-2 border-orange-600"></div>
       </div>
-    </div>
 
-    <div class="py-2 text-center font-sans text-2xl">
-      <span class="text-red-800" style="font-variant: small-caps">Ticket to Ride</span> <span class="text-blue-800">1901</span>
-      <div class="serif">Scoring Sheet</div>
-    </div>
-
-    <div class="mb-2 flex items-center gap-1">
-      <div class="flex-grow border-b-2 border-orange-600"></div>
-      <div class="relative overflow-hidden whitespace-nowrap text-2xl">
-        <div class="border-2 border-orange-600 px-3 py-2">
-          Total <span class="inline-block border-[.5rem] border-r-0 border-gray-400 border-b-transparent border-t-transparent"></span> {{ total }}
+      <div class="mt-4 pb-2 text-left font-normal">
+        <div class="flex justify-between">
+          <button class="rounded-lg border-2 border-white p-1 px-2" @click="showLog = !showLog">Show Log</button>
+          <button class="rounded-lg border-2 border-white p-1 px-2" @click="reset">Reset</button>
         </div>
-        <div class="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-        <div class="absolute -bottom-2 -left-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-        <div class="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-        <div class="absolute -bottom-2 -right-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-      </div>
-      <div class="flex-grow border-b-2 border-orange-600"></div>
-    </div>
-
-    <div class="mb-2 grid grid-cols-3 items-center justify-center gap-2 text-xl">
-      <div class="text-right">Coins in Hand</div>
-      <div>
-        <input
-          v-model="coins"
-          @keypress="onlyNumber"
-          type="number"
-          inputmode="numeric"
-          maxlength="3"
-          min="0"
-          max="999"
-          pattern="[0-9]*"
-          class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1 text-center"
-        />
-      </div>
-      <div></div>
-      <div class="text-right">Trains<br />Remaining</div>
-      <div>
-        <input
-          v-model="trains"
-          @keypress="onlyNumber"
-          type="number"
-          inputmode="numeric"
-          maxlength="2"
-          min="0"
-          max="99"
-          pattern="[0-9]*"
-          class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1 text-center"
-        />
-      </div>
-      <div>
-        <div class="relative h-12 w-12" :class="{ hidden: trains === null || trains === '' }">
-          <div class="coin"><span>$</span>{{ trainPoints }}</div>
-          <div v-if="trainPoints !== 0" class="absolute -left-1 top-0 text-base">➕</div>
+        <div :class="{ hidden: !showLog }">
+          <div v-for="(message, i) in logged" :key="i">{{ message }}</div>
         </div>
-      </div>
-      <div class="text-right">Tickets</div>
-      <div>
-        <button class="h-16 w-20 rounded-lg border-2 border-gray-50 bg-white p-1" @click="showTicketInput = true">{{ ticketSum }}</button>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-3 items-center text-xl">
-      <div class="border-b-2 border-orange-200"></div>
-      <div>Shares</div>
-      <div class="border-b-2 border-orange-200"></div>
-    </div>
-
-    <div class="grid grid-cols-5 gap-1 text-lg">
-      <div></div>
-      <div>1<sup>st</sup></div>
-      <div>2<sup>nd</sup></div>
-      <div>3<sup>rd</sup></div>
-      <div>4<sup>th</sup></div>
-    </div>
-    <div v-for="(company, ci) in COMPANIES" :key="company" class="-mx-2 grid grid-cols-5 items-center gap-1 whitespace-pre-wrap p-1" :class="CLASSES[ci]">
-      <div class="leading-none">{{ company }}</div>
-      <button
-        v-for="(amt, ti) in TIERS"
-        :key="company + amt"
-        class="rounded-lg border-2 p-1 active:bg-green-400"
-        :class="{ 'bg-green-300 border-green-400 hover:bg-green-200': shares[ci] === amt, 'border-gray-50 hover:bg-gray-50': shares[ci] !== amt }"
-        @click="handleShare(ci, amt, ti)"
-      >
-        <div class="relative mx-auto h-12 w-12">
-          <div class="coin"><span>$</span>{{ amt }}</div>
-          <div v-if="shares[ci] === amt" class="absolute -left-1 top-0 text-base">➕</div>
-        </div>
-      </button>
-    </div>
-
-    <div class="my-2 flex items-center gap-1">
-      <div class="flex-grow border-b-2 border-orange-600"></div>
-      <div class="relative overflow-hidden whitespace-nowrap text-2xl">
-        <div class="border-2 border-orange-600 px-3 py-2">
-          Total <span class="inline-block border-[.5rem] border-r-0 border-gray-400 border-b-transparent border-t-transparent"></span> {{ total }}
-        </div>
-        <div class="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-        <div class="absolute -bottom-2 -left-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-        <div class="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-        <div class="absolute -bottom-2 -right-2 h-4 w-4 rounded-full border-2 border-orange-600 bg-orange-50"></div>
-      </div>
-      <div class="flex-grow border-b-2 border-orange-600"></div>
-    </div>
-
-    <div class="mt-4 text-left font-normal">
-      <div class="flex justify-between">
-        <button class="rounded-lg border-2 border-white p-1 px-2" @click="showLog = !showLog">Show Log</button>
-        <button class="rounded-lg border-2 border-white p-1 px-2" @click="reset">Reset</button>
-      </div>
-      <div :class="{ hidden: !showLog }">
-        <div v-for="(message, i) in logged" :key="i">{{ message }}</div>
       </div>
     </div>
 
@@ -304,6 +270,88 @@ function reset() {
         >
           Done
         </button>
+      </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 top-0 grid cursor-pointer items-center" :class="{ hidden: !showBonus }" @click="showBonus = false">
+      <div class="mx-auto border-2 border-orange-600 bg-white p-1">
+        <div class="whitespace-nowrap border-4 border-t-0 border-gray-600">
+          <div class="grid grid-cols-2 bg-gray-600 text-xl leading-loose text-white">
+            <div>Trains Left</div>
+            <div>Dollars Earned</div>
+          </div>
+          <div class="grid grid-cols-5 items-center justify-around gap-1 bg-slate-100 p-1 text-3xl text-gray-600">
+            <div></div>
+            <div>0</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>
+              <div class="coin"><span>$</span>16</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div>1</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>
+              <div class="coin"><span>$</span>12</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div>2</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>
+              <div class="coin"><span>$</span>9</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div>3</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>
+              <div class="coin"><span>$</span>7</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div>4</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>
+              <div class="coin"><span>$</span>6</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div>5-7</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>
+              <div class="coin"><span>$</span>4</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div>8-10</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>
+              <div class="coin"><span>$</span>2</div>
+            </div>
+            <div></div>
+            <div></div>
+            <div>11+</div>
+            <div class="relative mx-auto h-2 w-12 overflow-hidden">
+              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+            </div>
+            <div>0</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
