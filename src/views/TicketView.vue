@@ -32,7 +32,7 @@ const trainPoints = computed(() => {
   return 0
 })
 
-const COMPANIES = ['NY CENTRAL SYSTEM', 'B&O', 'N\nH', 'ERIE', 'P\nЯR', 'REEVES RAILS'] as const
+const COMPANIES = ['NY\nCENTRAL\nSYSTEM', 'B&O', 'N\nH', 'ERIE', 'P\nЯR', 'REEVES RAILS'] as const
 const CLASSES = [
   'bg-gray-500 text-white',
   'bg-blue-500 text-white text-2xl',
@@ -116,7 +116,7 @@ const showBonus = ref(false)
 </script>
 
 <template>
-  <div class="serif bg-orange-50 text-center font-bold text-gray-800">
+  <div class="serif min-h-svh bg-orange-50 text-center font-bold text-gray-800">
     <div class="px-2" :class="{ 'blur-sm': showBonus || showTicketInput }">
       <div class="py-2 text-center font-sans text-2xl">
         <span class="text-red-800" style="font-variant: small-caps">Ticket to Ride</span> <span class="text-blue-800">1901</span>
@@ -153,7 +153,7 @@ const showBonus = ref(false)
           />
         </div>
         <div></div>
-        <div class="cursor-pointer text-right" @click="showBonus = true"><span class="text-lg font-normal text-gray-300">ⓘ</span> Trains<br />Remaining</div>
+        <div class="cursor-pointer text-right" @click="showBonus = true"><span class="text-lg font-normal text-gray-400">ⓘ</span> Trains<br />Remaining</div>
         <div>
           <input
             v-model="trains"
@@ -193,7 +193,9 @@ const showBonus = ref(false)
         <div>4<sup>th</sup></div>
       </div>
       <div v-for="(company, ci) in COMPANIES" :key="company" class="-mx-2 grid grid-cols-5 items-center gap-1 whitespace-pre-wrap p-1" :class="CLASSES[ci]">
-        <div class="leading-none">{{ company }}</div>
+        <div class="relative leading-none">
+          <div class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">{{ company }}</div>
+        </div>
         <button
           v-for="(amt, ti) in TIERS"
           :key="company + amt"
@@ -233,7 +235,9 @@ const showBonus = ref(false)
       </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-slate-100 p-1 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
+    <div class="fixed bottom-0 left-0 right-0 top-0 cursor-pointer" :class="{ hidden: !showTicketInput }" @click="showTicketInput = false"></div>
+
+    <div class="fixed bottom-0 left-0 right-0 border-t-2 border-orange-600 bg-slate-100 p-1 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
       <div class="grid grid-cols-5 gap-1">
         <button
           v-for="({ id, amt }, i) in tickets"
@@ -249,7 +253,13 @@ const showBonus = ref(false)
           </div>
         </button>
       </div>
-      <div>Ticket Total: {{ ticketSum }}</div>
+
+      <div class="-mx-1 flex items-center gap-1">
+        <div class="flex-grow border-b-2 border-orange-600"></div>
+        <div class="">Ticket Total: {{ ticketSum }}</div>
+        <div class="flex-grow border-b-2 border-orange-600"></div>
+      </div>
+
       <div class="grid grid-cols-5 gap-1">
         <button
           v-for="(amt, i) in 23"
