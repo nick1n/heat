@@ -60,7 +60,7 @@ onUnmounted(() => clearInterval(interval.value))
 
 <template>
   <div
-    class="fixed left-0 h-svh w-svw origin-top-left overflow-hidden text-center text-[5vmax] font-bold text-gray-800 portrait:top-full portrait:h-[100svw] portrait:w-[100svh] portrait:-rotate-90"
+    class="fixed left-0 h-svh w-svw origin-top-left overflow-hidden text-center text-6xl font-bold text-gray-800 portrait:top-full portrait:h-[100svw] portrait:w-[100svh] portrait:-rotate-90"
   >
     <div class="text-shadow fixed bottom-0 left-0 right-0 top-0 z-0" :class="{ 'z-20': index === -1 }">
       Tap on screen to shuffle<br />
@@ -70,7 +70,7 @@ onUnmounted(() => clearInterval(interval.value))
       <img :src="`/img/card-0${i}.png`" class="max-h-full" />
     </div>
     <div class="fixed bottom-0 left-0 right-0 top-0 z-10 bg-slate-100"></div>
-    <div class="fixed left-0 top-0 z-30 overflow-hidden bg-indigo-400 text-sm text-white transition-all duration-500" :style="`width: ${((index + 1) / cards.length) * 100}%`">
+    <div class="fixed left-0 top-0 z-30 overflow-hidden bg-indigo-400 text-xl text-white transition-all duration-500" :style="`width: ${((index + 1) / cards.length) * 100}%`">
       {{ time }}
     </div>
     <div class="fixed bottom-0 left-0 right-0 top-0 z-40 grid grid-cols-2">
@@ -95,7 +95,7 @@ onUnmounted(() => clearInterval(interval.value))
   </div>
 </template>
 
-<style>
+<style scoped>
 .text-shadow {
   text-shadow:
     -2px -2px 0 #fff,

@@ -4,8 +4,12 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <main class="text-center">
-    <div><RouterLink to="/ai" class="mt-8 inline-block border-b-2 border-rose-500 text-4xl">Heat: AI Bots</RouterLink></div>
-    <div><RouterLink to="/king" class="mt-8 inline-block border-b-2 border-rose-500 text-4xl">The King's Dilemma</RouterLink></div>
-    <div><RouterLink to="/ticket" class="mt-8 inline-block border-b-2 border-rose-500 text-4xl">Ticket to Ride Legacy: 1901</RouterLink></div>
+    <div><RouterLink to="/ai" class="mt-8 inline-block border-b-2 border-rose-500 text-6xl">Heat: Pedal to the Metal</RouterLink></div>
+    <div><RouterLink to="/king" class="u mt-8 inline-block border-b-2 border-rose-500 text-6xl">The King's Dilemma</RouterLink></div>
+    <div>
+      <RouterLink to="/ticket" class="mt-8 inline-block border-b-2 border-rose-500 text-6xl font-bold">
+        <span class="text-red-800" style="font-variant: small-caps">Ticket to Ride</span> <span class="text-blue-800">1901</span>
+      </RouterLink>
+    </div>
   </main>
 </template>

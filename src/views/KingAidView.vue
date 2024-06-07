@@ -298,9 +298,3 @@ const cardLegacy = ref(true)
     </div>
   </div>
 </template>
-
-<style scoped>
-html {
-  font-size: 2.2vmin;
-}
-</style>

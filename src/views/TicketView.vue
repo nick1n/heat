@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
+
+onMounted(() => (document.documentElement.style.fontSize = '16px'))
+onUnmounted(() => document.documentElement.style.removeProperty('font-size'))
 
 const showLog = ref(false)
 
@@ -368,10 +371,6 @@ const showBonus = ref(false)
 </template>
 
 <style scoped>
-html {
-  font-size: 2.2vmin;
-}
-
 .serif {
   font-family: Cambria, 'Times New Roman', Times, serif;
 }
