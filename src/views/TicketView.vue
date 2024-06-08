@@ -37,12 +37,12 @@ const trainPoints = computed(() => {
 
 const COMPANIES = ['NY\nCENTRAL\nSYSTEM', 'B&O', 'N\nH', 'ERIE', 'P\nЯR', 'REEVES RAILS'] as const
 const CLASSES = [
-  'bg-gray-500 text-white',
-  'bg-blue-500 text-white text-2xl',
-  'bg-green-500 text-white text-2xl',
-  'bg-yellow-300 text-black text-2xl',
-  'bg-red-500 text-white text-2xl',
-  'bg-white'
+  'bg-gray-500 text-white text-xs nycs',
+  'bg-blue-500 text-white text-xl bno',
+  'bg-green-500 text-white text-2xl nh',
+  'bg-yellow-300 text-black text-xl erie',
+  'bg-red-500 text-white text-2xl prr',
+  'bg-white reeves'
 ] as const
 const TIERS = [20, 15, 10, 5]
 const shares = reactive([0, 0, 0, 0, 0, 0])
@@ -197,6 +197,7 @@ const showBonus = ref(false)
       </div>
       <div v-for="(company, ci) in COMPANIES" :key="company" class="-mx-2 grid grid-cols-5 items-center gap-1 whitespace-pre-wrap p-1" :class="CLASSES[ci]">
         <div class="relative leading-none">
+          <div class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"><div class="logo"></div></div>
           <div class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">{{ company }}</div>
         </div>
         <button
@@ -415,5 +416,87 @@ const showBonus = ref(false)
     0 0 1px #000,
     0 0 2px #000,
     0 0 3px #000;
+}
+
+.nycs .logo {
+  background: #030712;
+  height: 3.3rem;
+  width: 4.25rem;
+  border: 2px solid white;
+  border-radius: 100%;
+}
+
+.bno .logo {
+  background: #1e40af;
+  height: 3.3rem;
+  width: 3.3rem;
+  border: 2px solid white;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.bno .logo::before {
+  content: '';
+  display: block;
+  background: white;
+  height: 1.2rem;
+  width: 1rem;
+  margin: 0.3rem auto 0 auto;
+  border-radius: 100%;
+}
+
+.bno .logo::after {
+  content: '';
+  display: block;
+  background: #1e40af;
+  height: 1.5rem;
+  width: 4rem;
+  border: 2px solid white;
+  margin-top: -0.6rem;
+  margin-left: -3px;
+}
+
+.nh .logo {
+  background: #16a34a;
+  height: 3.3rem;
+  width: 4.25rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.nh .logo::before {
+  content: '';
+  display: block;
+  background: #15803d;
+  height: 1.75rem;
+  width: 4.25rem;
+  border-bottom: 3px solid #f0fdf4;
+}
+
+.erie .logo {
+  position: relative;
+  height: 3rem;
+  width: 3rem;
+  border: 2px solid black;
+  border-left-width: 4px;
+  border-top-width: 4px;
+  transform: rotateZ(45deg);
+}
+
+.erie .logo::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  content: '';
+  display: block;
+  height: 0.8rem;
+  width: 0.8rem;
+  background: black;
+}
+
+.prr .logo {
+}
+
+.reeves .logo {
 }
 </style>
