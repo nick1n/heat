@@ -11,29 +11,11 @@ function log(message: string) {
   logged.push(message)
 }
 
-const coins = ref<number | string>('')
+const coins = ref<string>('')
 
-const trains = ref<number | string>('')
-const trainPoints = computed(() => {
-  if (trains.value === null) {
-    return 0
-  } else if (trains.value === 0) {
-    return 16
-  } else if (trains.value === 1) {
-    return 12
-  } else if (trains.value === 2) {
-    return 9
-  } else if (trains.value === 3) {
-    return 7
-  } else if (trains.value === 4) {
-    return 6
-  } else if (+trains.value >= 5 && +trains.value <= 7) {
-    return 4
-  } else if (+trains.value >= 8 && +trains.value <= 10) {
-    return 2
-  }
-  return 0
-})
+const trains = ref<string>('')
+const BONUSES = [16, 12, 9, 7, 6, 4, 4, 4, 2, 2, 2]
+const trainPoints = computed(() => BONUSES[parseInt(trains.value)] || 0)
 
 const COMPANIES = ['Black', 'Blue', 'Green', 'Yellow', 'Red', 'White'] as const
 const CLASSES = ['bg-gray-600', 'bg-blue-500', 'bg-green-500', 'bg-yellow-300', 'bg-red-500', 'bg-white'] as const
