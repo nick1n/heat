@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
+import TicketCoin from '../components/Ticket/TicketCoin.vue'
 
 onMounted(() => (document.documentElement.style.fontSize = '16px'))
 onUnmounted(() => document.documentElement.style.removeProperty('font-size'))
 
 const showLog = ref(false)
-
 const logged = reactive<string[]>([])
 function log(message: string) {
   logged.push(message)
@@ -14,12 +14,12 @@ function log(message: string) {
 const coins = ref<string>('')
 
 const trains = ref<string>('')
-const BONUSES = [16, 12, 9, 7, 6, 4, 4, 4, 2, 2, 2]
+const BONUSES = [16, 12, 9, 7, 6, 4, 4, 4, 2, 2, 2, 0] as const
 const trainPoints = computed(() => BONUSES[parseInt(trains.value)] || 0)
 
 const COMPANIES = ['Black', 'Blue', 'Green', 'Yellow', 'Red', 'White'] as const
 const CLASSES = ['bg-gray-600', 'bg-blue-500', 'bg-green-500', 'bg-yellow-300', 'bg-red-500', 'bg-white'] as const
-const TIERS = [20, 15, 10, 5]
+const TIERS = [20, 15, 10, 5] as const
 const shares = reactive([0, 0, 0, 0, 0, 0])
 const shareSum = computed(() => shares.reduce((a, b) => a + b, 0))
 
@@ -94,11 +94,11 @@ const showBonus = ref(false)
 </script>
 
 <template>
-  <div class="serif min-h-svh bg-orange-50 text-center font-bold text-gray-800">
+  <div class="ticket-serif min-h-svh bg-orange-50 text-center font-bold text-gray-800">
     <div class="px-2" :class="{ 'blur-sm': showBonus || showTicketInput }">
       <div class="py-2 text-center font-sans text-2xl">
         <span class="text-red-800" style="font-variant: small-caps">Ticket to Ride</span> <span class="text-blue-800">1901</span>
-        <div class="serif">Scoring Sheet</div>
+        <div class="ticket-serif">Scoring Sheet</div>
       </div>
 
       <div class="mb-2 flex items-center gap-1">
@@ -147,8 +147,7 @@ const showBonus = ref(false)
         </div>
         <div>
           <div class="relative h-12 w-12" :class="{ hidden: trains === null || trains === '' }">
-            <div class="coin"><span>$</span>{{ trainPoints }}</div>
-            <div v-if="trainPoints !== 0" class="absolute -left-1 top-0 text-base">➕</div>
+            <TicketCoin :amt="trainPoints" :pos="trainPoints !== 0" />
           </div>
         </div>
         <div class="text-right">Tickets</div>
@@ -177,8 +176,7 @@ const showBonus = ref(false)
           @click="handleShare(ci, amt, ti)"
         >
           <div class="relative mx-auto h-12 w-12">
-            <div class="coin"><span>$</span>{{ amt }}</div>
-            <div v-if="shares[ci] === amt" class="absolute -left-1 top-0 text-base">➕</div>
+            <TicketCoin :amt="amt" :pos="shares[ci] === amt" />
           </div>
         </button>
       </div>
@@ -220,9 +218,7 @@ const showBonus = ref(false)
           @click="removeTicket($event, i)"
         >
           <div class="relative mx-auto h-12 w-12">
-            <div class="coin"><span>$</span>{{ Math.abs(amt) }}</div>
-            <div v-if="amt > 0" class="absolute -left-1 top-0 text-base">➕</div>
-            <div v-else class="absolute -left-1 top-0 text-base">➖</div>
+            <TicketCoin :amt="Math.abs(amt)" :pos="amt > 0" :neg="amt < 0" />
           </div>
         </button>
       </div>
@@ -241,7 +237,7 @@ const showBonus = ref(false)
           :class="{ 'bg-green-200 hover:bg-green-300 active:bg-green-400': positive, 'bg-red-200 hover:bg-red-300 active:bg-red-400': !positive }"
           @click="addTicket(amt)"
         >
-          <div class="coin"><span>$</span>{{ amt }}</div>
+          <TicketCoin :amt="amt" />
         </button>
         <button v-if="!positive" class="rounded-lg border-2 border-green-50 bg-green-200 p-1 text-3xl leading-4 hover:bg-green-300 active:bg-green-400" @click="positive = true">
           ➕
@@ -256,7 +252,7 @@ const showBonus = ref(false)
       </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 top-0 grid cursor-pointer items-center" :class="{ hidden: !showBonus }" @click="showBonus = false">
+    <dia class="fixed bottom-0 left-0 right-0 top-0 grid cursor-pointer items-center" :class="{ hidden: !showBonus }" @click="showBonus = false">
       <div class="mx-auto border-2 border-orange-600 bg-white p-1">
         <div class="whitespace-nowrap border-4 border-t-0 border-gray-600">
           <div class="grid grid-cols-2 bg-gray-600 text-xl leading-loose text-white">
@@ -264,58 +260,24 @@ const showBonus = ref(false)
             <div>Dollars Earned</div>
           </div>
           <div class="grid grid-cols-5 items-center justify-around gap-1 bg-slate-100 p-1 text-3xl text-gray-600">
-            <div></div>
-            <div>0</div>
-            <div class="relative mx-auto h-2 w-12 overflow-hidden">
-              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
-            </div>
-            <div>
-              <div class="coin"><span>$</span>16</div>
-            </div>
-            <div></div>
-            <div></div>
-            <div>1</div>
-            <div class="relative mx-auto h-2 w-12 overflow-hidden">
-              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
-            </div>
-            <div>
-              <div class="coin"><span>$</span>12</div>
-            </div>
-            <div></div>
-            <div></div>
-            <div>2</div>
-            <div class="relative mx-auto h-2 w-12 overflow-hidden">
-              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
-            </div>
-            <div>
-              <div class="coin"><span>$</span>9</div>
-            </div>
-            <div></div>
-            <div></div>
-            <div>3</div>
-            <div class="relative mx-auto h-2 w-12 overflow-hidden">
-              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
-            </div>
-            <div>
-              <div class="coin"><span>$</span>7</div>
-            </div>
-            <div></div>
-            <div></div>
-            <div>4</div>
-            <div class="relative mx-auto h-2 w-12 overflow-hidden">
-              <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
-            </div>
-            <div>
-              <div class="coin"><span>$</span>6</div>
-            </div>
-            <div></div>
+            <template v-for="(_, i) in 5" :key="i">
+              <div></div>
+              <div>{{ i }}</div>
+              <div class="relative mx-auto h-2 w-12 overflow-hidden">
+                <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
+              </div>
+              <div>
+                <TicketCoin :amt="BONUSES[i]" />
+              </div>
+              <div></div>
+            </template>
             <div></div>
             <div>5-7</div>
             <div class="relative mx-auto h-2 w-12 overflow-hidden">
               <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
             </div>
             <div>
-              <div class="coin"><span>$</span>4</div>
+              <TicketCoin :amt="4" />
             </div>
             <div></div>
             <div></div>
@@ -324,7 +286,7 @@ const showBonus = ref(false)
               <div class="absolute -left-1 h-2 w-screen border-2 border-gray-300"></div>
             </div>
             <div>
-              <div class="coin"><span>$</span>2</div>
+              <TicketCoin :amt="2" />
             </div>
             <div></div>
             <div></div>
@@ -336,54 +298,12 @@ const showBonus = ref(false)
           </div>
         </div>
       </div>
-    </div>
+    </dia>
   </div>
 </template>
 
-<style scoped>
-.serif {
+<style>
+.ticket-serif {
   font-family: Cambria, 'Times New Roman', Times, serif;
-}
-
-.coin {
-  position: relative;
-  border: 1px #b79541 solid;
-  border-color: linear-gradient(-125deg, #e8cf76 0%, #865b0c 100%);
-  border-radius: 100%;
-  background: #865b0c;
-  background: linear-gradient(125deg, #e8cf76 0%, #865b0c 100%);
-  color: #fff;
-  text-shadow:
-    0 0 1px #000,
-    0 0 2px #000,
-    0 0 3px #000;
-  box-shadow:
-    inset 1px 1px 0 1px #865b0c,
-    inset -1px -1px 0 1px #e8cf76;
-  height: 3rem;
-  width: 3rem;
-  font-size: 2rem;
-  font-weight: 400;
-  font-family: Cambria, 'Times New Roman', Times, serif;
-  margin: 0 auto;
-  line-height: 2.7rem;
-  letter-spacing: -0.2rem;
-  padding-right: 0.2rem;
-  text-align: center;
-}
-
-.coin > span {
-  position: absolute;
-  left: 0.2rem;
-  bottom: 0;
-  font-size: 0.8rem;
-  letter-spacing: 0;
-}
-
-.text-shadow {
-  text-shadow:
-    0 0 1px #000,
-    0 0 2px #000,
-    0 0 3px #000;
 }
 </style>
