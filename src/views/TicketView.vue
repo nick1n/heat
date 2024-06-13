@@ -156,10 +156,12 @@ const showBonus = ref(false)
         </div>
       </div>
 
-      <div class="grid grid-cols-3 items-center text-xl">
-        <div class="border-b-2 border-orange-200"></div>
-        <div>Shares</div>
-        <div class="border-b-2 border-orange-200"></div>
+      <div class="flex items-center gap-4 text-xl">
+        <div class="flex-grow border-b-2 border-orange-200"></div>
+        <div>
+          Shares<template v-if="shareSum > 0">{{ ' ' }}Total: {{ shareSum }}</template>
+        </div>
+        <div class="flex-grow border-b-2 border-orange-200"></div>
       </div>
       <div class="grid grid-cols-4 gap-1 text-lg">
         <div>1<sup>st</sup></div>
@@ -197,8 +199,8 @@ const showBonus = ref(false)
 
       <div class="mt-4 pb-2 text-left font-normal">
         <div class="flex justify-between">
-          <button class="rounded-lg border-2 border-white p-1 px-2" @click="showLog = !showLog">Show Log</button>
           <button class="rounded-lg border-2 border-white p-1 px-2" @click="reset">Reset</button>
+          <button class="rounded-lg border-2 border-white p-1 px-2" @click="showLog = !showLog">Show Log</button>
         </div>
         <div :class="{ hidden: !showLog }">
           <div v-for="(message, i) in logged" :key="i">{{ message }}</div>
@@ -208,13 +210,13 @@ const showBonus = ref(false)
 
     <div class="fixed bottom-0 left-0 right-0 top-0 cursor-pointer" :class="{ hidden: !showTicketInput }" @click="showTicketInput = false"></div>
 
-    <div class="fixed bottom-0 left-0 right-0 border-t-2 border-orange-600 bg-slate-100 p-1 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
+    <div class="fixed bottom-0 left-0 right-0 border-t-2 border-orange-600 bg-gray-300/75 p-1 text-xl transition-transform" :class="{ 'translate-y-full': !showTicketInput }">
       <div class="grid grid-cols-5 gap-1">
         <button
           v-for="({ id, amt }, i) in tickets"
           :key="id"
           class="rounded-lg border-2 border-gray-50 p-1 transition-opacity"
-          :class="{ 'bg-green-200 hover:bg-green-300 active:bg-green-400': amt > 0, 'bg-red-200 hover:bg-red-300 active:bg-red-400': amt < 0 }"
+          :class="{ 'bg-green-300 border-green-600 hover:bg-green-200 active:bg-green-400': amt > 0, 'bg-red-300 border-red-600 hover:bg-red-200 active:bg-red-400': amt < 0 }"
           @click="removeTicket($event, i)"
         >
           <div class="relative mx-auto h-12 w-12">
@@ -223,9 +225,11 @@ const showBonus = ref(false)
         </button>
       </div>
 
-      <div class="-mx-1 flex items-center gap-1">
+      <div class="-mx-1 flex items-center gap-4">
         <div class="flex-grow border-b-2 border-orange-600"></div>
-        <div class="">Ticket Total: {{ ticketSum }}</div>
+        <div class="tickets-text-shadow">
+          Tickets<template v-if="ticketSum > 0">{{ ' ' }}Total: {{ ticketSum }}</template>
+        </div>
         <div class="flex-grow border-b-2 border-orange-600"></div>
       </div>
 
@@ -244,7 +248,7 @@ const showBonus = ref(false)
         </button>
         <button v-else class="rounded-lg border-2 border-red-50 bg-red-200 p-1 text-3xl leading-4 hover:bg-red-300 active:bg-red-400" @click="positive = false">➖</button>
         <button
-          class="rounded-lg border-2 border-gray-50 bg-gray-200 p-1 text-2xl font-normal leading-4 text-black hover:bg-gray-300 active:bg-gray-400"
+          class="tickets-text-shadow rounded-lg border-2 border-gray-50 bg-gray-200 p-1 text-2xl font-normal leading-4 text-black hover:bg-gray-300 active:bg-gray-400"
           @click="showTicketInput = false"
         >
           Done
@@ -305,5 +309,12 @@ const showBonus = ref(false)
 <style>
 .ticket-serif {
   font-family: Cambria, 'Times New Roman', Times, serif;
+}
+
+.tickets-text-shadow {
+  text-shadow:
+    0 0 1px #fff,
+    0 0 2px #fff,
+    0 0 3px #fff;
 }
 </style>
