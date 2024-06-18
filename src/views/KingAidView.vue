@@ -24,7 +24,7 @@ const cardLegacy = ref(true)
           <IconText :icon="'wealth'">Wealth</IconText>
           <IconText :icon="'coin'">Coin</IconText>
           <IconText :icon="'morale'">Morale</IconText>
-          <IconText :icon="'agenda'">Agenda</IconText>
+          <IconText :icon="'agenda'">Agenda (VP)</IconText>
           <IconText :icon="'welfare'">Welfare</IconText>
           <IconText :icon="'prestige'">Prestige</IconText>
           <IconText :icon="'knowledge'">Knowledge</IconText>
@@ -68,25 +68,26 @@ const cardLegacy = ref(true)
         <h2 class="text-center text-5xl leading-normal">Vote of the Council (p. 16)</h2>
       </button>
       <div class="p-4 pt-0" :class="{ hidden: cardVote }">
-        <div>Start at Leader. On your turn, either:</div>
-        <div class="ml-6">Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
+        <div>Starting with the <img class="inline h-12 align-top" src="/king/leader.png" /> Leader.</div>
+        <div>On your turn, declare one of:</div>
+        <div>&#xFFEB; Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
         <div class="ml-12">
           <em>If new high bid, seize <img class="inline h-12 align-top" src="/king/leader.png" /> Leader</em>
         </div>
-        <div class="ml-6 hidden">
-          Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" />
+        <div>
+          &#xFFEB; Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong> & 1<img
+            class="inline h-12 align-top"
+            src="/king/coin.png"
+          />
         </div>
-        <div class="ml-12 hidden"><em>max. one player each vote</em></div>
-        <div class="ml-6 hidden">Pass to <strong>Gather Power</strong>; +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-        <div class="ml-6">Pass to <strong>Gather Power</strong> and +1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-        <div class="ml-12">
-          <em>First to pass, become <img class="inline h-12 align-top" src="/king/moderator.png" /> Moderator</em>
-        </div>
+        <div class="ml-12"><em>Max one player each vote</em></div>
+        <div>&#xFFEB; Pass to <strong>Gather Power</strong> & 1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
         <div>Choice cannot be changed later.</div>
         <div class="pl-6">May increase existing bid.</div>
         <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-12 align-top" src="/king/coin.png" /> exchanged.</div>
-        <div class="pl-6 -indent-6">Continue around to latest Leader.</div>
-        <div class="pl-6 -indent-6">
+        <div class="pb-2 pl-6 -indent-6">Continue clockwise to latest Leader.</div>
+        <div class="mx-auto w-1/2 border-b-2 border-black"></div>
+        <div class="pl-6 pt-2 -indent-6">
           Highest total <img class="inline h-12 align-top" src="/king/power.png" /> bid <strong>wins vote</strong> and takes Leader. <em>Moderator breaks ties</em>.
         </div>
         <div class="pl-6 -indent-6">All players who Gather Power now equally share <img class="inline h-12 align-top" src="/king/power.png" /> from Balance.</div>
@@ -139,9 +140,10 @@ const cardLegacy = ref(true)
           <strong>Calculate <img class="inline h-12 align-top" src="/king/agenda.png" /> Scores</strong> (p. 30)
         </div>
         <div class="ml-6">Secret Agenda:</div>
-        <div class="ml-12">Resources &amp; <img class="inline h-12 align-top" src="/king/coin.png" /> Ranking</div>
+        <div class="ml-12">Resources + <img class="inline h-12 align-top" src="/king/coin.png" /> Ranking</div>
         <div class="ml-6">Open Agenda (±3 <img class="inline h-12 align-top" src="/king/agenda.png" />, ±1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
         <div class="ml-6">Power Majority (+2 <img class="inline h-12 align-top" src="/king/agenda.png" />, +1 <img class="inline h-12 align-top" src="/king/agenda.png" />)</div>
+        <div class="ml-6"><em>All ties score the same amount.</em></div>
         <div><strong>Realm Chronicles</strong> (p. 33)</div>
         <div class="ml-6">Record each Ranking and Score.</div>
         <div class="ml-6">Gain <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige, <img class="inline h-12 align-top" src="/king/crave.png" /> Crave.</div>
@@ -165,6 +167,10 @@ const cardLegacy = ref(true)
           Based on <img class="inline h-12 align-top" src="/king/agenda.png" /> rank, and how the King's reign ended, each House gains
           <img class="inline h-12 align-top" src="/king/prestige.png" />/<img class="inline h-12 align-top" src="/king/crave.png" />.
         </div>
+        <div class="pl-4">
+          <em>Tied players receive the same amount.</em>
+        </div>
+        <div>There is always at least one player in last rank.</div>
         <table class="my-6 w-full text-center">
           <thead>
             <tr>
@@ -256,8 +262,10 @@ const cardLegacy = ref(true)
         <div class="pl-12">Place behind screen.</div>
         <div>Player with highest <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige:</div>
         <div class="pl-6">Take <img class="inline h-12 align-top" src="/king/leader.png" /> <strong>Leader token</strong>. (p. 9)</div>
+        <div class="pl-12"><em>Higher House number breaks ties.</em></div>
         <div>Player with lowest <img class="inline h-12 align-top" src="/king/prestige.png" /> Prestige:</div>
         <div class="pl-6">Take <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator token</strong>. (p. 9)</div>
+        <div class="pl-12"><em>Lower House number breaks ties.</em></div>
         <div><img class="inline h-12 align-top" src="/king/agenda.png" /> <strong>Secret Agendas:</strong> (p. 8)</div>
         <div class="pl-6">Shuffle <strong>Secret Agenda</strong> cards.</div>
         <div class="pl-6">Remove 1 random card unseen.</div>
