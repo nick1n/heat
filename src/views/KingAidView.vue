@@ -68,23 +68,23 @@ const cardLegacy = ref(true)
         <h2 class="text-center text-5xl leading-normal">Vote of the Council (p. 16)</h2>
       </button>
       <div class="p-4 pt-0" :class="{ hidden: cardVote }">
-        <div>Starting with the <img class="inline h-12 align-top" src="/king/leader.png" /> Leader.</div>
-        <div>On your turn, declare one of:</div>
+        <div>Starting with the Leader.</div>
+        <div>Each player choose one of the following:</div>
+        <div class="ml-12"><em>Choice cannot be changed later.</em></div>
         <div>&#xFFEB; Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
+        <div class="ml-12"><em>May increase existing bid.</em></div>
         <div class="ml-12">
-          <em>If new high bid, seize <img class="inline h-12 align-top" src="/king/leader.png" /> Leader</em>
+          <em>If new high bid, seize <img class="inline h-12 align-top" src="/king/leader.png" /> Leader.</em>
         </div>
         <div>
-          &#xFFEB; Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong> & 1<img
+          &#xFFEB; Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong> &amp; 1<img
             class="inline h-12 align-top"
             src="/king/coin.png"
           />
         </div>
-        <div class="ml-12"><em>Max one player each vote</em></div>
-        <div>&#xFFEB; Pass to <strong>Gather Power</strong> & 1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-        <div>Choice cannot be changed later.</div>
-        <div class="pl-6">May increase existing bid.</div>
-        <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-12 align-top" src="/king/coin.png" /> exchanged.</div>
+        <div class="ml-12"><em>Max one player each vote.</em></div>
+        <div>&#xFFEB; Pass to <strong>Gather Power</strong> &amp; 1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
+        <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-12 align-top" src="/king/coin.png" /> is exchanged.</div>
         <div class="pb-2 pl-6 -indent-6">Continue clockwise to latest Leader.</div>
         <div class="mx-auto w-1/2 border-b-2 border-black"></div>
         <div class="pl-6 pt-2 -indent-6">
