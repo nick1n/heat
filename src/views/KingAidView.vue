@@ -51,16 +51,17 @@ const cardLegacy = ref(true)
         <h2 class="text-center text-7xl leading-normal">Game round</h2>
         <h2 class="text-center text-5xl">Phases</h2>
       </button>
-      <div class="grid gap-4 p-4 pt-0" :class="{ hidden: cardPhases }">
+      <div class="grid gap-4 px-4" :class="{ hidden: cardPhases }">
         <div><strong>Draw Dilemma Card</strong> (p. 15)</div>
         <div>Place <strong>Outcome Tokens</strong> (p. 16)</div>
         <div><strong>Vote</strong> of the Council (p. 16)</div>
         <div><strong>Vote Resolution</strong> (p. 20)</div>
         <div><strong>Dilemma Resolution</strong> (p. 23)</div>
         <div>Check for <strong>Game End</strong> (p. 29)</div>
-        <div class="ml-12">If king abdicates or dies, go to End of Game.</div>
-        <div class="ml-12">If not: next Round.</div>
       </div>
+      <div class="pl-10">If king abdicates or dies:</div>
+      <div class="pl-16">go to End of Game.</div>
+      <div class="pb-4 pl-10">If not: next Round.</div>
     </div>
 
     <div class="border-[2vmin] border-[#AE995B]">
@@ -69,22 +70,22 @@ const cardLegacy = ref(true)
       </button>
       <div class="p-4 pt-0" :class="{ hidden: cardVote }">
         <div>Starting with the Leader.</div>
-        <div>Each player choose one of the following:</div>
+        <div>Each player chooses 1 of the following:</div>
         <div class="ml-12"><em>Choice cannot be changed later.</em></div>
-        <div>&#xFFEB; Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
+        <div>&#8227; Bid <img class="inline h-12 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
         <div class="ml-12"><em>May increase existing bid.</em></div>
         <div class="ml-12">
           <em>If new high bid, seize <img class="inline h-12 align-top" src="/king/leader.png" /> Leader.</em>
         </div>
         <div>
-          &#xFFEB; Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong> &amp; 1<img
+          &#8227; Pass to become <img class="inline h-12 align-top" src="/king/moderator.png" /> <strong>Moderator</strong> + 1<img
             class="inline h-12 align-top"
             src="/king/coin.png"
           />
         </div>
         <div class="ml-12"><em>Max one player each vote.</em></div>
-        <div>&#xFFEB; Pass to <strong>Gather Power</strong> &amp; 1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
-        <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-12 align-top" src="/king/coin.png" /> is exchanged.</div>
+        <div>&#8227; Pass to <strong>Gather Power</strong> + 1<img class="inline h-12 align-top" src="/king/coin.png" /></div>
+        <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-12 align-top" src="/king/coin.png" /> is exchanged</div>
         <div class="pb-2 pl-6 -indent-6">Continue clockwise to latest Leader.</div>
         <div class="mx-auto w-1/2 border-b-2 border-black"></div>
         <div class="pl-6 pt-2 -indent-6">
