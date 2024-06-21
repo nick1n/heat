@@ -5,18 +5,18 @@ import { ref } from 'vue'
 const cardPhases = ref(false)
 const cardVote = ref(false)
 const cardResolution = ref(true)
-const cardEnd = ref(true)
-const cardScore = ref(true)
+const cardEnd = ref(false)
+const cardScore = ref(false)
 const cardSetup = ref(true)
 const cardLegacy = ref(true)
 </script>
 
 <template>
-  <div class="grid grid-cols-3 font-serif text-sm leading-normal">
-    <div v-for="i in 3" :key="i" class="hidden border-[1.5rem] border-b-[3rem] border-[#AE995B] p-2 pt-0">
+  <div class="grid grid-cols-2 font-serif text-sm leading-normal">
+    <div v-for="i in 4" :key="i" class="border-[2rem] border-[#AE995B] p-2 pt-0">
       <h2 class="text-center text-2xl leading-normal">Legend of Symbols</h2>
-      <div class="grid gap-1 text-base">
-        <div class="grid grid-cols-2 gap-1">
+      <div class="grid gap-[7px] text-base leading-5">
+        <div class="grid grid-cols-2 gap-[7px]">
           <IconText :icon="'influence'">Influence</IconText>
           <IconText :icon="'power'">Power</IconText>
           <IconText :icon="'wealth'">Wealth</IconText>
@@ -34,184 +34,157 @@ const cardLegacy = ref(true)
           <IconText :icon="'event'">Event</IconText>
           <IconText :icon="'sticker'">Add sticker</IconText>
         </div>
-        <IconText :icon="'chronicle'">Chronicle Sticker</IconText>
+        <IconText :icon="'chronicle'">Chronicle sticker</IconText>
+        <IconText :icon="'sign'">Sign name of House</IconText>
+        <IconText :icon="'mark'">Mark each use</IconText>
         <IconText :icon="'effect-one'">Effect one time, when gained</IconText>
         <IconText :icon="'effect-each'">Effect at each game setup</IconText>
         <IconText :icon="'effect-when'">Effect when condition is met</IconText>
       </div>
-      <table class="my-0 hidden w-full text-center text-sm">
-        <thead>
-          <tr>
-            <th class="border-r-2 border-gray-600 bg-gray-300 p-1 py-2 align-bottom font-normal" rowspan="2">
-              <img class="mx-auto h-5 mix-blend-multiply" src="/king/agenda.png" />Rank
-            </th>
-            <th class="border-r-2 border-gray-600 bg-gray-300 p-1 py-2 align-bottom font-normal" rowspan="2">
-              <img class="mx-auto h-5 mix-blend-multiply" src="/king/death.png" />King died
-            </th>
-            <th class="bg-gray-300 p-1 pt-2 font-normal" colspan="2">King abdicated</th>
-          </tr>
-          <tr>
-            <th class="border-r-2 border-gray-600 bg-gray-300 p-1 pb-2 font-normal"><img class="inline h-5 align-top mix-blend-multiply" src="/king/stability.png" /> max</th>
-            <th class="bg-gray-300 p-1 pb-2 font-normal"><img class="inline h-5 align-top mix-blend-multiply" src="/king/stability.png" /> min</th>
-          </tr>
-        </thead>
-        <tbody class="text-sm leading-normal">
-          <tr>
-            <td class="border-r-2 border-gray-600 p-1">1st</td>
-            <td class="border-r-2 border-gray-600 p-1">+5<img class="inline h-5 align-top" src="/king/prestige.png" /></td>
-            <td class="border-r-2 border-gray-600 p-1">+3<img class="inline h-5 align-top" src="/king/prestige.png" /></td>
-            <td class="p-1">+3<img class="inline h-5 align-top" src="/king/crave.png" /></td>
-          </tr>
-          <tr>
-            <td class="border-r-2 border-gray-600 p-1">2nd</td>
-            <td class="border-r-2 border-gray-600 p-1">+4<img class="inline h-5 align-top" src="/king/prestige.png" /></td>
-            <td class="border-r-2 border-gray-600 p-1">+2<img class="inline h-5 align-top" src="/king/prestige.png" /></td>
-            <td class="p-1">+2<img class="inline h-5 align-top" src="/king/crave.png" /></td>
-          </tr>
-          <tr>
-            <td class="border-r-2 border-gray-600 p-1">
-              3rd
-              <div class="-my-4 text-base">&amp;</div>
-              4th
-            </td>
-            <td class="border-r-2 border-gray-600 p-1">
-              +2<img class="inline h-5 align-top" src="/king/prestige.png" />+1<img class="inline h-5 align-top" src="/king/crave.png" />
-            </td>
-            <td class="border-r-2 border-gray-600 p-1">+1<img class="inline h-5 align-top" src="/king/prestige.png" /></td>
-            <td class="p-1">+1<img class="inline h-5 align-top" src="/king/crave.png" /></td>
-          </tr>
-          <tr class="hidden">
-            <td class="border-r-2 border-gray-600 p-1">4th</td>
-            <td class="border-r-2 border-gray-600 p-1">
-              +2<img class="inline h-5 align-top" src="/king/prestige.png" />+1<img class="inline h-5 align-top" src="/king/crave.png" />
-            </td>
-            <td class="border-r-2 border-gray-600 p-1">+1<img class="inline h-5 align-top" src="/king/prestige.png" /></td>
-            <td class="p-1">+1<img class="inline h-5 align-top" src="/king/crave.png" /></td>
-          </tr>
-          <tr>
-            <td class="border-r-2 border-gray-600 p-1">Last</td>
-            <td class="border-r-2 border-gray-600 p-1">+2<img class="inline h-5 align-top" src="/king/crave.png" /></td>
-            <td class="border-r-2 border-gray-600 p-1">+2<img class="inline h-5 align-top" src="/king/crave.png" /></td>
-            <td class="p-1">+2<img class="inline h-5 align-top" src="/king/prestige.png" /></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
 
     <!-- Score -->
-    <div v-for="i in 3" :key="i" class="border-[1.5rem] border-b-[3rem] border-[#AE995B] p-2 pt-0">
+    <div v-for="i in 4" :key="i" class="border-[2rem] border-[#AE995B] p-2 pt-0 text-base">
       <button class="w-full" @click="() => (cardScore = !cardScore)">
         <h2 class="text-center text-2xl leading-normal">Campaign Score (p. 33)</h2>
       </button>
       <div class="" :class="{ hidden: cardScore }">
         <div>
-          Based on <img class="inline h-4 align-top" src="/king/agenda.png" /> rank, and how the King's reign ended, each House gains
-          <img class="inline h-4 align-top" src="/king/prestige.png" />/<img class="inline h-4 align-top" src="/king/crave.png" />.
+          Based on <img class="inline h-4 align-text-top" src="/king/agenda.png" /> Rank and how the King's reign ended, each House gains
+          <img class="inline h-4 align-text-top" src="/king/prestige.png" />/<img class="inline h-4 align-text-top" src="/king/crave.png" />.
         </div>
-        <div class="pl-0">
-          <em>Tied players receive the same amount.</em>
-        </div>
-        <div>Always at least one player in last rank.</div>
-        <table class="my-1 w-full text-center">
-          <thead>
+        <div class="pl-0"><em>Tied players receive the same amount.</em></div>
+        <table class="mt-[6px] w-full border-t-[6px] border-gray-300 text-center">
+          <thead class="text-sm">
             <tr>
-              <th class="border-r-2 border-gray-600 bg-gray-300 p-1 py-2 align-bottom font-normal" rowspan="2">
-                <img class="mx-auto h-5 mix-blend-multiply" src="/king/agenda.png" />Rank
+              <th class="border-r-[1px] border-[#AE995B] bg-gray-300 p-[2px] pb-2 align-bottom font-normal" rowspan="2">
+                <img class="mx-auto h-5 mix-blend-darken" src="/king/agenda.png" />Rank
               </th>
-              <th class="border-r-2 border-gray-600 bg-gray-300 p-1 py-2 align-bottom font-normal" rowspan="2">
-                <img class="mx-auto h-5 mix-blend-multiply" src="/king/death.png" />King died
+              <th class="border-r-[1px] border-[#AE995B] bg-gray-300 p-[2px] pb-2 align-bottom font-normal" rowspan="2">
+                <img class="mx-auto h-5 mix-blend-darken" src="/king/death.png" />King died
               </th>
-              <th class="bg-gray-300 p-1 font-normal" colspan="2">King abdicated</th>
+              <th class="bg-gray-300 p-[2px] font-normal" colspan="2">King abdicated</th>
             </tr>
             <tr>
-              <th class="border-r-2 border-gray-600 bg-gray-300 p-1 font-normal"><img class="inline h-5 align-top mix-blend-multiply" src="/king/stability.png" /> max</th>
-              <th class="bg-gray-300 p-1 font-normal"><img class="inline h-5 align-top mix-blend-multiply" src="/king/stability.png" /> min</th>
+              <th class="border-r-[1px] border-[#AE995B] bg-gray-300 pb-2 font-normal"><img class="inline h-5 align-top mix-blend-darken" src="/king/stability.png" /> max</th>
+              <th class="bg-gray-300 pb-2 font-normal"><img class="inline h-5 align-top mix-blend-darken" src="/king/stability.png" /> min</th>
             </tr>
           </thead>
           <tbody class="text-lg leading-4">
             <tr>
-              <td class="border-r-2 border-gray-600 p-[2px]">1st</td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+5<img class="inline h-4 align-top" src="/king/prestige.png" /></td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+3<img class="inline h-4 align-top" src="/king/prestige.png" /></td>
-              <td class="p-1">+3<img class="inline h-4 align-top" src="/king/crave.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">1st</td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+5 <img class="inline h-4 align-top" src="/king/prestige.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+3 <img class="inline h-4 align-top" src="/king/prestige.png" /></td>
+              <td class="p-[2px] py-[6px]">+3 <img class="inline h-4 align-top" src="/king/crave.png" /></td>
             </tr>
             <tr>
-              <td class="border-r-2 border-gray-600 p-[2px]">2nd</td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+4<img class="inline h-4 align-top" src="/king/prestige.png" /></td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+2<img class="inline h-4 align-top" src="/king/prestige.png" /></td>
-              <td class="p-1">+2<img class="inline h-4 align-top" src="/king/crave.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">2nd</td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+4 <img class="inline h-4 align-top" src="/king/prestige.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+2 <img class="inline h-4 align-top" src="/king/prestige.png" /></td>
+              <td class="p-[2px] py-[6px]">+2 <img class="inline h-4 align-top" src="/king/crave.png" /></td>
             </tr>
             <tr>
-              <td class="border-r-2 border-gray-600 p-[2px]">
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">
                 3rd
                 <div class="-my-1 text-xs">&amp;</div>
                 4th
               </td>
-              <td class="border-r-2 border-gray-600 p-[2px]">
-                +2<img class="inline h-4 align-top" src="/king/prestige.png" />+1<img class="inline h-4 align-top" src="/king/crave.png" />
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">
+                <div>+2 <img class="inline h-4 align-top" src="/king/prestige.png" /></div>
+                <div class="pt-[2px]">+1 <img class="inline h-4 align-top" src="/king/crave.png" /></div>
               </td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+1<img class="inline h-4 align-top" src="/king/prestige.png" /></td>
-              <td class="p-1">+1<img class="inline h-4 align-top" src="/king/crave.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+1 <img class="inline h-4 align-top" src="/king/prestige.png" /></td>
+              <td class="p-[2px] py-[6px]">+1 <img class="inline h-4 align-top" src="/king/crave.png" /></td>
             </tr>
             <tr class="hidden">
-              <td class="border-r-2 border-gray-600 p-[2px]">4th</td>
-              <td class="border-r-2 border-gray-600 p-[2px]">
-                +2<img class="inline h-4 align-top" src="/king/prestige.png" />+1<img class="inline h-4 align-top" src="/king/crave.png" />
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">4th</td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">
+                +2 <img class="inline h-4 align-top" src="/king/prestige.png" />+1 <img class="inline h-4 align-top" src="/king/crave.png" />
               </td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+1<img class="inline h-4 align-top" src="/king/prestige.png" /></td>
-              <td class="p-1">+1<img class="inline h-4 align-top" src="/king/crave.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+1 <img class="inline h-4 align-top" src="/king/prestige.png" /></td>
+              <td class="p-[2px] py-[6px]">+1 <img class="inline h-4 align-top" src="/king/crave.png" /></td>
             </tr>
             <tr>
-              <td class="border-r-2 border-gray-600 p-[2px]">Last</td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+2<img class="inline h-4 align-top" src="/king/crave.png" /></td>
-              <td class="border-r-2 border-gray-600 p-[2px]">+2<img class="inline h-4 align-top" src="/king/crave.png" /></td>
-              <td class="p-1">+2<img class="inline h-4 align-top" src="/king/prestige.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">Last<span class="align-top text-sm leading-[12px]">*</span></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+2 <img class="inline h-4 align-top" src="/king/crave.png" /></td>
+              <td class="border-r-[1px] border-[#AE995B] p-[2px] py-[6px]">+2 <img class="inline h-4 align-top" src="/king/crave.png" /></td>
+              <td class="p-[2px] py-[6px]">+2 <img class="inline h-4 align-top" src="/king/prestige.png" /></td>
             </tr>
           </tbody>
         </table>
-        <div class="flex items-center gap-2 text-xs">
+        <div class="mb-2 text-center text-sm"><div>*At least one player is always ranked last.</div></div>
+        <div class="flex items-center gap-2 text-sm leading-4">
           <div class="flex h-6 w-12 items-center justify-center"><img class="w-full" src="/king/prestige.png" /></div>
           <div>Prestige: the legacy of your House as a promoter of the Kingdom of Ankist.</div>
         </div>
-        <div class="flex items-center gap-2 pt-1 text-xs">
+        <div class="flex items-center gap-2 pt-[6px] text-sm leading-4">
           <div class="flex h-6 w-12 items-center justify-center"><img class="w-full" src="/king/crave.png" /></div>
           <div>Crave: the legacy of your House in a struggle for power with other Houses.</div>
         </div>
       </div>
     </div>
 
-    <div v-for="i in 3" :key="i" class="hidden border-[1.5rem] border-[#AE995B]">
-      <div class="p-2 pt-0">
-        <button class="w-full" @click="() => (cardVote = !cardVote)">
-          <h2 class="text-left text-xl leading-normal">Vote of the Council (p. 16)</h2>
-        </button>
-        <div :class="{ hidden: cardVote }">
-          <div>Starting with the Leader.</div>
-          <div>Each player chooses 1 of the following:</div>
-          <div class="ml-4"><em>Choice cannot be changed later.</em></div>
-          <div>&#8227; Bid <img class="inline h-5 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
-          <div class="ml-4"><em>May increase existing bid.</em></div>
-          <div class="ml-4">
-            <em>If new high bid, seize <img class="inline h-5 align-top" src="/king/leader.png" /> Leader.</em>
-          </div>
-          <div>
-            &#8227; Pass to become <img class="inline h-5 align-top" src="/king/moderator.png" /> <strong>Moderator</strong> +1<img
-              class="inline h-5 align-top"
-              src="/king/coin.png"
-            />
-          </div>
-          <div class="ml-4"><em>Max one player each vote.</em></div>
-          <div>&#8227; Pass to <strong>Gather Power</strong> +1<img class="inline h-5 align-top" src="/king/coin.png" /></div>
-          <div class="pl-4 -indent-4">Bargains are binding if <img class="inline h-5 align-top" src="/king/coin.png" /> is exchanged</div>
-          <div class="pb-2 pl-4 -indent-4">Continue clockwise to latest Leader.</div>
-          <div class="mx-auto w-1/2 border-b-2 border-black"></div>
-          <div class="pl-4 pt-2 -indent-4">
-            Highest total <img class="inline h-5 align-top" src="/king/power.png" /> bid <strong>wins vote</strong> and takes Leader. <em>Moderator breaks ties</em>.
-          </div>
-          <div class="pl-4 -indent-4">All players who Gather Power now equally share <img class="inline h-5 align-top" src="/king/power.png" /> from Balance.</div>
-          <div class="pl-4 -indent-4">Losing side reclaim all their <img class="inline h-5 align-top" src="/king/power.png" /> bid.</div>
-          <div class="pl-4 -indent-4">Winning side spend all their <img class="inline h-5 align-top" src="/king/power.png" /> bid to Balance for future votes.</div>
+    <div v-for="i in 4" :key="i" class="border-[2rem] border-[#AE995B] p-2 pt-0">
+      <button class="w-full" @click="() => (cardVote = !cardVote)">
+        <h2 class="text-xl leading-normal">Vote of the Council (p. 16)</h2>
+      </button>
+      <div :class="{ hidden: cardVote }">
+        <div class="">Starting with the Leader, choose 1 of the following, <em>it cannot be changed later:</em></div>
+        <div class="ml-4">● Bid at least 1 <img class="inline h-5 align-top" src="/king/power.png" /> on <strong>Aye</strong> or <strong>Nay</strong></div>
+        <div class="ml-12"><em>May increase existing bid.</em></div>
+        <div class="ml-12">
+          <em>If new high bid, seize <img class="inline h-5 align-top" src="/king/leader.png" /> Leader.</em>
         </div>
+        <div class="ml-4">
+          ● Pass to become <img class="inline h-5 align-top" src="/king/moderator.png" /> <strong>Moderator</strong> +1
+          <img class="inline h-5 align-top" src="/king/coin.png" />
+        </div>
+        <div class="ml-12"><em>Max one player each vote.</em></div>
+        <div class="ml-4">● Pass to <strong>Gather Power</strong> +1 <img class="inline h-5 align-top" src="/king/coin.png" /></div>
+        <div class="pl-6 -indent-6">Bargains are binding if <img class="inline h-5 align-top" src="/king/coin.png" /> is exchanged.</div>
+        <div class="pb-2 pl-6 -indent-6">Continue clockwise to player before Leader.</div>
+        <div class="mx-auto mb-[1px] w-1/2 border-b-[1px] border-[#AE995B] pt-[3px]"></div>
+        <div class="pl-6 pt-2 -indent-6">
+          Highest total <img class="inline h-5 align-top" src="/king/power.png" /> bid <strong>wins vote</strong> and takes <br />
+          <img class="inline h-5 align-top" src="/king/leader.png" /> Leader. <em>Moderator breaks ties</em>.
+        </div>
+        <div class="pl-6 -indent-6">All players who Gather Power equally share <img class="inline h-5 align-top" src="/king/power.png" /> from the Balance.</div>
+        <div class="pl-6 -indent-6">Losing side reclaims all their <img class="inline h-5 align-top" src="/king/power.png" /> bid.</div>
+        <div class="pl-6 -indent-6">Winning side places all their <img class="inline h-5 align-top" src="/king/power.png" /> bid onto the Balance for future votes.</div>
+      </div>
+    </div>
+
+    <div v-for="i in 4" :key="i" class="border-[2rem] border-[#AE995B] p-2 pt-0">
+      <button class="w-full" @click="() => (cardEnd = !cardEnd)">
+        <h2 class="text-center text-xl leading-normal">End of the Game (p. 30)</h2>
+      </button>
+      <div :class="{ hidden: cardEnd }">
+        <div>
+          When King <img class="inline h-5 align-top" src="/king/stability.png" /> <strong>abdicates</strong> or <img class="inline h-5 align-top" src="/king/death.png" />
+          {{ ' ' }}
+          <strong>dies</strong>.
+        </div>
+        <div>
+          <strong>Calculate <img class="inline h-5 align-top" src="/king/agenda.png" /> Scores</strong> (p. 30)
+        </div>
+        <div class="ml-6">Secret Agenda Cards:</div>
+        <div class="ml-12">Resource Goal + <img class="inline h-5 align-top" src="/king/coin.png" /> Ranking</div>
+        <div class="ml-6">Open Agenda Tokens (±3 <img class="inline h-5 align-top" src="/king/agenda.png" />, ±1 <img class="inline h-5 align-top" src="/king/agenda.png" />)</div>
+        <div class="ml-6">Power Majority (+2 <img class="inline h-5 align-top" src="/king/agenda.png" />, +1 <img class="inline h-5 align-top" src="/king/agenda.png" />)</div>
+        <div class="ml-6">
+          <em>All ties score the same <img class="inline h-5 align-top" src="/king/agenda.png" /> amount.</em>
+        </div>
+        <div><strong>Mark Realm Chronicles</strong> (p. 33)</div>
+        <div class="ml-6">Record each Ranking and Score.</div>
+        <div class="ml-6">Gain <img class="inline h-5 align-top" src="/king/prestige.png" /> Prestige, <img class="inline h-5 align-top" src="/king/crave.png" /> Crave.</div>
+        <div class="ml-6">1st rank House names next King.</div>
+        <div><strong>Check House Achievements</strong> <img class="inline h-5 align-top" src="/king/achievements.png" /> (p. 34)</div>
+        <div><strong>Update House Alignments</strong> (p. 34)</div>
+        <div><strong>Save Game</strong> (p. 34)</div>
+        <div class="ml-6">Shuffle <img class="inline h-5 align-top" src="/king/trigger.png" /> Trigger + Dilemma deck</div>
+        <div class="ml-6">Trash resolved cards</div>
+        <div class="ml-6">Secret Agenda + Vote cards</div>
+        <div class="ml-6">Save all Story + <img class="inline h-5 align-top" src="/king/event.png" /> Event cards</div>
       </div>
     </div>
 
