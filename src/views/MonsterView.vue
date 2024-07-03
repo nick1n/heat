@@ -58,7 +58,8 @@
         </div>
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Phase Steps</div>
         <div class="mx-12">
-          <div class="mt-2">If fighting a Nemsis this lantern year, skip the hunt phase.</div>
+          <div class="mb-1 mt-2 text-center">—— Survivors Hunt a Quarry ——</div>
+          <div>If fighting a Nemsis this lantern year, skip the hunt phase.</div>
           <div class="mt-2"><strong>Setup:</strong> Follow these steps to set up the hunt phase:</div>
           <div>1) Choose a quarry monster.</div>
           <div class="pl-3 -indent-3">
@@ -114,7 +115,8 @@
           Settlement Phase
         </div>
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Phase Steps</div>
-        <div class="mx-12 mt-2">
+        <div class="mx-12">
+          <div class="mb-1 mt-2 text-center">—— Survivors Recover and Develop ——</div>
           <div class="pl-3 -indent-3"><strong>1) Setup:</strong> Set up settlement's locations/innovations/etc.</div>
           <div class="pl-3 -indent-3"><strong>2) Survivors Return:</strong> Heal L/H injuries, discard tokens, and apply Returning Survivor effects.</div>
           <div class="pl-3 -indent-3">
@@ -207,7 +209,8 @@
         </div>
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Phase Steps</div>
         <div class="mx-12 mt-2">
-          <div class="mt-2"><strong>Setup:</strong> Create <span class="font-kdm-icons">m</span>&nbsp;AI deck, deploy figurines and terrain according to showdown setup.</div>
+          <div class="mb-1 text-center">—— Survivors Fight the Monster ——</div>
+          <div><strong>Setup:</strong> Create <span class="font-kdm-icons">m</span>&nbsp;AI deck, deploy figurines and terrain according to showdown setup.</div>
           <div class="mt-2"><strong>Monster Ambush:</strong> Skip first survivor turn.</div>
           <div class="mt-2">
             <strong>Survivor Ambush:</strong> Survivors go first. Disregard showdown setup and place figurines and terrain as players wish, still following terrain card rules.
@@ -279,7 +282,7 @@
         </div>
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Monster Turn</div>
         <div class="mx-12 mt-2">
-          <div class="mb-1 text-center">—— Monster Action Targeting ——</div>
+          <div class="mb-1 text-center">—— Monster Targets Survivor ——</div>
           <div>
             <strong>Monster Controller:</strong> Player responsible for conducting monster actions. Survivor gains +1 insanity if player targets own survivor. Pass role each
             monster turn.
@@ -294,7 +297,7 @@
           <div><strong>Most/Least:</strong> Zero still counts unless stated.</div>
           <div><strong>Last to Wound:</strong> Last that wounded the monster.</div>
           <div><strong>Non-Deaf:</strong> Not suffering from Deaf severe injury.</div>
-          <div class="my-1 text-center">—— Monster Attack ——</div>
+          <div class="my-1 text-center">—— Monster Attacks ——</div>
           <div><strong>Move:</strong> If specified, monster uses movement to move to target. For each attack die, attack hits if:</div>
           <div class="ml-3">Roll + Monster Acc ≥ Attack Profile Acc + Survivor Eva</div>
           <div><strong>Apply Damage:</strong> Roll a hit location (HL) die for each hit. Expend damage for each hit as follows:</div>
