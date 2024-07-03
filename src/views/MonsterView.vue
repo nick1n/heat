@@ -1,7 +1,7 @@
 <template>
   <div class="font-kdm-text text-pretty text-[10px] leading-[11px]">
     <div class="hidden">
-      <div class="font-kdm-icons">Test, abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.</div>
+      <div class="font-kdm-icons">Test, 0123456789 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.</div>
       <div><span class="font-kdm-icons">B</span>&nbsp;Trigger Story Event</div>
       <div><span class="font-kdm-icons">B</span>&nbsp;Starvation</div>
       <div><span class="font-kdm-icons">j</span>&nbsp;Endeavor</div>
@@ -14,8 +14,8 @@
       <div><span class="font-kdm-icons">x</span>&nbsp;Persistent Injury</div>
       <div><span class="font-kdm-icons">C</span>&nbsp;Trigger</div>
     </div>
-    <div class="grid w-[720px] grid-cols-2">
-      <div class="h-[50vh] bg-cover" styles="background-image: url('/monster/inverted-hunt-reference.webp')">
+    <div class="grid w-[740px] grid-cols-2">
+      <div class="h-[50vh] bg-cover">
         <div
           class="font-kdm-title kdm-text-shadow border-b-2 border-black bg-teal-700 pb-6 pt-8 text-center text-3xl text-black"
           style="background: url('/monster/bg-hunt.png') top; background-size: 100% auto"
@@ -25,23 +25,23 @@
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Reference</div>
         <div class="mx-12">
           <div class="mt-2">
-            <strong>Event Revealer:</strong> Survivors take turns being responsible for revealing, rolling, and making all decisions for the Hunt Event. Survivors can trade
+            <strong>Event Revealer:</strong> Survivors take turns being responsible for revealing, rolling, and making all decisions for the hunt event. Survivors can trade
             resources before revealing.
           </div>
           <div class="mt-2">
-            <strong>Overwhelming Darkness:</strong> Trigger <span class="font-kdm-icons">B</span>&nbsp;Overwhelming Darkness the first time Survivors move here each Hunt and cannot
+            <strong>Overwhelming Darkness:</strong> Trigger <span class="font-kdm-icons">B</span>&nbsp;Overwhelming Darkness the first time survivors move here each hunt and cannot
             be skipped.
           </div>
           <div class="mt-2">
-            <strong>Event Damage:</strong> Damage caused by Hunt Events is non-lethal and will not cause Severe Injuries or Brain Trauma unless specified. Damage accrued persists
-            into Showdown phase.
+            <strong>Event Damage:</strong> Damage caused by hunt events is non-lethal and will not cause severe injuries or brain trauma unless specified. Damage accrued persists
+            into showdown phase.
           </div>
           <div class="mt-2">
-            <strong>Survivor Deaths:</strong> If a Survivor dies on the Hunt, their gear is returned to Settlement Storage and their resources are lost (unless special rules
+            <strong>Survivor Deaths:</strong> If a survivor dies on the hunt, their gear is returned to settlement storage and their resources are lost (unless special rules
             dictate otherwise).
           </div>
           <div class="mt-2 hidden">
-            <strong>Empty Spaces:</strong> When moving to an empty Hunt Event space, make a roll on the hunt event table. This is true when you move backwards.
+            <strong>Empty Spaces:</strong> When moving to an empty hunt event space, make a roll on the hunt event table. This is true when you move backwards.
           </div>
           <div class="mt-2">
             <strong>Acquiring Gear:</strong> If your grid is full, you must archive either the new gear (unless it's cursed) or another item, without rearranging or giving it to
@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="h-[50vh] bg-cover" styles="background-image: url('/monster/inverted-hunt-reference.webp')">
+      <div class="h-[50vh] bg-cover">
         <div
           class="font-kdm-title kdm-text-shadow border-b-2 border-black bg-teal-700 pb-6 pt-8 text-center text-3xl text-black"
           style="background-image: url('/monster/bg-hunt.png'); background-size: 100% auto"
@@ -58,27 +58,28 @@
         </div>
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Phase Steps</div>
         <div class="mx-12">
-          <div class="mt-2">If fighting a <em>Nemsis</em> this Lantern Year, skip the Hunt phase.</div>
-          <div class="mt-2"><strong>Setup:</strong> Follow these steps to set up the Hunt phase:</div>
-          <div>1) Choose a Quarry.</div>
+          <div class="mt-2">If fighting a Nemsis this lantern year, skip the hunt phase.</div>
+          <div class="mt-2"><strong>Setup:</strong> Follow these steps to set up the hunt phase:</div>
+          <div>1) Choose a quarry monster.</div>
           <div class="pl-3 -indent-3">
-            2) Place Basic Hunt Event and Monster Hunt Event cards on Hunt spaces according to Hunt Setup in the Quarry's Showdown Story Event (<span class="font-kdm-icons">B</span
-            >&nbsp;Overwhelming Darkness and <span class="font-kdm-icons">B</span>&nbsp;Starvation do not have Hunt Events).
+            2) Place basic hunt event and monster hunt event cards on hunt spaces according to hunt setup in the quarry's showdown story event (<span class="font-kdm-icons">B</span
+            >&nbsp;Overwhelming Darkness and <span class="font-kdm-icons">B</span>&nbsp;Starvation spaces do not have hunt events).
           </div>
-          <div>3) Place <em>Special Hunt Event</em> cards according to gear.</div>
-          <div>4) Place Survivors and Monster according to Hunt Setup.</div>
-          <div class="mt-2"><strong>Reveal:</strong> Nominate Event Revealer to resolve cards in order on current space.</div>
-          <div class="mt-2"><strong>Move:</strong> When all cards are resolved, advance on Hunt Track. If next space lacks cards, roll for rantom Hunt Event (p.&nbsp;90).</div>
+          <div>3) Place special hunt event cards according to gear.</div>
+          <div>4) Place survivors and monster according to hunt setup.</div>
+          <div class="mt-2"><strong>Reveal:</strong> Nominate an Event Revealer to resolve cards in order on current space.</div>
+          <div class="mt-2"><strong>Move:</strong> When all cards are resolved, advance on hunt track. If next space lacks cards, roll for rantom hunt event (p.&nbsp;90).</div>
           <div class="mt-2 hidden">
-            <strong>Empty Spaces:</strong> When moving to an empty Hunt Event space, make a roll on the hunt event table. This is true when you move backwards.
+            <strong>Empty Spaces:</strong> When moving to an empty hunt Event space, make a roll on the hunt event table. This is true when you move backwards.
           </div>
           <div class="mt-2">
-            <strong>End Hunt:</strong> Immediately start showdown if Survivors move onto Monster. If monster moves onto survivors, start showdown with <em>Ambush</em>. If survivors
-            perish, reach the Starvation space without showdown, or quarry moves off board, apply <span class="font-kdm-icons">B</span>&nbsp;Starvation.
+            <strong>End Hunt:</strong> Immediately start showdown if survivors move onto monster. If monster moves onto survivors, start showdown with monster ambush. If survivors
+            perish, reach the starvation space even with the quarry monster on it, or quarry monster moves off the board, apply
+            <span class="font-kdm-icons">B</span>&nbsp;Starvation.
           </div>
         </div>
       </div>
-      <div class="h-[50vh] bg-cover" styles="background-image: url('/monster/inverted-hunt-reference.webp')">
+      <div class="h-[50vh] bg-cover">
         <div
           class="font-kdm-title kdm-text-shadow-black border-b-2 border-black bg-teal-700 pb-6 pt-8 text-center text-3xl text-white"
           style="background-image: url('/monster/bg-settlement.png'); background-size: 100% auto"
@@ -105,7 +106,7 @@
           <div class="mt-2"><strong>Weapon Masteries:</strong> Once gained, functions as an innovation that gives benefits to all survivors.</div>
         </div>
       </div>
-      <div class="h-[50vh] bg-cover" styles="background-image: url('/monster/inverted-hunt-reference.webp')">
+      <div class="h-[50vh] bg-cover">
         <div
           class="font-kdm-title kdm-text-shadow-black border-b-2 border-black bg-teal-700 pb-6 pt-8 text-center text-3xl text-white"
           style="background-image: url('/monster/bg-settlement.png'); background-size: 100% auto"
@@ -115,12 +116,12 @@
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Phase Steps</div>
         <div class="mx-12 mt-2">
           <div class="pl-3 -indent-3"><strong>1) Setup:</strong> Set up settlement's locations/innovations/etc.</div>
-          <div class="pl-3 -indent-3"><strong>2) Survivors Return:</strong> Heal L/H injuries, discard tokens, and apply <em>Returning Survivor</em> effects.</div>
+          <div class="pl-3 -indent-3"><strong>2) Survivors Return:</strong> Heal L/H injuries, discard tokens, and apply Returning Survivor effects.</div>
           <div class="pl-3 -indent-3">
             <strong>3) Gain Endeavors:</strong> Each returning survivor gains an <span class="font-kdm-icons">j</span>&nbsp;endeavor plus any bonuses.
           </div>
           <div class="pl-3 -indent-3">
-            <strong>4) Update Timeline:</strong> Advance lantern year. Draw and resolve a random <em>Settlement Event.</em> Resolve <em>Timeline Events</em> in order listed.
+            <strong>4) Update Timeline:</strong> Advance lantern year. Draw and resolve a random Settlement Event. Resolve Timeline Events in order listed.
           </div>
           <div class="pl-3 -indent-3">
             <strong>5) Update Death Count:</strong> Advance for each dead survivor from prior hunt/showdown. Deaths during this phase update immediately.
@@ -131,7 +132,7 @@
           <div class="pl-3 -indent-3"><strong>8) Departing Survivors:</strong> Prepare for next hunt/nemesis:</div>
           <div class="pl-3">a. Select 4 survivors and add gear to their gear grids.</div>
           <div class="pl-3">b. Record armor points and attribute modifiers from gear.</div>
-          <div class="pl-3">c. Apply <em>Departing Survivor</em> effects.</div>
+          <div class="pl-3">c. Apply Departing Survivor effects.</div>
           <div class="pl-3 -indent-3">
             <strong>9) Special Showdown:</strong> Trigger any special showdowns. Then go back to <strong>5) Update Death Count</strong> for this year.
           </div>
@@ -152,7 +153,10 @@
         <div class="mx-12 mt-2">
           <div class="mb-1 text-center">—— Survivor's Act ——</div>
           <div>At the start of an act, gain <span class="font-kdm-icons">i</span>&nbsp;(Movement) &amp; <span class="font-kdm-icons">h</span>&nbsp;(Activation).</div>
-          <div>In any order, the survivor may do the following:</div>
+          <div>
+            At the end, lose any unspent <span class="font-kdm-icons">i</span> &amp; <span class="font-kdm-icons">h</span>. During your turn, the survivor may do the following, in
+            any order:
+          </div>
           <div>
             <strong>Spend <span class="font-kdm-icons">i</span>:</strong> Move orthogonally up to your movement limit, with a minimum of one space. During a move, adjacent
             survivors may trade resources.
@@ -160,7 +164,6 @@
           <div>
             <strong>Spend <span class="font-kdm-icons">h</span>:</strong> Attack, activate gear, terrain, or special rules.
           </div>
-          <div>Lose unspent <span class="font-kdm-icons">i</span> &amp; <span class="font-kdm-icons">h</span> at the end of your act.</div>
           <div class="my-1 text-center">—— Survivor's Attack ——</div>
           <div><strong>Attack Roll:</strong> Roll (Weapon Spd + Spd Mods)d10 for attacks.</div>
           <div>For each attack die, attack hits if:</div>
@@ -170,12 +173,13 @@
           <div><strong>Wound Roll:</strong> In order of attacker's choice, roll 1d10 for each hit location. A hit wounds if:</div>
           <div class="ml-3">Roll + Weapon Str + Survivor Str ≥ Monster Tgh + Mods</div>
           <div class="ml-3">Natural roll 10 (<span class="font-kdm-icons">v</span>) always wounds.</div>
-          <div class="ml-3">If wounded, move top AI card to wound stack.</div>
+          <div class="ml-3">If wounded, move top <span class="font-kdm-icons">m</span>&nbsp;AI card to wound stack.</div>
           <div><strong>Reactions:</strong> Hit location may have <span class="font-kdm-icons">r</span>&nbsp;reaction or <span class="font-kdm-icons">t</span>&nbsp;critical.</div>
           <div class="ml-3">
-            <strong><span class="font-kdm-icons">t</span> Critical:</strong> If natural wound roll ≥ 10 - Luck, resolve <span class="font-kdm-icons">t</span>.
+            <strong><span class="font-kdm-icons">t</span> Critical:</strong> Resolves only if:
           </div>
-          <div class="ml-14 pl-[2px]">Do not resolve any other <span class="font-kdm-icons">r</span>&nbsp;reactions.</div>
+          <div class="ml-6 pl-[2.5px]">Nat Wound Roll ≥ 10 + Monster Luck - Survivor Luck</div>
+          <div class="ml-6 pl-[2.5px]">Do not resolve any other <span class="font-kdm-icons">r</span>&nbsp;reactions.</div>
           <div class="ml-3">
             <strong><span class="font-kdm-icons">r</span> Reflex:</strong> Perform unless critical wound.
           </div>
@@ -191,7 +195,7 @@
           <div><strong>Blind Spot:</strong> Usually directly behind monster. Survivors attacking gain +1 Acc to attack roll.</div>
           <div><strong>First Strike:</strong> Hit location must be chosen first.</div>
           <div class="hidden"><strong>Weapon Proficiency:</strong> Must wound a monster at least once during a showdown in order to gain a level.</div>
-          <div><strong>Cannot Dodge:</strong> Survivors cannot Dodge while attacking.</div>
+          <div><strong>Survival:</strong> Cannot use any survival actions while attacking.</div>
         </div>
       </div>
       <div class="h-[50vh] bg-cover">
@@ -213,6 +217,26 @@
             <span class="font-kdm-icons">m</span>&nbsp;AI cards, conduct Basic Action.
           </div>
           <div class="mt-2"><strong>Survivor Turn:</strong> All survivors may perform their actions in any order.</div>
+          <div class="mb-1 mt-2 text-center">—— Gear Reference ——</div>
+          <div class="float-left mr-2 rounded-full bg-gray-400 p-[2px] text-center font-bold text-white">
+            <div class="pb-[3px] text-black">
+              <div class="absolute ml-[1px] mt-[1px] h-[8px] w-[10px] rounded-full bg-white"></div>
+              <span class="font-kdm-icons relative">h</span>
+            </div>
+            <div class="-mx-[2px] border-b-[1px] border-gray-600"></div>
+            <div class="-mx-[2px] border-b-[1px] border-white"></div>
+            <div class="py-[3px]">2</div>
+            <div class="rounded-full bg-gray-600 px-[3px] pb-[2px] pt-[4px]">
+              <div class="pb-[1px]">7<span class="kdm-text-shadow-gray absolute pl-[.5px] text-[10px]">+</span></div>
+              <div class="-mx-[3px] border-b-[1px] border-gray-400"></div>
+              <div class="pt-[2px]">1</div>
+            </div>
+          </div>
+          <div class="pt-[3px]">Spend an <span class="font-kdm-icons">h</span>&nbsp;activation to attack with this weapon.</div>
+          <div class="pt-[6px]"><strong>Speed (Spd):</strong> Number of attack rolls in the attack.</div>
+          <div class="pt-[6px]"><strong>Accuracy (Acc):</strong> Attack roll result required to hit.</div>
+          <div class="pt-[6px]"><strong>Strength (Str):</strong> Modifier added to wound roll.</div>
+          <div class="clear-left pt-1"><strong>Weapon Proficiency:</strong> Must wound a monster at least once during a showdown in order to gain a level in it.</div>
         </div>
       </div>
       <div class="h-[50vh] bg-cover">
@@ -229,17 +253,20 @@
           <div class="mt-2"><strong>After Damage:</strong> Trigger after damage.</div>
           <div class="mt-2"><strong>Full Move:</strong> A movement using the max available Movement.</div>
           <div class="mt-2">
-            <strong>Persistent Injury:</strong> If <span class="font-kdm-icons">x</span>&nbsp;persistent injury is active, disregard other actions and perform
+            <strong>Persistent Injury:</strong> If <span class="font-kdm-icons">x</span>&nbsp;persistent injury is active, disregard other actions and just perform the
             <span class="font-kdm-icons">x</span>&nbsp;persistent injury.
           </div>
           <div class="mt-2"><strong>Intimidate:</strong> Not an attack, cannot be dodged, and adjacency is not required.</div>
           <div class="mt-2"><strong>Brain Damage:</strong> Specific HL where insanity is armor. Brain trauma is used instead of severe injuries for this hit location.</div>
           <div class="mt-2">
-            <strong>Duration AI:</strong> First time, "when drawn face down" effects are triggered. Card then returns face up to top of AI deck to be drawn again. When drawn next,
-            perform "when drawn face up" effects.
+            <strong>Duration AI:</strong> First time, "when drawn face down" effects are triggered. Card then returns face up to top of
+            <span class="font-kdm-icons">m</span>&nbsp;AI deck to be drawn again. When drawn next, perform "when drawn face up" effects.
           </div>
           <div class="mt-2"><strong>Damage Outside of Attack Profile:</strong> Resolved without adding any monster damage modifiers. Cannot be dodged.</div>
-          <div class="mt-2"><strong>Heal X:</strong> Return X amount of AI cards from wound stack to the AI deck.</div>
+          <div class="mt-2">
+            <strong>Heal X:</strong> Return X amount of <span class="font-kdm-icons">m</span>&nbsp;AI cards from wound stack to the <span class="font-kdm-icons">m</span>&nbsp;AI
+            deck.
+          </div>
           <div class="mt-2"><strong>Moods/Traits:</strong> Persistent effects until deactivated.</div>
         </div>
       </div>
@@ -271,7 +298,7 @@
           <div><strong>Move:</strong> If specified, monster uses movement to move to target. For each attack die, attack hits if:</div>
           <div class="ml-3">Roll + Monster Acc ≥ Attack Profile Acc + Survivor Eva</div>
           <div><strong>Apply Damage:</strong> Roll a hit location (HL) die for each hit. Expend damage for each hit as follows:</div>
-          <div class="pl-3 -indent-3">1) Expend 1 damage to reduce 1 armor at hit location until it reaches 0.</div>
+          <div class="pl-3 -indent-3">1) Expend 1 damage to reduce 1 armor at hit location until it reaches 0 armor.</div>
           <div class="pl-3 -indent-3">2) Expend 1 damage to fill light (L), then heavy (H) injury boxes. If heavy injury, survivor gets Knocked Down.</div>
           <div class="pl-3 -indent-3">3) If any damage remains, resolve a severe injury event once for this HL, expending any remaining damage.</div>
         </div>
@@ -301,7 +328,7 @@
           <div class="mt-2"><strong>Bash:</strong> Survivor is Knocked Down.</div>
           <div class="mt-2">
             <strong>Knocked Down (Survivor):</strong> No <span class="font-kdm-icons">i</span><span class="font-kdm-icons">h</span>. Can only Dodge. Not a threat. Cannot be Knocked
-            Down again. If Knocked Down during attack ignore any unresolved hits. Stand up at the end of the nect monster turn.
+            Down again. If Knocked Down during attack ignore any unresolved hits. Stand up at the end of the next monster turn.
           </div>
           <div class="mt-2">
             <strong>Knocked Down (Monster):</strong> Monster is hit only on 3+ instead of normal accuracy. Cancel any <span class="font-kdm-icons">r</span>. Stands up at start of
@@ -318,7 +345,7 @@
         </div>
         <div class="font-kdm-title triangle-sides mx-auto -mt-[21px] flex max-w-fit bg-black px-1 text-center text-xl leading-10 text-white">Survival Actions</div>
         <div class="mx-12 mt-2">
-          <div class="mb-1 text-center">—— Survivor Fight to Survive ——</div>
+          <div class="mb-1 text-center">—— Survivors Fight to Survive ——</div>
           <div>A survivor may spend survival to perform each survival action once per round:</div>
           <div class="mt-2"><strong>Dodge:</strong> Avoid the damage from a hit.</div>
           <div class="pl-[6px] -indent-[6px]">- Cannot if you are attacking, Doomed, or have a Broken Hip.</div>
@@ -330,7 +357,7 @@
           <div class="pl-[6px] -indent-[6px]">- Cannot if you are attacking, Knocked Down, Doomed, have a Bruised Tail-bone, Dismembered Leg, or Torn Muscle.</div>
           <div class="mt-2"><strong>Surge:</strong> Gain <span class="font-kdm-icons">h</span>&nbsp;activation and use it immediately.</div>
           <div class="pl-[6px] -indent-[6px]">- Cannot if you are attacking, Knocked Down, Doomed, or have a Slashed Back.</div>
-          <div class="mt-2">Survival Opportunities for dash and surge:</div>
+          <div class="mt-2">Survival opportunities for dash and surge:</div>
           <div>- During flows on monster <span class="font-kdm-icons">m</span>&nbsp;AI cards.</div>
           <div>- Between actions on the survivor's turn.</div>
           <div>- Before performing <span class="font-kdm-icons">r</span>&nbsp;reactions.</div>
@@ -349,6 +376,7 @@
   font-weight: normal;
   line-height: 8px;
   vertical-align: middle;
+  /* letter-spacing: -1px; */
 }
 
 .font-kdm-title {
@@ -405,6 +433,21 @@
     0 0 3px #000,
     0 0 3px #000,
     0 0 3px #000;
+}
+
+.kdm-text-shadow-gray {
+  text-shadow:
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563,
+    0 0 1px #4b5563;
 }
 
 .triangle-sides {
