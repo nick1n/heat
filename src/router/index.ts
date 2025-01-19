@@ -4,6 +4,7 @@ import AIView from '../views/AIView.vue'
 import KingAidView from '../views/KingAidView.vue'
 import TicketView from '../views/TicketView.vue'
 import MonsterView from '../views/MonsterView.vue'
+import ShowdownView from '../views/ShowdownView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/monster',
       name: 'monster',
       component: MonsterView
+    },
+    {
+      path: '/showdown',
+      name: 'showdown',
+      component: ShowdownView
     }
   ]
 })

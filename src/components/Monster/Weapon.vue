@@ -1,0 +1,39 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import type { Monster, MonsterStats, Survivor, Weapon } from './types';
+import HitProbability from '@/components/Monster/HitProbability.vue';
+
+const { weapon, mon, survivor } = defineProps<{
+  weapon: Weapon;
+  mon: MonsterStats;
+  survivor: Survivor
+}>()
+
+const lantern = (x: number) => x === 10 ? x : x + '+'
+const minmax = (min: number, value: number, max: number) => Math.max(min, Math.min(value, max))
+
+const numOfDice = computed(() => Math.max(weapon.speed + survivor.attr.speed, 1))
+const hitOn = computed(() => minmax(2, weapon.acc - survivor.attr.acc + mon.attr.eva, 10))
+const critOn = computed(() => Math.max(2, 10 - survivor.attr.luck - (weapon.deadly ?? 0) + mon.attr.luck))
+const woundOn = computed(() => minmax(2, mon.attr.toughness - (survivor.attr.str + weapon.str), Math.min(critOn.value, 10)))
+
+const displayProbs = ref(false)
+</script>
+
+<template>
+  <div class="cursor-pointer border-t-2 border-stone-800 px-2 text-right" @click="displayProbs = !displayProbs">
+    {{ weapon.name }}: Roll {{ numOfDice }}
+  </div>
+  <div class="cursor-pointer border-t-2 border-stone-800 px-2" @click="displayProbs = !displayProbs">Hit: {{
+    lantern(hitOn) }}</div>
+  <div class="cursor-pointer border-t-2 border-stone-800 px-2" @click="displayProbs = !displayProbs">Wound: {{
+    lantern(woundOn) }}
+  </div>
+  <div class="cursor-pointer border-t-2 border-stone-800 px-2" @click="displayProbs = !displayProbs">
+    <strong v-if="critOn > 10">Can't Crit</strong>
+    <template v-else>
+      Crit: {{ lantern(critOn) }}
+    </template>
+  </div>
+  <HitProbability :rolls="numOfDice" :hit="hitOn" :wound="woundOn" :crit="critOn" v-if="displayProbs" />
+</template>
