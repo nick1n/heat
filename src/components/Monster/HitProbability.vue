@@ -28,7 +28,6 @@ function prob(numOfDice: number, numOfHits: number, on: number) {
   const p = (10 - on) / 10;
   return percent(combinations * Math.pow(p, numOfHits) * Math.pow(1 - p, numOfDice - numOfHits));
 }
-
 </script>
 
 <template>

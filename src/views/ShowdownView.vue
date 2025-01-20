@@ -1,92 +1,173 @@
 <script setup lang="ts">
-import Attribute from '@/components/Monster/Attribute.vue';
-import HitProbability from '@/components/Monster/HitProbability.vue';
-import { BUTCHER_L1, ZERO_ATTRS, type Attributes, type Monster, type MonsterStats, type Survivor } from '@/components/Monster/types';
-import Weapon from '@/components/Monster/Weapon.vue';
-import { BEAST_KNUCKLE, BONE_CLUB, BONE_DARTS, FIST_N_TOOTH, FOUNDING_STONE, KING_SPEAR } from '@/components/Monster/weapons';
 import { reactive, ref, type Ref } from 'vue';
+import Attribute from '@/components/Monster/Attribute.vue';
+import Weapon from '@/components/Monster/Weapon.vue';
+
+import { ZERO_ATTRS, type Attributes, type Monster, type MonsterStats, type Survivor } from '@/components/Monster/types';
+import { WHITE_LION_L1 } from '@/components/Monster/monsters';
+import * as WEAPONS from '@/components/Monster/weapons';
 
 const mon: MonsterStats = reactive({
-  ...BUTCHER_L1,
+  ...WHITE_LION_L1,
   mod: { ...ZERO_ATTRS },
   attr: { ...ZERO_ATTRS }
 })
 
 const survivors: Survivor[] = reactive([{
+  //   name: "Lucy",
+  //   base: {
+  //     ...ZERO_ATTRS,
+  //     movement: 5,
+  //     acc: -1,
+  //     str: 1,
+  //     eva: 1,
+  //     luck: 1
+  //   },
+  //   mod: {
+  //     ...ZERO_ATTRS,
+  //     eva: 1
+  //   },
+  //   attr: { ...ZERO_ATTRS },
+  //   weapons: [
+  //     { ...WEAPONS.CAT_GUT_BOW },
+  //     { ...WEAPONS.CAT_GUT_BOW_AIM },
+  //     { ...WEAPONS.KING_SPEAR },
+  //     { ...WEAPONS.FOUNDING_STONE },
+  //     { ...WEAPONS.FIST_N_TOOTH }
+  //   ]
+  // }, {
+  //   name: "Ezra",
+  //   base: {
+  //     ...ZERO_ATTRS,
+  //     movement: 5,
+  //     str: 1,
+  //     eva: 1,
+  //     speed: -1
+  //   },
+  //   mod: {
+  //     ...ZERO_ATTRS,
+  //     str: 2,
+  //     speed: 2
+  //   },
+  //   attr: { ...ZERO_ATTRS },
+  //   weapons: [
+  //     { ...WEAPONS.BEAST_KNUCKLE },
+  //     { ...WEAPONS.BONE_DARTS },
+  //     { ...WEAPONS.FIST_N_TOOTH }
+  //   ]
+  // }, {
+  //   name: "Scarlet",
+  //   base: {
+  //     ...ZERO_ATTRS,
+  //     movement: 3,
+  //     acc: 2,
+  //     str: 1,
+  //   },
+  //   mod: {
+  //     ...ZERO_ATTRS,
+  //     str: 1,
+  //     eva: 1,
+  //     luck: 1
+  //   },
+  //   attr: { ...ZERO_ATTRS },
+  //   weapons: [
+  //     { ...WEAPONS.FIST_N_TOOTH, acc: 8 - 1, str: 0 + 1 },
+  //     { ...WEAPONS.BONE_DARTS },
+  //     { ...WEAPONS.FOUNDING_STONE }
+  //   ]
+  // }, {
+  //   name: "Zachary",
+  //   base: {
+  //     ...ZERO_ATTRS,
+  //     movement: 5,
+  //     eva: 1,
+  //   },
+  //   mod: {
+  //     ...ZERO_ATTRS,
+  //   },
+  //   attr: { ...ZERO_ATTRS },
+  //   weapons: [
+  //     { ...WEAPONS.TWILIGHT_SWORD_3 },
+  //     { ...WEAPONS.FIST_N_TOOTH },
+  //   ]
+  // }, {
   name: "Bane",
   base: {
     ...ZERO_ATTRS,
     movement: 5,
     acc: 1,
     str: 1,
-    eva: 1,
-  },
-  mod: { ...ZERO_ATTRS },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...BONE_CLUB },
-    { ...KING_SPEAR },
-    { ...FIST_N_TOOTH }
-  ]
-}, {
-  name: "Lucy",
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    acc: -1,
-    str: 1,
-    eva: 1,
-    luck: 1
   },
   mod: {
     ...ZERO_ATTRS,
-    eva: 1
+    eva: 1,
+    luck: 1,
+    str: 1,
   },
   attr: { ...ZERO_ATTRS },
   weapons: [
-    { name: 'Cat Gut Bow 🏹', speed: 2, acc: 7, str: 3 },
-    { name: 'Cat Gut Bow + Aim 🏹', speed: 1, acc: 5, str: 3 },
-    { ...BONE_DARTS },
-    { ...FIST_N_TOOTH }
+    { ...WEAPONS.BUTCHER_CLEAVER },
+    { ...WEAPONS.FIST_N_TOOTH },
   ]
 }, {
-  name: "Ezra",
+  name: "Lyn",
   base: {
     ...ZERO_ATTRS,
     movement: 5,
     str: 1,
     eva: 1,
-    speed: -1
   },
   mod: {
     ...ZERO_ATTRS,
-    str: 2,
-    speed: 2
+    str: 1,
+
   },
   attr: { ...ZERO_ATTRS },
   weapons: [
-    { ...BEAST_KNUCKLE },
-    { ...BONE_DARTS },
-    { ...FIST_N_TOOTH }
+    { ...WEAPONS.KING_SPEAR },
+    { ...WEAPONS.CAT_GUT_BOW },
+    { ...WEAPONS.CAT_GUT_BOW_AIM },
+    { ...WEAPONS.FOUNDING_STONE },
+    { ...WEAPONS.FIST_N_TOOTH },
   ]
 }, {
-  name: "Scarlet",
+  name: "Flint",
   base: {
     ...ZERO_ATTRS,
-    movement: 3,
-    acc: 2,
+    movement: 5,
     str: 1,
+    eva: 1,
   },
   mod: {
     ...ZERO_ATTRS,
-    str: 1,
-    eva: 1,
-    luck: 1
+    str: 3,
+    speed: 2,
   },
   attr: { ...ZERO_ATTRS },
   weapons: [
-    { ...FIST_N_TOOTH, acc: 8 - 1, str: 0 + 1 },
-    { ...FOUNDING_STONE }
+    { ...WEAPONS.BEAST_KNUCKLE },
+    { ...WEAPONS.BONE_DARTS },
+    { ...WEAPONS.FIST_N_TOOTH },
+  ]
+}, {
+  name: "Jade",
+  base: {
+    ...ZERO_ATTRS,
+    movement: 5,
+    str: 1,
+    eva: 1,
+    acc: 1,
+  },
+  mod: {
+    ...ZERO_ATTRS,
+    eva: 1,
+    str: 1,
+  },
+  attr: { ...ZERO_ATTRS },
+  weapons: [
+    { ...WEAPONS.BONE_CLUB },
+    { ...WEAPONS.BONE_DARTS },
+    { ...WEAPONS.FIST_N_TOOTH },
   ]
 }
 ])
@@ -95,6 +176,7 @@ function updateAttrs() {
   mon.attr = {
     hp: mon.base.hp + mon.mod.hp,
     toughness: mon.base.toughness + mon.mod.toughness,
+    damage: mon.base.damage + mon.mod.damage,
     movement: mon.base.movement + mon.mod.movement,
     acc: mon.base.acc + mon.mod.acc,
     str: mon.base.str + mon.mod.str,
@@ -112,6 +194,7 @@ function updateAttrs() {
     speed: s.base.speed + s.mod.speed,
     hp: 0,
     toughness: 0,
+    damage: 0
   })
 }
 updateAttrs()
