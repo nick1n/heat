@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { reactive, ref, type Ref } from 'vue';
+import { reactive, ref, onMounted, onUnmounted, type Ref } from 'vue';
 import Attribute from '@/components/Monster/Attribute.vue';
 import Weapon from '@/components/Monster/Weapon.vue';
 
-import { ZERO_ATTRS, type Attributes, type Monster, type MonsterStats, type Survivor } from '@/components/Monster/types';
+import { MS, ZERO_ATTRS, type Attributes, type Monster, type MonsterStats, type Survivor } from '@/components/Monster/types';
 import { WHITE_LION_L1 } from '@/components/Monster/monsters';
 import * as WEAPONS from '@/components/Monster/weapons';
 
@@ -91,6 +91,7 @@ const survivors: Survivor[] = reactive([{
   //     { ...WEAPONS.FIST_N_TOOTH },
   //   ]
   // }, {
+  type: MS.SURVIVOR,
   name: "Bane",
   base: {
     ...ZERO_ATTRS,
@@ -110,6 +111,7 @@ const survivors: Survivor[] = reactive([{
     { ...WEAPONS.FIST_N_TOOTH },
   ]
 }, {
+  type: MS.SURVIVOR,
   name: "Lyn",
   base: {
     ...ZERO_ATTRS,
@@ -131,6 +133,7 @@ const survivors: Survivor[] = reactive([{
     { ...WEAPONS.FIST_N_TOOTH },
   ]
 }, {
+  type: MS.SURVIVOR,
   name: "Flint",
   base: {
     ...ZERO_ATTRS,
@@ -150,6 +153,7 @@ const survivors: Survivor[] = reactive([{
     { ...WEAPONS.FIST_N_TOOTH },
   ]
 }, {
+  type: MS.SURVIVOR,
   name: "Jade",
   base: {
     ...ZERO_ATTRS,
@@ -176,7 +180,6 @@ function updateAttrs() {
   mon.attr = {
     hp: mon.base.hp + mon.mod.hp,
     toughness: mon.base.toughness + mon.mod.toughness,
-    damage: mon.base.damage + mon.mod.damage,
     movement: mon.base.movement + mon.mod.movement,
     acc: mon.base.acc + mon.mod.acc,
     str: mon.base.str + mon.mod.str,
@@ -194,7 +197,6 @@ function updateAttrs() {
     speed: s.base.speed + s.mod.speed,
     hp: 0,
     toughness: 0,
-    damage: 0
   })
 }
 updateAttrs()
@@ -204,6 +206,9 @@ const ATTRIBUTE_ORDERS: (keyof Attributes)[][] = [
   ['movement', 'speed', 'acc', 'str', 'luck', 'eva']
 ]
 const attrOrder = ref(0)
+function clickOrder() {
+  attrOrder.value = ++attrOrder.value % ATTRIBUTE_ORDERS.length
+}
 
 const showDialog = ref(false)
 const attr: Ref<keyof Attributes> = ref('hp')
@@ -220,7 +225,7 @@ function click(x: number) {
   who.value.mod[attr.value] += x
   counter.value += x
   updateAttrs()
-  log(`Updated ${who.value.name} ${attr.value} by ${counter.value} to ${who.value.attr[attr.value]}.`)
+  log(`Updated ${who.value.name} ${who.value.type === MS.MONSTER && attr.value === 'str' ? 'damage' : attr.value} by ${counter.value} to ${who.value.attr[attr.value]}.`)
 }
 function wheel(e: WheelEvent) {
   click(-Math.abs(e.deltaY) / e.deltaY)
@@ -233,6 +238,32 @@ const lastLog = ref('...')
 function log(str: string) {
   console.log(str)
   lastLog.value = str
+}
+
+const toggleBlindSpot = ref(false)
+const toggleKnockedDown = ref(false)
+
+onMounted(() => {
+  window.addEventListener('keydown', keydown)
+})
+onUnmounted(() => {
+  window.removeEventListener('keydown', keydown)
+})
+
+function keydown(e: KeyboardEvent) {
+  if (e.key === 'k') {
+    toggleKnockedDown.value = !toggleKnockedDown.value
+  } else if (e.key === 'b') {
+    toggleBlindSpot.value = !toggleBlindSpot.value
+  } else if (e.key === 'm') {
+    showMods.value = !showMods.value
+  } else if (e.key === 'o') {
+    clickOrder()
+  } else if (e.key === 'Escape' || e.key === 'Esc') {
+    showDialog.value = false
+  } else if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4') {
+    monController.value = +e.key - 1
+  }
 }
 </script>
 
@@ -250,51 +281,65 @@ function log(str: string) {
           <Attribute :base="mon.base.toughness" :mod="mon.mod.toughness" :showMods @click="dialog(mon, 'toughness')" />
         </div>
       </div>
-      <div class="basis-full">
+      <div class="basis-full text-2xl sm:text-3xl">
         <Attribute v-for="attr in ATTRIBUTE_ORDERS[attrOrder]" :key="'mon-' + attr"
           :class="attr === 'movement' || attr === 'eva' ? 'bg-slate-950' : ''" :base="mon.base[attr]"
           :mod="mon.mod[attr]" :showMods @click="dialog(mon, attr)" />
+      </div>
+      <div class="grid grid-cols-2 justify-center p-2">
+        <button class="rounded-l-lg border-2 border-stone-800 px-2 text-xl font-medium"
+          :class="toggleBlindSpot ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
+          @click.prevent="toggleBlindSpot = !toggleBlindSpot">
+          Blind Spot
+        </button>
+        <button class="rounded-r-lg border-2 border-l-0 border-stone-800 px-2 text-xl font-medium"
+          :class="toggleKnockedDown ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
+          @click.prevent="toggleKnockedDown = !toggleKnockedDown">
+          Knocked Down
+        </button>
       </div>
     </div>
 
     <div>
       <h1 class="text-4xl font-bold leading-loose">Survivors</h1>
-      <div class="grid grid-cols-2 text-3xl">
+      <div class="grid text-3xl lg:grid-cols-2">
         <div v-for="surv, i in survivors" :key="surv.name">
           <h2 class="text-4xl leading-loose">
-            <span class="cursor-pointer rounded-lg px-2 hover:bg-sky-950" @click="monController = i">
+            <button class="cursor-pointer rounded-lg px-2 hover:bg-sky-950" @click.prevent="monController = i">
               {{ monController === i ? `👑 ${surv.name} 👑` : surv.name }}
-            </span>
+            </button>
           </h2>
-          <div>
+          <div class="text-2xl sm:text-3xl">
             <Attribute v-for="attr in ATTRIBUTE_ORDERS[attrOrder]" :key="'surv-' + attr"
               :class="attr === 'movement' || attr === 'eva' ? 'bg-slate-950' : ''" :def="attr === 'movement' ? 5 : 0"
               :base="surv.base[attr]" :mod="surv.mod[attr]" :showMods @click="dialog(surv, attr)" />
           </div>
           <div class="grid grid-cols-[repeat(4,_auto)] justify-center text-xl font-normal leading-normal">
-            <Weapon v-for="weapon in surv.weapons" :key="weapon.name" :weapon :mon :survivor="surv" />
+            <Weapon v-for="weapon in surv.weapons" :key="weapon.name" :weapon :mon :survivor="surv" :toggleBlindSpot
+              :toggleKnockedDown />
           </div>
         </div>
       </div>
     </div>
 
     <div class="fixed right-1 top-1">
-      <button class="rounded-lg border-2 border-stone-900 p-2 leading-normal hover:bg-stone-900"
-        @click="showMods = !showMods">Mods</button>
+      <button
+        class="rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
+        @click.prevent="showMods = !showMods">Mods</button>
       <br>
-      <button class="mt-1 rounded-lg border-2 border-stone-900 p-2 leading-normal hover:bg-stone-900"
-        @click="attrOrder = (attrOrder + 1) % ATTRIBUTE_ORDERS.length">Order</button>
+      <button
+        class="mt-1 rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
+        @click.prevent="clickOrder">Order</button>
     </div>
 
     <div class="fixed inset-0 bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto" @click="showDialog = false"
       :class="showDialog ? '' : 'hidden'">
       <dialog
         class="flex min-h-screen items-center justify-center bg-transparent px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
           <div class="absolute inset-0 bg-stone-900 opacity-75"></div>
         </div>
-
-        <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
         <div
           class="inline-block transform overflow-hidden rounded-lg bg-stone-900 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
@@ -304,7 +349,9 @@ function log(str: string) {
                 <h3 class="text-4xl font-bold leading-normal" id="modal-title">
                   {{ who.name }}
                 </h3>
-                <h2 class="pb-4 text-lg capitalize">{{ attr }}: {{ who.attr[attr] }}</h2>
+                <h2 class="pb-4 text-lg capitalize">
+                  {{ who.type === MS.MONSTER && attr === 'str' ? 'damage' : attr }}: {{ who.attr[attr] }}
+                </h2>
                 <div>
                   <div class="flex items-center justify-center leading-normal">
                     <button @click.prevent.stop="click(-1)"

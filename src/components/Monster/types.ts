@@ -1,4 +1,11 @@
+
+export const enum MS {
+  MONSTER,
+  SURVIVOR
+}
+
 export type Monster = {
+  type: MS;
   name: string;
   lvl: number;
   base: Attributes;
@@ -18,7 +25,6 @@ export type Attributes = {
   speed: number;
   hp: number;
   toughness: number;
-  damage: number; // maybe just make this the monster's str?
 }
 
 export type Weapon = {
@@ -30,6 +36,7 @@ export type Weapon = {
 }
 
 export type Survivor = {
+  type: MS;
   name: string;
   // survival: number;
   base: Attributes;
@@ -47,5 +54,4 @@ export const ZERO_ATTRS: Attributes = {
   speed: 0,
   hp: 0,
   toughness: 0,
-  damage: 0,
 }

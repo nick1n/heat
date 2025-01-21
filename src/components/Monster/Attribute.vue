@@ -10,8 +10,8 @@ const emit = defineEmits(['click'])
 </script>
 
 <template>
-  <span @click="emit('click')"
-    class="inline-block cursor-pointer border-r-2 border-stone-700 px-2 leading-normal first:rounded-tl-lg last:rounded-tr-lg last:border-0 hover:bg-neutral-900"
+  <button @click.prevent="emit('click')"
+    class="inline-block cursor-pointer border-r-2 border-stone-800 px-2 leading-normal first:rounded-tl-lg last:rounded-tr-lg last:border-0 hover:bg-neutral-900"
     :class="clazz">
     <template v-if="showMods">
       <span :class="base === def ? 'text-stone-800' : ''">{{ base }}</span>
@@ -21,5 +21,5 @@ const emit = defineEmits(['click'])
     <template v-else>
       <span :class="base + mod === def ? 'text-stone-800' : ''">{{ base + mod }}</span>
     </template>
-  </span>
+  </button>
 </template>
