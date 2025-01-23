@@ -1,6 +1,7 @@
 import { MS, ZERO_ATTRS, type Monster } from "./types"
 
 export const WHITE_LION_L0: Monster = {
+  img: 'stencil-white-lion.png',
   type: MS.MONSTER,
   name: "White Lion",
   lvl: 0,
@@ -13,6 +14,7 @@ export const WHITE_LION_L0: Monster = {
 }
 
 export const WHITE_LION_L1: Monster = {
+  img: 'stencil-white-lion.png',
   type: MS.MONSTER,
   name: "White Lion",
   lvl: 1,
@@ -25,6 +27,7 @@ export const WHITE_LION_L1: Monster = {
 }
 
 export const WHITE_LION_L2: Monster = {
+  img: 'stencil-white-lion.png',
   type: MS.MONSTER,
   name: "White Lion",
   lvl: 2,
@@ -39,6 +42,7 @@ export const WHITE_LION_L2: Monster = {
 }
 
 export const WHITE_LION_L3: Monster = {
+  img: 'stencil-white-lion.png',
   type: MS.MONSTER,
   name: "White Lion",
   lvl: 3,
@@ -55,6 +59,7 @@ export const WHITE_LION_L3: Monster = {
 }
 
 export const SCREAMING_ANTELOPE_L1: Monster = {
+  img: 'stencil-antelope.png',
   type: MS.MONSTER,
   name: "Screaming Antelope",
   lvl: 1,
@@ -67,6 +72,7 @@ export const SCREAMING_ANTELOPE_L1: Monster = {
 }
 
 export const SCREAMING_ANTELOPE_L2: Monster = {
+  img: 'stencil-antelope.png',
   type: MS.MONSTER,
   name: "Screaming Antelope",
   lvl: 2,
@@ -81,6 +87,7 @@ export const SCREAMING_ANTELOPE_L2: Monster = {
 }
 
 export const SCREAMING_ANTELOPE_L3: Monster = {
+  img: 'stencil-antelope.png',
   type: MS.MONSTER,
   name: "Screaming Antelope",
   lvl: 3,
@@ -96,6 +103,7 @@ export const SCREAMING_ANTELOPE_L3: Monster = {
 }
 
 export const BUTCHER_L1: Monster = {
+  img: 'stencil-white-lion.png',
   type: MS.MONSTER,
   name: "Butcher",
   lvl: 1,

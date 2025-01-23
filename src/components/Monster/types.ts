@@ -5,6 +5,7 @@ export const enum MS {
 }
 
 export type Monster = {
+  img: string;
   type: MS;
   name: string;
   lvl: number;
@@ -29,6 +30,7 @@ export type Attributes = {
 
 export type Weapon = {
   name: string;
+  icon: string;
   speed: number;
   acc: number;
   str: number;
@@ -38,6 +40,7 @@ export type Weapon = {
 export type Survivor = {
   type: MS;
   name: string;
+  icons: string;
   // survival: number;
   base: Attributes;
   mod: Attributes;

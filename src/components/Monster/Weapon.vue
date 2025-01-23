@@ -25,7 +25,7 @@ const displayProbs = ref(false)
 <template>
   <div class="col-span-4 cursor-pointer border-t-2 border-stone-800 px-2 text-left sm:hidden lg:block xl:hidden"
     @click="displayProbs = !displayProbs">
-    {{ weapon.name }}:
+    {{ weapon.name }} <span class="grayscale">{{ weapon.icon }}</span>:
   </div>
   <div class="cursor-pointer border-stone-800 px-2 text-left sm:hidden lg:block xl:hidden"
     @click="displayProbs = !displayProbs">
@@ -34,7 +34,7 @@ const displayProbs = ref(false)
 
   <div class="hidden cursor-pointer truncate border-t-2 border-stone-800 px-2 text-right sm:block lg:hidden xl:block"
     style="direction: rtl" @click="displayProbs = !displayProbs">
-    {{ weapon.name }}: Roll {{ numOfDice }}
+    {{ weapon.name }} <span class="grayscale">{{ weapon.icon }}</span>: Roll {{ numOfDice }}
   </div>
 
   <div class="cursor-pointer border-stone-800 px-2 sm:border-t-2 lg:border-0 xl:border-t-2"
