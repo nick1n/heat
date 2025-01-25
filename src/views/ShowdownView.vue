@@ -1,200 +1,24 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted, onUnmounted, type Ref } from 'vue';
-import { useStorage, type RemovableRef } from '@vueuse/core';
+import { useStorage } from '@vueuse/core';
 
 import Attribute from '@/components/Monster/Attribute.vue';
 import Weapon from '@/components/Monster/Weapon.vue';
-import { MS, ZERO_ATTRS, type Attributes, type Monster, type MonsterStats, type Survivor } from '@/components/Monster/types';
+import { ATTRIBUTE_ORDERS, MS, ZERO_ATTRS, type Attributes, type Monster, type MonsterStats, type Survivor } from '@/components/Monster/types';
 import * as MONSTERS from '@/components/Monster/monsters';
-import * as WEAPONS from '@/components/Monster/weapons';
+import { useKdmStore } from '@/stores/kdm';
 
-const hunters: RemovableRef<number[]> = useStorage('kdm.hunters', [0, 1, 2, 3])
+const store = useKdmStore();
 
-const survivors: RemovableRef<Survivor[]> = useStorage('kdm.survivors', [{
-  type: MS.SURVIVOR,
-  icons: '',
-  name: "Lucy",
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    acc: -1,
-    str: 1,
-    eva: 1,
-    luck: 1
-  },
-  mod: {
-    ...ZERO_ATTRS,
-    eva: 1
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.CAT_GUT_BOW },
-    { ...WEAPONS.CAT_GUT_BOW_AIM },
-    { ...WEAPONS.KING_SPEAR },
-    { ...WEAPONS.FOUNDING_STONE },
-    { ...WEAPONS.FIST_N_TOOTH }
-  ]
-}, {
-  type: MS.SURVIVOR,
-  icons: '',
-  name: "Ezra",
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    str: 1,
-    eva: 1,
-    speed: -1
-  },
-  mod: {
-    ...ZERO_ATTRS,
-    str: 2,
-    speed: 2
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.BEAST_KNUCKLE },
-    { ...WEAPONS.BONE_DARTS },
-    { ...WEAPONS.FIST_N_TOOTH }
-  ]
-}, {
-  type: MS.SURVIVOR,
-  icons: '',
-  name: "Scarlet",
-  base: {
-    ...ZERO_ATTRS,
-    movement: 3,
-    acc: 2,
-    str: 1,
-  },
-  mod: {
-    ...ZERO_ATTRS,
-    str: 1,
-    eva: 1,
-    luck: 1
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.FIST_N_TOOTH, acc: 8 - 1, str: 0 + 1 },
-    { ...WEAPONS.BONE_DARTS },
-    { ...WEAPONS.FOUNDING_STONE }
-  ]
-}, {
-  type: MS.SURVIVOR,
-  icons: '',
-  name: "Zachary",
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    eva: 1,
-  },
-  mod: {
-    ...ZERO_ATTRS,
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.TWILIGHT_SWORD_3 },
-    { ...WEAPONS.FIST_N_TOOTH },
-  ]
-}, {
-  type: MS.SURVIVOR,
-  name: "Bane",
-  icons: '',
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    acc: 1,
-    str: 1,
-  },
-  mod: {
-    ...ZERO_ATTRS,
-    eva: 1,
-    luck: 1,
-    str: 1,
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.BUTCHER_CLEAVER },
-    { ...WEAPONS.FIST_N_TOOTH },
-  ]
-}, {
-  type: MS.SURVIVOR,
-  name: "Lyn",
-  icons: '',
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    str: 1,
-    eva: 1,
-  },
-  mod: {
-    ...ZERO_ATTRS,
-    str: 1,
-
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.KING_SPEAR },
-    { ...WEAPONS.CAT_GUT_BOW },
-    { ...WEAPONS.CAT_GUT_BOW_AIM },
-    { ...WEAPONS.FOUNDING_STONE },
-    { ...WEAPONS.FIST_N_TOOTH },
-  ]
-}, {
-  type: MS.SURVIVOR,
-  name: "Flint",
-  icons: '',
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    str: 1,
-    eva: 1,
-  },
-  mod: {
-    ...ZERO_ATTRS,
-    str: 3,
-    speed: 2,
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.BEAST_KNUCKLE },
-    { ...WEAPONS.BONE_DARTS },
-    { ...WEAPONS.FIST_N_TOOTH },
-  ]
-}, {
-  type: MS.SURVIVOR,
-  name: "Jade",
-  icons: '',
-  base: {
-    ...ZERO_ATTRS,
-    movement: 5,
-    str: 1,
-    eva: 1,
-    acc: 1,
-  },
-  mod: {
-    ...ZERO_ATTRS,
-    eva: 1,
-    str: 1,
-  },
-  attr: { ...ZERO_ATTRS },
-  weapons: [
-    { ...WEAPONS.BONE_CLUB },
-    { ...WEAPONS.BONE_DARTS },
-    { ...WEAPONS.FIST_N_TOOTH },
-  ]
-}
-])
-
-const selectedMon = useStorage('kdm.selected-mon', 'WHITE_LION_L0') as RemovableRef<keyof typeof MONSTERS>
 const mon: MonsterStats = reactive({
-  ...MONSTERS[selectedMon.value],
+  ...MONSTERS[store.selectedMonster],
   mod: { ...ZERO_ATTRS },
   attr: { ...ZERO_ATTRS }
 })
 
 const selectMonster = ref(false)
 function clickMonster(key: keyof typeof MONSTERS, m: Monster) {
-  selectedMon.value = key
+  store.selectedMonster = key
   selectMonster.value = false
   mon.img = m.img
   mon.name = m.name
@@ -204,6 +28,7 @@ function clickMonster(key: keyof typeof MONSTERS, m: Monster) {
   updateAttrs()
 }
 
+const survivorAttrs: Ref<Attributes[]> = ref([{ ...ZERO_ATTRS }, { ...ZERO_ATTRS }, { ...ZERO_ATTRS }, { ...ZERO_ATTRS }])
 function updateAttrs() {
   mon.attr = {
     hp: mon.base.hp + mon.mod.hp,
@@ -216,27 +41,21 @@ function updateAttrs() {
     speed: mon.base.speed + mon.mod.speed,
   }
 
-  survivors.value.forEach((s) => s.attr = {
-    movement: s.base.movement + s.mod.movement,
-    acc: s.base.acc + s.mod.acc,
-    str: s.base.str + s.mod.str,
-    eva: s.base.eva + s.mod.eva,
-    luck: s.base.luck + s.mod.luck,
-    speed: s.base.speed + s.mod.speed,
-    hp: 0,
-    toughness: 0,
+  survivorAttrs.value = store.hunters.map((i) => {
+    const { base, mod } = store.survivors[i]
+    return {
+      movement: base.movement + mod.movement,
+      acc: base.acc + mod.acc,
+      str: base.str + mod.str,
+      eva: base.eva + mod.eva,
+      luck: base.luck + mod.luck,
+      speed: base.speed + mod.speed,
+      hp: 0,
+      toughness: 0,
+    }
   })
 }
 updateAttrs()
-
-const ATTRIBUTE_ORDERS: (keyof Attributes)[][] = [
-  ['movement', 'acc', 'str', 'eva', 'luck', 'speed'],
-  ['movement', 'speed', 'acc', 'str', 'luck', 'eva']
-]
-const attrOrder = useStorage('kdm.attr-order', 0)
-function clickOrder() {
-  attrOrder.value = ++attrOrder.value % ATTRIBUTE_ORDERS.length
-}
 
 const showDialog = ref(false)
 const attr: Ref<keyof Attributes> = ref('hp')
@@ -255,7 +74,7 @@ function click(x: number) {
   who.value[stat.value][attr.value] += x
   counter.value += x
   updateAttrs()
-  log(`Updated ${who.value.name} ${who.value.type === MS.MONSTER && attr.value === 'str' ? 'damage' : attr.value} by ${counter.value} to ${who.value.attr[attr.value]}.`)
+  log(`Updated ${who.value.name} ${who.value.type === MS.MONSTER && attr.value === 'str' ? 'damage' : attr.value} by ${counter.value} to ${who.value[stat.value][attr.value]}.`)
 }
 function wheel(e: WheelEvent) {
   click(-Math.abs(e.deltaY) / e.deltaY)
@@ -270,7 +89,6 @@ function log(str: string) {
 const toggleBlindSpot = ref(false)
 const toggleKnockedDown = ref(false)
 const monController = useStorage('kdm.mon-controller', 0)
-const showMods = useStorage('kdm.show-mods', true)
 
 onMounted(() => {
   window.addEventListener('keydown', keydown)
@@ -284,9 +102,9 @@ function keydown(e: KeyboardEvent) {
   } else if (e.key === 'b') {
     toggleBlindSpot.value = !toggleBlindSpot.value
   } else if (e.key === 'm') {
-    showMods.value = !showMods.value
+    store.settings.showMods = !store.settings.showMods
   } else if (e.key === 'o') {
-    clickOrder()
+    store.settings.changeOrder()
   } else if (e.key === 'Escape' || e.key === 'Esc') {
     showDialog.value = false
     selectMonster.value = false
@@ -310,16 +128,16 @@ function keydown(e: KeyboardEvent) {
           <h2 class="hidden">Health</h2>
           <h2 class="hidden">Toughness</h2>
           <div>
-            <Attribute :base="mon.base.hp" :mod="mon.mod.hp" :showMods :attr="'hp'" @click="dialog(mon, 'hp')" />
+            <Attribute :base="mon.base.hp" :mod="mon.mod.hp" :attr="'hp'" @click="dialog(mon, 'hp')" />
           </div>
           <div>
-            <Attribute :base="mon.base.toughness" :mod="mon.mod.toughness" :showMods :attr="'toughness'"
+            <Attribute :base="mon.base.toughness" :mod="mon.mod.toughness" :attr="'toughness'"
               @click="dialog(mon, 'toughness')" />
           </div>
         </div>
         <div class="basis-full text-2xl sm:text-3xl">
-          <Attribute v-for="attr in ATTRIBUTE_ORDERS[attrOrder]" :key="'mon-' + attr" :attr :base="mon.base[attr]"
-            :mod="mon.mod[attr]" :showMods @click="dialog(mon, attr)" />
+          <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'mon-' + attr" :attr
+            :base="mon.base[attr]" :mod="mon.mod[attr]" @click="dialog(mon, attr)" />
         </div>
         <div class="grid grid-cols-2 justify-center p-2">
           <button class="rounded-l-lg border-2 border-stone-800 px-4 py-2 text-xl font-medium"
@@ -336,20 +154,20 @@ function keydown(e: KeyboardEvent) {
       </div>
 
       <div class="grid text-3xl lg:grid-cols-2">
-        <div v-for="surv, i in hunters" :key="survivors[surv].name">
+        <div v-for="survId, i in store.hunters" :key="store.survivors[survId].name">
           <h2 class="text-4xl leading-normal">
             <button class="my-2 cursor-pointer rounded-lg px-4 hover:bg-sky-950" @click.prevent="monController = i">
-              {{ monController === i ? `👑 ${survivors[surv].name} 👑` : survivors[surv].name }}
+              {{ monController === i ? `👑 ${store.survivors[survId].name} 👑` : store.survivors[survId].name }}
             </button>
           </h2>
           <div class="text-2xl sm:text-3xl">
-            <Attribute v-for="attr in ATTRIBUTE_ORDERS[attrOrder]" :key="'surv-' + attr" :attr
-              :base="survivors[surv].base[attr]" :mod="survivors[surv].mod[attr]" :showMods
-              @click="dialog(survivors[surv], attr)" />
+            <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'surv-' + attr" :attr
+              :base="store.survivors[survId].base[attr]" :mod="store.survivors[survId].mod[attr]"
+              @click="dialog(store.survivors[survId], attr)" />
           </div>
           <div class="grid grid-cols-[repeat(4,_auto)] justify-center text-xl font-normal leading-normal">
-            <Weapon v-for="weapon in survivors[surv].weapons" :key="weapon.name" :weapon :mon
-              :survivor="survivors[surv]" :toggleBlindSpot :toggleKnockedDown />
+            <Weapon v-for="weaponId in store.survivors[survId].weapons" :key="weaponId" :weaponId :monAttr="mon.attr"
+              :survAttr="survivorAttrs[i]" :toggleBlindSpot :toggleKnockedDown />
           </div>
         </div>
       </div>
@@ -360,13 +178,13 @@ function keydown(e: KeyboardEvent) {
 
       <div class="flex justify-center">
         <div class="grid grid-cols-12 text-4xl">
-          <template v-for="surv, i in survivors" :key="'list-' + surv.name">
+          <template v-for="surv, i in store.survivors" :key="'list-' + surv.name">
             <h2 class="col-span-6 text-right leading-normal">
               <button class="my-2 cursor-pointer rounded-lg px-4 hover:bg-sky-950" @click.prevent="monController = i">
-                {{ surv.name }}
+                <span class="grayscale">{{ surv.icons }}</span> {{ surv.name }}
               </button>
             </h2>
-            <Attribute v-for="attr in ATTRIBUTE_ORDERS[attrOrder]" :key="'list-surv-' + attr" :attr
+            <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'list-surv-' + attr" :attr
               :base="surv.base[attr]" :mod="surv.mod[attr]" :showMods="false" :justBase="true"
               @click="dialog(surv, attr, 'base')" />
           </template>
@@ -377,11 +195,11 @@ function keydown(e: KeyboardEvent) {
     <div class="fixed right-1 top-1">
       <button
         class="rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
-        @click.prevent="showMods = !showMods">Mods</button>
+        @click.prevent="store.settings.showMods = !store.settings.showMods">Mods</button>
       <br>
       <button
         class="mt-1 rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
-        @click.prevent="clickOrder">Order</button>
+        @click.prevent="store.settings.changeOrder">Order</button>
     </div>
 
     <div class="fixed inset-0 bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto" @click="showDialog = false"
@@ -402,7 +220,7 @@ function keydown(e: KeyboardEvent) {
                   {{ who.name }}
                 </h3>
                 <h2 class="pb-4 text-lg capitalize">
-                  {{ who.type === MS.MONSTER && attr === 'str' ? 'damage' : attr }}: {{ who.attr[attr] }}
+                  {{ who.type === MS.MONSTER && attr === 'str' ? 'damage' : attr }}: {{ who[stat][attr] }}
                 </h2>
                 <div>
                   <div class="flex items-center justify-center leading-normal">

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import type { Monster, MonsterStats, Survivor, Weapon } from './types';
-import HitProbability from '@/components/Monster/HitProbability.vue';
+import { computed, ref } from 'vue'
+import type { Attributes } from './types'
+import * as WEAPONS from '@/components/Monster/weapons'
+import HitProbability from '@/components/Monster/HitProbability.vue'
 
-const { weapon, mon, survivor, toggleBlindSpot, toggleKnockedDown } = defineProps<{
-  weapon: Weapon;
-  mon: MonsterStats;
-  survivor: Survivor;
+const { weaponId, monAttr, survAttr, toggleBlindSpot, toggleKnockedDown } = defineProps<{
+  weaponId: keyof typeof WEAPONS;
+  monAttr: Attributes;
+  survAttr: Attributes;
   toggleBlindSpot: boolean;
   toggleKnockedDown: boolean;
 }>()
@@ -14,10 +15,11 @@ const { weapon, mon, survivor, toggleBlindSpot, toggleKnockedDown } = defineProp
 const lantern = (x: number) => x === 10 ? x : x + '+'
 const minmax = (min: number, value: number, max: number) => Math.max(min, Math.min(value, max))
 
-const numOfDice = computed(() => Math.max(weapon.speed + survivor.attr.speed, 1))
-const hitOn = computed(() => toggleKnockedDown ? 3 : minmax(2, weapon.acc - survivor.attr.acc + mon.attr.eva - (toggleBlindSpot ? 1 : 0), 10))
-const critOn = computed(() => Math.max(2, 10 - survivor.attr.luck - (weapon.deadly ?? 0) + mon.attr.luck))
-const woundOn = computed(() => minmax(2, mon.attr.toughness - (survivor.attr.str + weapon.str), Math.min(critOn.value, 10)))
+const weapon = computed(() => WEAPONS[weaponId])
+const numOfDice = computed(() => Math.max(weapon.value.speed + survAttr.speed, 1))
+const hitOn = computed(() => toggleKnockedDown ? 3 : minmax(2, weapon.value.acc - survAttr.acc + monAttr.eva - (toggleBlindSpot ? 1 : 0), 10))
+const critOn = computed(() => Math.max(2, 10 - survAttr.luck - (weapon.value.deadly ?? 0) + monAttr.luck))
+const woundOn = computed(() => minmax(2, monAttr.toughness - (survAttr.str + weapon.value.str), Math.min(critOn.value, 10)))
 
 const displayProbs = ref(false)
 </script>

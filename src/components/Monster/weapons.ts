@@ -1,6 +1,6 @@
 import type { Weapon } from './types'
 
-export const LEGEND: string[] = [
+const LEGEND: string[] = [
   '🎯 - Aim',
   '🏋️‍♂️ - Cumbersome',
   '☠️ - Cursed',
