@@ -1,4 +1,4 @@
-import type { Weapon } from './types'
+import type { WeaponType } from './types'
 
 const LEGEND: string[] = [
   '🎯 - Aim',
@@ -15,112 +15,112 @@ const LEGEND: string[] = [
   '🔻 - Weaken Monster',
 ]
 
-export const FIST_N_TOOTH: Weapon = {
+export const FIST_N_TOOTH: WeaponType = {
   name: 'Fist & Tooth', icon: '⚔',
   speed: 2, acc: 8, str: 0, deadly: 1
 }
 
-export const FIST_N_TOOTH_MONSTER_CLAW: Weapon = {
+export const FIST_N_TOOTH_MONSTER_CLAW: WeaponType = {
   name: 'Fist & Tooth', icon: '🩸⚔',
   speed: 2, acc: 7, str: 1, deadly: 1
 }
 
-export const BONE_BLADE: Weapon = {
+export const BONE_BLADE: WeaponType = {
   name: 'Bone Blade', icon: '🦴⚔',
   speed: 2, acc: 6, str: 2
 }
 
-export const BONE_CLUB: Weapon = {
+export const BONE_CLUB: WeaponType = {
   name: 'Bone Club', icon: '🏋️‍♂️⚔',
   speed: 2, acc: 6, str: 5,
 }
 
-export const BONE_DARTS: Weapon = {
+export const BONE_DARTS: WeaponType = {
   name: 'Bone Darts', icon: '🦴🏹',
   speed: 1, acc: 7, str: 3
 }
 
-export const BEAST_KNUCKLE: Weapon = {
+export const BEAST_KNUCKLE: WeaponType = {
   name: 'Beast Knuckle', icon: '🔻⚔',
   speed: 2, acc: 6, str: 4
 }
 
-export const BEAST_KNUCKLE_PAIRED: Weapon = {
+export const BEAST_KNUCKLE_PAIRED: WeaponType = {
   name: 'Beast Knuckle', icon: '🔗⚔',
   speed: 4, acc: 6, str: 4
 }
 
-export const KING_SPEAR: Weapon = {
+export const KING_SPEAR: WeaponType = {
   name: 'King Spear', icon: '🏹',
   speed: 2, acc: 6, str: 3
 }
 
-export const FOUNDING_STONE: Weapon = {
+export const FOUNDING_STONE: WeaponType = {
   name: 'Founding Stone', icon: '⚔🏹',
   speed: 2, acc: 7, str: 1
 }
 
-export const TWILIGHT_SWORD_0: Weapon = {
+export const TWILIGHT_SWORD_0: WeaponType = {
   name: 'Twilight Sword - 0', icon: '🏋️‍♂️🐢🧠⚔',
   speed: 1, acc: 9, str: 9
 }
 
-export const TWILIGHT_SWORD_1: Weapon = {
+export const TWILIGHT_SWORD_1: WeaponType = {
   name: 'Twilight Sword - 1', icon: '🏋️‍♂️🐢🧠⚔',
   speed: 1, acc: 8, str: 9
 }
 
-export const TWILIGHT_SWORD_2: Weapon = {
+export const TWILIGHT_SWORD_2: WeaponType = {
   name: 'Twilight Sword - 2', icon: '🐢🧠⚔',
   speed: 1, acc: 7, str: 9
 }
 
-export const TWILIGHT_SWORD_3: Weapon = {
+export const TWILIGHT_SWORD_3: WeaponType = {
   name: 'Twilight Sword - 3', icon: '🐢🧠⚔',
   speed: 1, acc: 6, str: 9
 }
 
-export const TWILIGHT_SWORD_4: Weapon = {
+export const TWILIGHT_SWORD_4: WeaponType = {
   name: 'Twilight Sword - 4', icon: '🧠⚔',
   speed: 3, acc: 5, str: 9
 }
 
-export const TWILIGHT_SWORD_5: Weapon = {
+export const TWILIGHT_SWORD_5: WeaponType = {
   name: 'Twilight Sword - 5', icon: '🧠⚔',
   speed: 3, acc: 4, str: 9
 }
 
-export const TWILIGHT_SWORD_6: Weapon = {
+export const TWILIGHT_SWORD_6: WeaponType = {
   name: 'Twilight Sword - 6', icon: '🧠⚔',
   speed: 3, acc: 3, str: 9, deadly: 1
 }
 
-export const TWILIGHT_SWORD_7: Weapon = {
+export const TWILIGHT_SWORD_7: WeaponType = {
   name: 'Twilight Sword - 7', icon: '🧠⚔',
   speed: 3, acc: 2, str: 9, deadly: 1
 }
 
-export const BUTCHER_CLEAVER: Weapon = {
+export const BUTCHER_CLEAVER: WeaponType = {
   name: 'Butcher Cleaver', icon: '🧠⚔',
   speed: 2, acc: 5, str: 5
 }
 
-export const BUTCHER_CLEAVER_PAIRED: Weapon = {
+export const BUTCHER_CLEAVER_PAIRED: WeaponType = {
   name: 'Butcher Cleaver', icon: '🔗🧠⚔',
   speed: 4, acc: 5, str: 5
 }
 
-export const CAT_GUT_BOW: Weapon = {
+export const CAT_GUT_BOW: WeaponType = {
   name: 'Cat Gut Bow', icon: '🏋️‍♂️🏹',
   speed: 2, acc: 7, str: 3
 }
 
-export const CAT_GUT_BOW_AIM: Weapon = {
+export const CAT_GUT_BOW_AIM: WeaponType = {
   name: 'Cat Gut Bow', icon: '🎯🏋️‍♂️🏹',
   speed: 1, acc: 5, str: 3
 }
 
-export const CLAW_HEAD_ARROW: Weapon = {
+export const CLAW_HEAD_ARROW: WeaponType = {
   name: 'Claw Head Arrow', icon: '🐢🔻🏹',
   speed: 1, acc: 6, str: 6
 }

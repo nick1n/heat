@@ -1,5 +1,6 @@
 import * as WEAPONS from "@/components/Monster/weapons";
 
+// Monster or Survivor
 export const enum MS {
   MONSTER,
   SURVIVOR
@@ -45,7 +46,7 @@ export type Attributes = {
   toughness: number;
 }
 
-export type Weapon = {
+export type WeaponType = {
   name: string;
   icon: string;
   speed: number;
@@ -54,8 +55,12 @@ export type Weapon = {
   deadly?: number;
 }
 
+export type WEAPON_IDS = keyof typeof WEAPONS
+
 export type Survivor = {
   type: MS;
+  dead: boolean;
+  retired: boolean;
   name: string;
   icons: string;
   actions: Actions;
@@ -63,17 +68,26 @@ export type Survivor = {
   base: Attributes;
   mod: Attributes;
   // attr: Attributes;
-  weapons: (keyof typeof WEAPONS)[];
+  weapons: WEAPON_IDS[];
 }
 
-export type Actions = {
-  cantUse?: boolean;
-  dodge?: boolean; // 💨
-  encourage?: boolean; // 🙌
-  surge?: boolean; // ⚡
-  dash?: boolean; // 🏃
-  endure?: boolean; // 💔/🛡️
-  fistBump?: boolean; // 🤛
-  overcharge?: boolean;
-  embolden?: boolean;
-}
+export const ACTIONS = {
+  DODGE: '💨',
+  ENCOURAGE: '🙌',
+  DASH: '🏃',
+  SURGE: '⚡',
+  ENDURE: '💔',
+} as const
+
+export type Actions = (keyof typeof ACTIONS)[]
+//  = {
+//   canUse?: boolean;
+//   dodge?: boolean;
+//   encourage?: boolean;
+//   surge?: boolean;
+//   dash?: boolean;
+//   endure?: boolean;
+//   fistBump?: boolean;
+//   overcharge?: boolean;
+//   embolden?: boolean;
+// }

@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { reactive, ref, onMounted, onUnmounted, type Ref } from 'vue';
-import { useStorage } from '@vueuse/core';
+import { reactive, ref, onMounted, onUnmounted, type Ref, computed, type FunctionalComponent, type Events, type EmitsOptions } from 'vue';
+import { useStorage, useTitle, type RemovableRef } from '@vueuse/core';
 
 import Attribute from '@/components/Monster/Attribute.vue';
 import Weapon from '@/components/Monster/Weapon.vue';
-import { ATTRIBUTE_ORDERS, MS, ZERO_ATTRS, type Attributes, type Monster, type MonsterStats, type Survivor } from '@/components/Monster/types';
+import { ATTRIBUTE_ORDERS, MS, ZERO_ATTRS, ACTIONS, type Attributes, type Monster, type MonsterStats, type Survivor, type WeaponType, type WEAPON_IDS } from '@/components/Monster/types';
 import * as MONSTERS from '@/components/Monster/monsters';
+import * as WEAPONS from '@/components/Monster/weapons'
 import { useKdmStore } from '@/stores/kdm';
 
-const store = useKdmStore();
+useTitle('KD:M Showdown')
+
+const store = useKdmStore()
 
 const mon: MonsterStats = reactive({
   ...MONSTERS[store.selectedMonster],
@@ -90,6 +93,23 @@ const toggleBlindSpot = ref(false)
 const toggleKnockedDown = ref(false)
 const monController = useStorage('kdm.mon-controller', 0)
 
+const survivorDialog = ref(false)
+const selectedSurvivor = ref(0)
+const survivor = computed(() => store.survivors[selectedSurvivor.value])
+const selectedWeapon: Ref<WEAPON_IDS | ''> = ref('')
+
+const confirmDelete = ref(false)
+function clickDelete() {
+  if (confirmDelete.value) {
+    survivorDialog.value = false
+    confirmDelete.value = false
+    store.removeSurvivor(selectedSurvivor.value)
+    selectedSurvivor.value = 0
+  } else {
+    confirmDelete.value = true
+  }
+}
+
 onMounted(() => {
   window.addEventListener('keydown', keydown)
 })
@@ -97,25 +117,36 @@ onUnmounted(() => {
   window.removeEventListener('keydown', keydown)
 })
 function keydown(e: KeyboardEvent) {
-  if (e.key === 'k') {
+  const key = e.key.toLowerCase()
+  if (key === 'k') {
     toggleKnockedDown.value = !toggleKnockedDown.value
-  } else if (e.key === 'b') {
+  } else if (key === 'b') {
     toggleBlindSpot.value = !toggleBlindSpot.value
-  } else if (e.key === 'm') {
+  } else if (key === 'm') {
     store.settings.showMods = !store.settings.showMods
-  } else if (e.key === 'o') {
+  } else if (key === 'o') {
     store.settings.changeOrder()
-  } else if (e.key === 'Escape' || e.key === 'Esc') {
+  } else if (key === 'escape' || key === 'esc') {
     showDialog.value = false
     selectMonster.value = false
-  } else if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4') {
-    monController.value = +e.key - 1
+    survivorDialog.value = false
+  } else if (key === '1' || key === '2' || key === '3' || key === '4') {
+    const i = +key - 1
+    if (survivorDialog.value) {
+      store.hunters[i] = selectedSurvivor.value
+    } else {
+      monController.value = i
+    }
   }
 }
+
+const capitalize = (x: string) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase()
+const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { slots }) => slots?.default?.(props)
 </script>
 
 <template>
-  <div class="select-none bg-stone-950 bg-contain bg-top bg-no-repeat p-4 text-center font-bold text-stone-300"
+  <div
+    class="font-kdm-text select-none bg-stone-950 bg-contain bg-top bg-no-repeat p-4 text-center font-bold text-stone-300"
     :style="`background-image: url(/img/${mon.img})`">
     <div class="min-h-screen">
       <h1 class="text-4xl font-bold leading-loose">
@@ -153,12 +184,29 @@ function keydown(e: KeyboardEvent) {
         </div>
       </div>
 
-      <div class="grid text-3xl lg:grid-cols-2">
+      <div class="grid gap-2 text-3xl lg:grid-cols-2">
         <div v-for="survId, i in store.hunters" :key="store.survivors[survId].name">
-          <h2 class="text-4xl leading-normal">
-            <button class="my-2 cursor-pointer rounded-lg px-4 hover:bg-sky-950" @click.prevent="monController = i">
-              {{ monController === i ? `👑 ${store.survivors[survId].name} 👑` : store.survivors[survId].name }}
+          <h2 class="mx-auto flex min-w-[50%] justify-center gap-2 text-4xl leading-normal">
+            <button
+              class="my-2 min-w-0 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 hover:bg-sky-950"
+              :class="store.survivors[survId].dead ? 'text-stone-600' : store.survivors[survId].retired ? 'text-stone-400' : ''"
+              @click.prevent="monController = i">
+              {{ monController === i ? '🎮 ' : '' }}
+              {{ store.survivors[survId].dead ? '💀 ' : '' }}
+              {{ store.survivors[survId].name }}
             </button>
+            <div v-if="store.survivors[survId].actions.length" class="flex items-center gap-1">
+              <button v-for="action in store.survivors[survId].actions.sort()" :key="survId + '-action-' + action"
+                class="relative h-10 w-10 rounded-full border-4 text-xl leading-10"
+                :class="store.survivors[survId].dead ? 'border-stone-600' : 'border-stone-300'"
+                :title="capitalize(action)">
+                <div class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center"
+                  :class="store.survivors[survId].dead ? ' grayscale opacity-50' : ''">
+                  {{ ACTIONS[action] }}
+                </div>
+                <div>&nbsp;</div>
+              </button>
+            </div>
           </h2>
           <div class="text-2xl sm:text-3xl">
             <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'surv-' + attr" :attr
@@ -179,23 +227,34 @@ function keydown(e: KeyboardEvent) {
       <div class="flex justify-center">
         <div class="grid grid-cols-12 text-4xl">
           <template v-for="surv, i in store.survivors" :key="'list-' + surv.name">
-            <h2 class="col-span-6 text-right leading-normal">
-              <button class="my-2 cursor-pointer rounded-lg px-4 hover:bg-sky-950" @click.prevent="monController = i">
-                <span class="grayscale">{{ surv.icons }}</span> {{ surv.name }}
+            <div class="col-span-6 my-2 min-w-0 text-right">
+              <button
+                class="mr-2 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 text-right leading-normal hover:bg-sky-950"
+                :class="surv.dead ? 'text-stone-600' : surv.retired ? 'text-stone-400' : ''"
+                @click.prevent="selectedSurvivor = i; survivorDialog = true">
+                <span class="grayscale">{{ surv.icons }}</span>
+                <span v-if="surv.dead" class="grayscale">💀</span>
+                <span v-else-if="surv.retired" class="grayscale">🏚️</span>
+                {{ surv.name }}
               </button>
-            </h2>
+            </div>
             <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'list-surv-' + attr" :attr
-              :base="surv.base[attr]" :mod="surv.mod[attr]" :showMods="false" :justBase="true"
+              :base="surv.base[attr]" :mod="surv.mod[attr]" :showMods="false" :justBase="true" :bottomBorder="true"
               @click="dialog(surv, attr, 'base')" />
           </template>
         </div>
       </div>
+
+      <button class="mt-2 w-16 rounded-lg px-1 text-center text-4xl leading-normal hover:bg-slate-800"
+        @click.prevent="store.addSurvivor">
+        ➕
+      </button>
     </div>
 
     <div class="fixed right-1 top-1">
       <button
         class="rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
-        @click.prevent="store.settings.showMods = !store.settings.showMods">Mods</button>
+        @click.prevent="store.settings.toggleMods">Mods</button>
       <br>
       <button
         class="mt-1 rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
@@ -275,6 +334,85 @@ function keydown(e: KeyboardEvent) {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <div class="fixed inset-0 bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto"
+      :class="survivorDialog ? '' : 'hidden'" @click="survivorDialog = false; confirmDelete = false">
+      <dialog
+        class="flex min-h-screen items-center justify-center bg-transparent px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div class="absolute inset-0 bg-stone-900 opacity-75"></div>
+        </div>
+
+        <div
+          class="max-w-full transform overflow-hidden rounded-lg bg-stone-900 p-4 text-center text-stone-300 shadow-xl transition-all sm:my-8 sm:w-full"
+          @click.stop>
+          <h3 class="my-2 flex justify-between gap-2 text-4xl font-bold leading-normal" id="modal-title">
+            <button class="rounded-lg px-1 hover:bg-slate-800" @click.prevent="survivor.retired = !survivor.retired">
+              <span :class="survivor.retired ? '' : 'opacity-5'">🏚️</span>
+            </button>
+            <input type="text" class="bg-transparent text-center" :value="survivor.name"
+              @input="event => survivor.name = (event.target as HTMLInputElement).value" />
+            <button class="rounded-lg px-1 hover:bg-slate-800" @click.prevent="survivor.dead = !survivor.dead">
+              <span :class="survivor.dead ? '' : 'opacity-5'">💀</span>
+            </button>
+          </h3>
+
+          <div class="flex justify-center gap-2 text-4xl">
+            <button v-for="i in 4" :key="i"
+              class="rounded-lg border-2 px-4 py-2 leading-none outline-sky-950 hover:border-stone-500 hover:bg-stone-900 focus:outline-2 active:bg-black"
+              :class="store.hunters[i - 1] === selectedSurvivor ? 'text-stone-500 border-stone-500' : 'border-stone-800 text-stone-800'"
+              @click.prevent="store.hunters[i - 1] = selectedSurvivor">
+              {{ i }}
+            </button>
+          </div>
+
+          <div class="mt-2 flex justify-center gap-2 text-4xl">
+            <button v-for="icon, key in ACTIONS" :key :title="capitalize(key)"
+              class="rounded-lg border-2 p-2 leading-none outline-sky-950 hover:border-stone-500 hover:bg-stone-900 focus:outline-2 active:bg-black"
+              :class="survivor.actions.includes(key) ? 'text-stone-500 border-stone-500' : 'border-stone-800 text-stone-800'"
+              @click.prevent="survivor.actions.includes(key) ? survivor.actions.splice(survivor.actions.indexOf(key), 1) : survivor.actions.push(key)">
+              {{ icon }}
+            </button>
+          </div>
+
+          <div class="mt-2 grid justify-center text-xl font-normal leading-normal">
+            <div class="flex border-t-2 border-stone-800">
+              <select class="block cursor-pointer bg-transparent px-2" v-model="selectedWeapon">
+                <option class="bg-stone-800" value="" selected>
+                  Select a weapon...
+                </option>
+                <option v-for="weapon, weaponId in WEAPONS" :key="'add-' + weaponId" class="bg-stone-800"
+                  :value="weaponId">
+                  {{ weapon.name }} {{ weapon.icon }}: {{ weapon.speed }}({{ weapon.acc }}+{{ weapon.str }})
+                </option>
+              </select>
+              <button class="w-12 px-2 text-center"
+                @click.prevent="store.addWeapon(selectedSurvivor, selectedWeapon); selectedWeapon = ''">➕</button>
+            </div>
+            <div v-for="weaponId, i in store.survivors[selectedSurvivor].weapons" :key="weaponId + i"
+              class="mt-1 flex justify-between border-t-2 border-stone-800">
+              <GetValue v-slot="{ weapon }: { weapon: WeaponType }"
+                :weapon="WEAPONS[weaponId] ?? WEAPONS['FIST_N_TOOTH']">
+                <div class="px-2">
+                  {{ weapon.name }} <span class="grayscale">{{ weapon.icon }}</span>:
+                  {{ ' ' }}
+                  {{ weapon.speed }}({{ weapon.acc }}+{{ weapon.str }})
+                </div>
+              </GetValue>
+              <button class="w-12 px-2 text-center" @click.prevent="store.removeWeapon(selectedSurvivor, i)">✖</button>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button class="w-16 rounded-lg px-1 text-center text-4xl leading-normal hover:bg-slate-800"
+              @click.prevent="clickDelete">
+              {{ confirmDelete ? '✔' : '🗑️' }}
+            </button>
           </div>
         </div>
       </dialog>

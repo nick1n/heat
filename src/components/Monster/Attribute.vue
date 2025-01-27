@@ -3,11 +3,12 @@ import { computed } from 'vue';
 import type { Attributes } from './types';
 import { useKdmStore } from '@/stores/kdm';
 
-const { base, mod, attr, justBase = false } = defineProps<{
+const { base, mod, attr, justBase = false, bottomBorder = false } = defineProps<{
   base: number;
   mod: number;
   attr: keyof Attributes;
-  justBase?: boolean
+  justBase?: boolean;
+  bottomBorder?: boolean;
 }>()
 
 const emit = defineEmits(['click'])
@@ -25,12 +26,15 @@ const ICONS: { [k in keyof Attributes]: string } = {
   str: '💪',
   toughness: '🛡',
 } as const
+
+const capitalize = (x: string) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase()
+const title = computed(() => capitalize(attr))
 </script>
 
 <template>
-  <button @click.prevent="emit('click')" :title="attr"
-    class="relative inline-block cursor-pointer border-r-2 border-stone-800 px-2 leading-normal first:rounded-tl-lg last:rounded-tr-lg last:border-0 hover:bg-neutral-900"
-    :class="attr === 'movement' || attr === 'eva' ? 'bg-slate-950' : 'bg-stone-950'">
+  <button @click.prevent="emit('click')" :title
+    class="relative inline-block cursor-pointer border-stone-800 px-2 leading-normal first:rounded-tl-lg last:rounded-tr-lg last:border-r-0 hover:bg-neutral-900"
+    :class="[attr === 'movement' || attr === 'eva' ? 'bg-slate-950' : 'bg-stone-950', bottomBorder ? 'border-b-2' : 'border-r-2']">
     <div class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center"
       :class="[store.settings.showMods ? 'text-5xl' : 'text-3xl', attr === 'hp' ? 'opacity-10' : 'opacity-5']">
       {{ ICONS[attr] }}
