@@ -33,10 +33,10 @@ const title = computed(() => capitalize(attr))
 
 <template>
   <button @click.prevent="emit('click')" :title
-    class="relative inline-block cursor-pointer border-stone-800 px-2 leading-normal first:rounded-tl-lg last:rounded-tr-lg last:border-r-0 hover:bg-neutral-900"
+    class="relative inline-block cursor-pointer overflow-hidden border-stone-800 px-2 leading-normal first:rounded-tl-lg last:rounded-tr-lg last:border-r-0 hover:bg-neutral-900"
     :class="[attr === 'movement' || attr === 'eva' ? 'bg-slate-950' : 'bg-stone-950', bottomBorder ? 'border-b-2' : 'border-r-2']">
-    <div class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center"
-      :class="[store.settings.showMods ? 'text-5xl' : 'text-3xl', attr === 'hp' ? 'opacity-10' : 'opacity-5']">
+    <div class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-center"
+      :class="store.settings.showMods ? 'text-5xl' : 'text-3xl'" :style="`opacity:${store.settings.opacity}`">
       {{ ICONS[attr] }}
     </div>
     <div class="relative z-10">

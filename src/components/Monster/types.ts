@@ -71,6 +71,18 @@ export type Survivor = {
   weapons: WEAPON_IDS[];
 }
 
+export const enum HunterStatus {
+  STANDING = 0,
+  KNOCKDOWN = 1,
+  KNOCKDOWN_MON = 2,
+}
+
+export type Hunter = {
+  survivorId: number;
+  used: Actions;
+  status: HunterStatus;
+}
+
 export const ACTIONS = {
   DODGE: '💨',
   ENCOURAGE: '🙌',
@@ -79,7 +91,8 @@ export const ACTIONS = {
   ENDURE: '💔',
 } as const
 
-export type Actions = (keyof typeof ACTIONS)[]
+export type Action = keyof typeof ACTIONS
+export type Actions = Action[]
 //  = {
 //   canUse?: boolean;
 //   dodge?: boolean;
