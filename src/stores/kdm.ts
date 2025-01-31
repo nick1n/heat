@@ -46,17 +46,19 @@ const STARTING_SURVIVORS: Survivor[] = [{
   weapons: ['FOUNDING_STONE', 'FIST_N_TOOTH']
 }] as const
 
+const PREFIX = 'kdm.v1.' as const
+
 export const useKdmStore = defineStore('kdm', () => {
 
   // Current Hunt/Showdown
-  const selectedMonster = useStorage('kdm.selected-mon', 'WHITE_LION_L0') as RemovableRef<keyof typeof MONSTERS>
-  const hunters = useStorage('kdm.hunters', [
+  const selectedMonster = useStorage(PREFIX + 'selected-mon', 'WHITE_LION_L0') as RemovableRef<keyof typeof MONSTERS>
+  const hunters = useStorage(PREFIX + 'hunters', [
     { survivorId: 0, used: [], status: HunterStatus.STANDING },
     { survivorId: 1, used: [], status: HunterStatus.STANDING },
     { survivorId: 2, used: [], status: HunterStatus.STANDING },
     { survivorId: 3, used: [], status: HunterStatus.STANDING },
   ]) as RemovableRef<Hunter[]>
-  const monController = useStorage('kdm.mon-controller', 0)
+  const monController = useStorage(PREFIX + 'mon-controller', 0)
 
   function useSurvivalAction(hunterId: number, action: Action) {
     hunters.value[hunterId].used.push(action)
@@ -82,7 +84,7 @@ export const useKdmStore = defineStore('kdm', () => {
   }
 
   // Survivors:
-  const survivors = useStorage('kdm.survivors', [...STARTING_SURVIVORS])
+  const survivors = useStorage(PREFIX + 'survivors', [...STARTING_SURVIVORS])
 
   function addSurvivor() {
     survivors.value.push({ ...STARTING_SURVIVORS[survivors.value.length % STARTING_SURVIVORS.length] })
@@ -107,17 +109,17 @@ export const useKdmStore = defineStore('kdm', () => {
   }
 
   // Settings:
-  const attrOrder = useStorage('kdm.attr-order', 0)
+  const attrOrder = useStorage(PREFIX + 'attr-order', 0)
   function changeOrder() {
     attrOrder.value = ++attrOrder.value % ATTRIBUTE_ORDERS.length
   }
 
-  const showMods = useStorage('kdm.show-mods', true)
+  const showMods = useStorage(PREFIX + 'show-mods', true)
   function toggleMods() {
     showMods.value = !showMods.value
   }
 
-  const grayscale = useStorage('kdm.icon-grayscale', 100)
+  const grayscale = useStorage(PREFIX + 'icon-grayscale', 100)
   function setGrayscale(e: Event) {
     const value = +(e.target as HTMLInputElement).value
     if (0 <= value && value <= 100) {
@@ -125,7 +127,7 @@ export const useKdmStore = defineStore('kdm', () => {
     }
   }
 
-  const opacity = useStorage('kdm.icon-opacity', 0.05)
+  const opacity = useStorage(PREFIX + 'icon-opacity', 0.05)
   function setOpacity(e: Event) {
     const value = +(e.target as HTMLInputElement).value
     if (0 <= value && value <= 1) {
