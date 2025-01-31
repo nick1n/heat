@@ -46,6 +46,8 @@ const STARTING_SURVIVORS: Survivor[] = [{
   weapons: ['FOUNDING_STONE', 'FIST_N_TOOTH']
 }] as const
 
+const HUNTER: Hunter = { survivorId: 0, used: [], status: HunterStatus.STANDING } as const
+
 const PREFIX = 'kdm.v1.' as const
 
 export const useKdmStore = defineStore('kdm', () => {
@@ -53,11 +55,16 @@ export const useKdmStore = defineStore('kdm', () => {
   // Current Hunt/Showdown
   const selectedMonster = useStorage(PREFIX + 'selected-mon', 'WHITE_LION_L0') as RemovableRef<keyof typeof MONSTERS>
   const hunters = useStorage(PREFIX + 'hunters', [
-    { survivorId: 0, used: [], status: HunterStatus.STANDING },
-    { survivorId: 1, used: [], status: HunterStatus.STANDING },
-    { survivorId: 2, used: [], status: HunterStatus.STANDING },
-    { survivorId: 3, used: [], status: HunterStatus.STANDING },
+    { ...HUNTER },
+    { ...HUNTER, survivorId: 1 },
+    { ...HUNTER, survivorId: 2 },
+    { ...HUNTER, survivorId: 3 },
   ]) as RemovableRef<Hunter[]>
+
+  function addHunter(id: number, survivorId: number) {
+    hunters.value[id] = { ...HUNTER, survivorId }
+  }
+
   const monController = useStorage(PREFIX + 'mon-controller', 0)
 
   function useSurvivalAction(hunterId: number, action: Action) {
@@ -138,6 +145,8 @@ export const useKdmStore = defineStore('kdm', () => {
   return {
     selectedMonster,
     hunters,
+    addHunter,
+
     monController,
     useSurvivalAction,
     hasUsedAction,

@@ -168,16 +168,10 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
         </button>
       </h1>
       <div class="flex flex-wrap justify-center text-5xl font-bold lg:text-4xl">
-        <div class="grid grid-cols-2 justify-center gap-2 pt-2">
-          <h2 class="hidden">Health</h2>
-          <h2 class="hidden">Toughness</h2>
-          <div>
-            <Attribute :base="mon.base.hp" :mod="mon.mod.hp" :attr="'hp'" @click="dialog(mon, 'hp')" />
-          </div>
-          <div>
-            <Attribute :base="mon.base.toughness" :mod="mon.mod.toughness" :attr="'toughness'"
-              @click="dialog(mon, 'toughness')" />
-          </div>
+        <div class="grid grid-cols-2 pt-2">
+          <Attribute :base="mon.base.hp" :mod="mon.mod.hp" :attr="'hp'" @click="dialog(mon, 'hp')" />
+          <Attribute :base="mon.base.toughness" :mod="mon.mod.toughness" :attr="'toughness'"
+            @click="dialog(mon, 'toughness')" />
         </div>
         <div class="basis-full text-5xl lg:text-4xl">
           <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'mon-' + attr" :attr
@@ -194,9 +188,8 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
             @click.prevent="toggleKnockedDown = !toggleKnockedDown">
             Knocked Down
           </button>
-          <button class="rounded-br-lg border-l-2 border-t-2 border-stone-800 px-3 py-2 text-xl font-medium"
-            :class="toggleKnockedDown ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
-            @click.prevent="store.nextRound">
+          <button @click.prevent="store.nextRound"
+            class="rounded-br-lg border-l-2 border-t-2 border-stone-800 px-3 py-2 text-xl font-medium hover:bg-stone-800">
             Next Round <span class="inline-block -scale-x-[1] filter">🔄</span>
           </button>
         </div>
@@ -220,7 +213,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
 
               <div v-if="!survivor.dead" class="flex items-center gap-1">
                 <button @click.prevent="store.knockedDown(i)"
-                  class="relative h-10 w-10 rounded-lg border-4 text-xl leading-10"
+                  class="relative h-10 w-10 rounded-lg border-[.25rem] text-xl leading-10"
                   :class="['border-emerald-800 opacity-50', 'border-yellow-800', 'border-rose-800'][hunter.status]"
                   :title="['Standing', 'Knocked down, stand at end of monster\'s turn THIS round.', 'Knocked down, stand at end of monster\'s turn NEXT round.'][hunter.status]">
                   <div
@@ -411,9 +404,9 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
             class="rounded-lg border-2 border-stone-500 bg-transparent px-4 py-2 text-center text-3xl leading-none text-stone-500 outline-sky-950 placeholder:text-stone-500 hover:border-stone-500 hover:bg-stone-900 focus:outline-2 active:bg-black" />
 
           <div class="mx-auto mt-2 grid max-w-fit gap-2 text-4xl lg:grid-cols-2">
-            <button v-for="i in 4" :key="'position-' + i" @click.prevent="store.hunters[i - 1] = selectedSurvivor"
+            <button v-for="i, id in 4" :key="'position-' + i" @click.prevent="store.addHunter(id, selectedSurvivor)"
               class="rounded-lg border-2 px-4 py-2 leading-none outline-sky-950 hover:border-stone-500 hover:bg-stone-900 focus:outline-2 active:bg-black"
-              :class="[store.hunters[i - 1].survivorId === selectedSurvivor ? 'text-stone-500 border-stone-500' : 'border-stone-800 text-stone-800', { 'lg:order-4': i === 3, 'lg:order-3': i === 4 }]">
+              :class="[store.hunters[id].survivorId === selectedSurvivor ? 'text-stone-500 border-stone-500' : 'border-stone-800 text-stone-800', { 'lg:order-4': i === 3, 'lg:order-3': i === 4 }]">
               {{ i }}
             </button>
           </div>
@@ -427,9 +420,9 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
             </button>
           </div>
 
-          <div class="mt-2 grid justify-center text-xl font-normal leading-normal">
+          <div class="mt-2 grid justify-center text-xl font-normal">
             <div class="flex border-t-2 border-stone-500">
-              <select class="block cursor-pointer bg-transparent px-2" v-model="selectedWeapon">
+              <select class="block cursor-pointer bg-transparent p-2" v-model="selectedWeapon">
                 <option class="bg-stone-800" value="" selected>
                   Select a weapon...
                 </option>
@@ -437,22 +430,22 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                   {{ `${weapon.name} ${weapon.icon}: ${weapon.speed}❨${weapon.acc}+${weapon.str}❩` }}
                 </option>
               </select>
-              <button class="w-12 px-2 text-center filter" @click.prevent="addWeapon">
+              <button class="w-12 p-2 text-center filter" @click.prevent="addWeapon">
                 ➕
               </button>
             </div>
             <div v-for="weaponId, i in store.survivors[selectedSurvivor].weapons" :key="weaponId + i"
-              class="mt-1 flex justify-between border-t-2 border-stone-500">
+              class="flex justify-between border-t-2 border-stone-500">
               <GetValue v-slot="{ weapon }: { weapon: WeaponType }"
                 :weapon="WEAPONS[weaponId] ?? WEAPONS['FIST_N_TOOTH']">
-                <div class="px-2">
+                <div class="p-2">
                   {{ weapon.name }}
                   <span class="filter">
                     {{ weapon.icon }}
                   </span>{{ `: ${weapon.speed}❨${weapon.acc}+${weapon.str}❩` }}
                 </div>
               </GetValue>
-              <button class="w-12 px-2 text-center filter" @click.prevent="store.removeWeapon(selectedSurvivor, i)">
+              <button class="w-12 p-2 text-center filter" @click.prevent="store.removeWeapon(selectedSurvivor, i)">
                 ✖
               </button>
             </div>
