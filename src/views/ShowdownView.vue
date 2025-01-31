@@ -156,17 +156,19 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
 </script>
 
 <template>
-  <div
-    class="font-kdm-text select-none bg-stone-950 bg-contain bg-top bg-no-repeat text-center font-bold text-stone-300"
-    :style="`background-image: url(/img/${mon.img})`">
-    <div class="relative min-h-screen">
-      <h1 class="text-4xl font-bold leading-loose">
+  <div class="font-kdm-text select-none bg-stone-950 text-center font-bold text-stone-300">
+    <component is="style">
+      .filter { --tw-grayscale: grayscale({{ store.settings.grayscale }}%) }
+    </component>
+
+    <div class="relative min-h-screen bg-contain bg-top bg-no-repeat" :style="`background-image: url(/img/${mon.img})`">
+      <h1 class="pt-2 text-5xl font-bold leading-none lg:text-4xl">
         <button class="rounded-lg px-4 hover:bg-sky-950" @click.prevent="selectMonster = true">
           {{ mon.name }} Lvl {{ mon.lvl }}
         </button>
       </h1>
-      <div class="flex flex-wrap justify-center text-4xl font-bold">
-        <div class="grid grid-cols-2 justify-center gap-2 p-2">
+      <div class="flex flex-wrap justify-center text-5xl font-bold lg:text-4xl">
+        <div class="grid grid-cols-2 justify-center gap-2 pt-2">
           <h2 class="hidden">Health</h2>
           <h2 class="hidden">Toughness</h2>
           <div>
@@ -177,25 +179,25 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
               @click="dialog(mon, 'toughness')" />
           </div>
         </div>
-        <div class="basis-full text-2xl sm:text-3xl">
+        <div class="basis-full text-5xl lg:text-4xl">
           <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'mon-' + attr" :attr
             :base="mon.base[attr]" :mod="mon.mod[attr]" @click="dialog(mon, attr)" />
         </div>
-        <div class="grid grid-cols-3 justify-center p-2">
-          <button class="rounded-l-lg border-2 border-stone-800 px-4 py-2 text-xl font-medium"
+        <div class="grid grid-cols-3 justify-center">
+          <button class="rounded-bl-lg border-r-2 border-t-2 border-stone-800 px-3 py-2 text-xl font-medium"
             :class="toggleBlindSpot ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
             @click.prevent="toggleBlindSpot = !toggleBlindSpot">
             Blind Spot
           </button>
-          <button class="border-2 border-l-0 border-stone-800 px-4 py-2 text-xl font-medium"
+          <button class="border-t-2 border-stone-800 px-3 py-2 text-xl font-medium"
             :class="toggleKnockedDown ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
             @click.prevent="toggleKnockedDown = !toggleKnockedDown">
             Knocked Down
           </button>
-          <button class="rounded-r-lg border-2 border-l-0 border-stone-800 px-4 py-2 text-xl font-medium"
+          <button class="rounded-br-lg border-l-2 border-t-2 border-stone-800 px-3 py-2 text-xl font-medium"
             :class="toggleKnockedDown ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
             @click.prevent="store.nextRound">
-            Next Round <span :style="`filter:grayscale(${store.settings.grayscale}%)`">🔄</span>
+            Next Round <span class="inline-block -scale-x-[1] filter">🔄</span>
           </button>
         </div>
       </div>
@@ -207,10 +209,10 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
             <h2 class="flex justify-between gap-2 text-4xl leading-normal">
               <div class="my-2 text-stone-800">{{ i + 1 }}.</div>
               <button
-                class="my-2 min-w-0 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 hover:bg-sky-950"
+                class="my-2 min-w-0 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 py-1 text-2xl hover:bg-sky-950"
                 :class="survivor.dead ? 'text-stone-600' : survivor.retired ? 'text-stone-400' : ''"
                 @click.prevent="showSurvivorDialog(hunter.survivorId)">
-                <span :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                <span class="filter">
                   {{ survivor.icons + (store.monController === i ? '🎮' : '') + (survivor.dead ? '💀' : '') }}
                 </span>
                 {{ survivor.name }}
@@ -229,7 +231,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                 </button>
 
                 <button v-for="action in survivor.actions.sort()" :key="hunter.survivorId + '-action-' + action"
-                  class="relative h-10 w-10 rounded-full border-4 text-xl leading-10"
+                  class="relative h-10 w-10 rounded-full border-[.25rem] text-xl leading-10"
                   :class="survivor.dead || store.hasUsedAction(i, action) ? 'border-stone-600' : 'border-stone-300'"
                   :title="capitalize(action)" @click.prevent="store.useSurvivalAction(i, action)">
                   <div
@@ -242,7 +244,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
               </div>
             </h2>
 
-            <div class="text-2xl sm:text-3xl">
+            <div class="text-4xl lg:text-2xl xl:text-3xl">
               <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'surv-' + attr" :attr
                 :base="survivor.base[attr]" :mod="survivor.mod[attr]" @click="dialog(survivor, attr)" />
             </div>
@@ -257,7 +259,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
       <div class="absolute right-1 top-1">
         <button class="rounded-lg border-2 border-stone-600 px-2 text-4xl leading-tight"
           @click.prevent="settingsDialog = true">
-          <span :style="`filter:grayscale(${store.settings.grayscale}%)`">⚙</span>
+          <span class="filter">⚙</span>
         </button>
         <button
           class="hidden rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
@@ -279,7 +281,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                 class="max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 leading-normal hover:bg-sky-950"
                 :class="survivor.dead ? 'text-stone-600' : survivor.retired ? 'text-stone-400' : ''"
                 @click.prevent="showSurvivorDialog(i)">
-                <span :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                <span class="filter">
                   {{ survivor.icons + (survivor.dead ? '💀' : survivor.retired ? '👴' : '') }}
                 </span>
                 {{ survivor.name }}
@@ -292,8 +294,8 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
         </div>
       </div>
 
-      <button class="mt-2 w-16 rounded-lg px-1 text-center text-4xl leading-normal hover:bg-slate-800"
-        @click.prevent="store.addSurvivor" :style="`filter:grayscale(${store.settings.grayscale}%)`">
+      <button class="mt-2 w-16 rounded-lg px-1 text-center text-4xl leading-normal filter hover:bg-slate-800"
+        @click.prevent="store.addSurvivor">
         ➕
       </button>
     </div>
@@ -390,8 +392,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
           <h3 class="my-2 flex justify-between gap-2 text-4xl font-bold leading-normal">
             <button class="rounded-lg border-2 border-stone-800 px-1 hover:bg-slate-800"
               @click.prevent="survivor.retired = !survivor.retired">
-              <span :class="survivor.retired ? '' : 'opacity-5'"
-                :style="`filter:grayscale(${store.settings.grayscale}%)`">
+              <span :class="survivor.retired ? '' : 'opacity-5'" class="filter">
                 👴
               </span>
             </button>
@@ -399,7 +400,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
               @input="(e) => survivor.name = (e.target as HTMLInputElement).value" />
             <button class="rounded-lg border-2 border-stone-800 px-1 hover:bg-slate-800"
               @click.prevent="survivor.dead = !survivor.dead">
-              <span :class="survivor.dead ? '' : 'opacity-5'" :style="`filter:grayscale(${store.settings.grayscale}%)`">
+              <span :class="survivor.dead ? '' : 'opacity-5'" class="filter">
                 💀
               </span>
             </button>
@@ -436,8 +437,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                   {{ `${weapon.name} ${weapon.icon}: ${weapon.speed}❨${weapon.acc}+${weapon.str}❩` }}
                 </option>
               </select>
-              <button class="w-12 px-2 text-center" :style="`filter:grayscale(${store.settings.grayscale}%)`"
-                @click.prevent="addWeapon">
+              <button class="w-12 px-2 text-center filter" @click.prevent="addWeapon">
                 ➕
               </button>
             </div>
@@ -447,21 +447,20 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                 :weapon="WEAPONS[weaponId] ?? WEAPONS['FIST_N_TOOTH']">
                 <div class="px-2">
                   {{ weapon.name }}
-                  <span :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                  <span class="filter">
                     {{ weapon.icon }}
                   </span>{{ `: ${weapon.speed}❨${weapon.acc}+${weapon.str}❩` }}
                 </div>
               </GetValue>
-              <button class="w-12 px-2 text-center" :style="`filter:grayscale(${store.settings.grayscale}%)`"
-                @click.prevent="store.removeWeapon(selectedSurvivor, i)">
+              <button class="w-12 px-2 text-center filter" @click.prevent="store.removeWeapon(selectedSurvivor, i)">
                 ✖
               </button>
             </div>
           </div>
 
           <div class="flex justify-end">
-            <button @click.prevent="clickDelete" :style="`filter:grayscale(${store.settings.grayscale}%)`"
-              class="w-16 rounded-lg border-2 border-stone-800 px-1 text-center text-4xl leading-normal hover:bg-slate-800">
+            <button @click.prevent="clickDelete"
+              class="w-16 rounded-lg border-2 border-stone-800 px-1 text-center text-4xl leading-normal filter hover:bg-slate-800">
               {{ confirmDelete ? '✔' : '🗑️' }}
             </button>
           </div>
