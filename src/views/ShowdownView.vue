@@ -101,6 +101,10 @@ function showSurvivorDialog(survivorId: number) {
 
 const survivor = computed(() => store.survivors[selectedSurvivor.value])
 const selectedWeapon: Ref<WEAPON_IDS | ''> = ref('')
+function addWeapon() {
+  store.addWeapon(selectedSurvivor.value, selectedWeapon.value)
+  selectedWeapon.value = ''
+}
 
 const confirmDelete = ref(false)
 function clickDelete() {
@@ -153,7 +157,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
 
 <template>
   <div
-    class="font-kdm-text select-none bg-stone-950 bg-contain bg-top bg-no-repeat p-4 text-center font-bold text-stone-300"
+    class="font-kdm-text select-none bg-stone-950 bg-contain bg-top bg-no-repeat text-center font-bold text-stone-300"
     :style="`background-image: url(/img/${mon.img})`">
     <div class="relative min-h-screen">
       <h1 class="text-4xl font-bold leading-loose">
@@ -191,69 +195,69 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
           <button class="rounded-r-lg border-2 border-l-0 border-stone-800 px-4 py-2 text-xl font-medium"
             :class="toggleKnockedDown ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
             @click.prevent="store.nextRound">
-            Next Round <span class="grayscale"
-              :style="`--tw-grayscale:grayscale(${store.settings.grayscale}%)`">🔄</span>
+            Next Round <span :style="`filter:grayscale(${store.settings.grayscale}%)`">🔄</span>
           </button>
         </div>
       </div>
 
-      <div class="grid gap-2 text-3xl lg:grid-cols-2">
+      <div class="grid gap-8 px-8 text-3xl lg:grid-cols-2">
         <div v-for="hunter, i in store.hunters" :key="store.survivors[hunter.survivorId].name"
-          :class="{ 'lg:order-4': i === 2, 'lg:order-3': i === 3 }">
-          <h2 class="mx-auto flex min-w-[50%] justify-center gap-2 text-4xl leading-normal">
-            <button
-              class="my-2 min-w-0 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 hover:bg-sky-950"
-              :class="store.survivors[hunter.survivorId].dead ? 'text-stone-600' : store.survivors[hunter.survivorId].retired ? 'text-stone-400' : ''"
-              @click.prevent="showSurvivorDialog(hunter.survivorId)">
-              {{ store.monController === i ? '🎮 ' : '' }}
-              {{ store.survivors[hunter.survivorId].dead ? '💀 ' : '' }}
-              {{ store.survivors[hunter.survivorId].name }}
-              <span class="grayscale" :style="`--tw-grayscale:grayscale(${store.settings.grayscale}%)`">
-                {{ store.survivors[hunter.survivorId].icons }}
-              </span>
-            </button>
-            <div v-if="!store.survivors[hunter.survivorId].dead" class="flex items-center gap-1">
-              <button class="relative h-10 w-10 rounded-lg border-4 text-xl leading-10"
-                :class="hunter.status === HunterStatus.STANDING ? 'border-emerald-800' : hunter.status === HunterStatus.KNOCKDOWN ? 'border-yellow-800' : 'border-rose-800'"
-                :title="hunter.status === HunterStatus.STANDING ? 'Standing' : hunter.status === HunterStatus.KNOCKDOWN ? 'Knocked down during survivor phase' : 'Knocked down during monster phase'"
-                @click.prevent="store.knockedDown(i)">
-                <div
-                  class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center grayscale">
-                  {{ hunter.status === HunterStatus.STANDING ? '🆗' :
-                    hunter.status === HunterStatus.KNOCKDOWN ? '🔽' : '⏬' }}
-                </div>
-                <div>&nbsp;</div>
+          :class="{ 'lg:order-4': i === 2, 'lg:order-3': i === 3 }" class="min-w-0">
+          <GetValue v-slot="{ survivor }: { survivor: Survivor }" :survivor="store.survivors[hunter.survivorId]">
+            <h2 class="flex justify-between gap-2 text-4xl leading-normal">
+              <div class="my-2 text-stone-800">{{ i + 1 }}.</div>
+              <button
+                class="my-2 min-w-0 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 hover:bg-sky-950"
+                :class="survivor.dead ? 'text-stone-600' : survivor.retired ? 'text-stone-400' : ''"
+                @click.prevent="showSurvivorDialog(hunter.survivorId)">
+                <span :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                  {{ survivor.icons + (store.monController === i ? '🎮' : '') + (survivor.dead ? '💀' : '') }}
+                </span>
+                {{ survivor.name }}
               </button>
 
-              <button v-for="action in store.survivors[hunter.survivorId].actions.sort()"
-                :key="hunter.survivorId + '-action-' + action"
-                class="relative h-10 w-10 rounded-full border-4 text-xl leading-10"
-                :class="store.survivors[hunter.survivorId].dead || store.hasUsedAction(i, action) ? 'border-stone-600' : 'border-stone-300'"
-                :title="capitalize(action)" @click.prevent="store.useSurvivalAction(i, action)">
-                <div class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center"
-                  :class="store.survivors[hunter.survivorId].dead || store.hasUsedAction(i, action) ? 'grayscale opacity-50' : ''">
-                  {{ ACTIONS[action] }}
-                </div>
-                <div>&nbsp;</div>
-              </button>
+              <div v-if="!survivor.dead" class="flex items-center gap-1">
+                <button @click.prevent="store.knockedDown(i)"
+                  class="relative h-10 w-10 rounded-lg border-4 text-xl leading-10"
+                  :class="['border-emerald-800 opacity-50', 'border-yellow-800', 'border-rose-800'][hunter.status]"
+                  :title="['Standing', 'Knocked down, stand at end of monster\'s turn THIS round.', 'Knocked down, stand at end of monster\'s turn NEXT round.'][hunter.status]">
+                  <div
+                    class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center grayscale">
+                    {{ ['🆗', '🔼', '🔽'][hunter.status] }}
+                  </div>
+                  <div>&nbsp;</div>
+                </button>
+
+                <button v-for="action in survivor.actions.sort()" :key="hunter.survivorId + '-action-' + action"
+                  class="relative h-10 w-10 rounded-full border-4 text-xl leading-10"
+                  :class="survivor.dead || store.hasUsedAction(i, action) ? 'border-stone-600' : 'border-stone-300'"
+                  :title="capitalize(action)" @click.prevent="store.useSurvivalAction(i, action)">
+                  <div
+                    class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center"
+                    :class="survivor.dead || store.hasUsedAction(i, action) ? 'grayscale opacity-50' : ''">
+                    {{ ACTIONS[action] }}
+                  </div>
+                  <div>&nbsp;</div>
+                </button>
+              </div>
+            </h2>
+
+            <div class="text-2xl sm:text-3xl">
+              <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'surv-' + attr" :attr
+                :base="survivor.base[attr]" :mod="survivor.mod[attr]" @click="dialog(survivor, attr)" />
             </div>
-          </h2>
-          <div class="text-2xl sm:text-3xl">
-            <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'surv-' + attr" :attr
-              :base="store.survivors[hunter.survivorId].base[attr]" :mod="store.survivors[hunter.survivorId].mod[attr]"
-              @click="dialog(store.survivors[hunter.survivorId], attr)" />
-          </div>
-          <div class="grid grid-cols-[repeat(4,_auto)] justify-center text-xl font-normal leading-normal">
-            <Weapon v-for="weaponId in store.survivors[hunter.survivorId].weapons" :key="weaponId" :weaponId
-              :monAttr="mon.attr" :survAttr="survivorAttrs[i]" :toggleBlindSpot :toggleKnockedDown />
-          </div>
+            <div class="grid grid-cols-[repeat(4,_auto)] justify-center text-xl font-normal leading-normal">
+              <Weapon v-for="weaponId in survivor.weapons" :key="weaponId" :weaponId :monAttr="mon.attr"
+                :survAttr="survivorAttrs[i]" :toggleBlindSpot :toggleKnockedDown />
+            </div>
+          </GetValue>
         </div>
       </div>
 
       <div class="absolute right-1 top-1">
         <button class="rounded-lg border-2 border-stone-600 px-2 text-4xl leading-tight"
           @click.prevent="settingsDialog = true">
-          <span class="grayscale" :style="`--tw-grayscale:grayscale(${store.settings.grayscale}%)`">⚙</span>
+          <span :style="`filter:grayscale(${store.settings.grayscale}%)`">⚙</span>
         </button>
         <button
           class="hidden rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
@@ -268,20 +272,16 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
       <h1 class="pt-4 text-4xl font-bold leading-loose">Survivors</h1>
 
       <div class="flex justify-center">
-        <div class="grid grid-cols-12 text-4xl">
+        <div class="grid grid-cols-12 px-2 text-4xl">
           <template v-for="survivor, i in store.survivors" :key="'list-' + survivor.name">
-            <div class="col-span-6 my-2 min-w-0 text-right">
+            <div class="col-span-6 my-2 mr-2 min-w-0 text-right">
               <button
-                class="mr-2 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 text-right leading-normal hover:bg-sky-950"
+                class="max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 leading-normal hover:bg-sky-950"
                 :class="survivor.dead ? 'text-stone-600' : survivor.retired ? 'text-stone-400' : ''"
                 @click.prevent="showSurvivorDialog(i)">
-                <span class="grayscale" :style="`--tw-grayscale:grayscale(${store.settings.grayscale}%)`">
-                  {{ survivor.icons }}
+                <span :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                  {{ survivor.icons + (survivor.dead ? '💀' : survivor.retired ? '👴' : '') }}
                 </span>
-                <span v-if="survivor.dead" class="grayscale"
-                  :style="`--tw-grayscale:grayscale(${store.settings.grayscale}%)`">💀</span>
-                <span v-else-if="survivor.retired" class="grayscale"
-                  :style="`--tw-grayscale:grayscale(${store.settings.grayscale}%)`">👴</span>
                 {{ survivor.name }}
               </button>
             </div>
@@ -293,7 +293,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
       </div>
 
       <button class="mt-2 w-16 rounded-lg px-1 text-center text-4xl leading-normal hover:bg-slate-800"
-        @click.prevent="store.addSurvivor">
+        @click.prevent="store.addSurvivor" :style="`filter:grayscale(${store.settings.grayscale}%)`">
         ➕
       </button>
     </div>
@@ -385,19 +385,23 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
           <div class="absolute inset-0 bg-stone-900 opacity-75"></div>
         </div>
 
-        <div
-          class="max-w-full transform overflow-hidden rounded-lg bg-stone-900 p-4 text-center text-stone-300 shadow-xl transition-all sm:my-8 sm:w-full"
-          @click.stop>
+        <div @click.stop
+          class="max-w-full transform overflow-hidden rounded-lg bg-stone-900 p-4 text-center text-stone-300 shadow-xl transition-all sm:my-8 sm:w-full">
           <h3 class="my-2 flex justify-between gap-2 text-4xl font-bold leading-normal">
             <button class="rounded-lg border-2 border-stone-800 px-1 hover:bg-slate-800"
               @click.prevent="survivor.retired = !survivor.retired">
-              <span :class="survivor.retired ? '' : 'opacity-5'">👴</span>
+              <span :class="survivor.retired ? '' : 'opacity-5'"
+                :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                👴
+              </span>
             </button>
             <input type="text" class="bg-transparent text-center" :value="survivor.name"
-              @input="event => survivor.name = (event.target as HTMLInputElement).value" />
+              @input="(e) => survivor.name = (e.target as HTMLInputElement).value" />
             <button class="rounded-lg border-2 border-stone-800 px-1 hover:bg-slate-800"
               @click.prevent="survivor.dead = !survivor.dead">
-              <span :class="survivor.dead ? '' : 'opacity-5'">💀</span>
+              <span :class="survivor.dead ? '' : 'opacity-5'" :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                💀
+              </span>
             </button>
           </h3>
 
@@ -405,11 +409,10 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
             @input="(e) => store.iconsInput(selectedSurvivor, e)"
             class="rounded-lg border-2 border-stone-500 bg-transparent px-4 py-2 text-center text-3xl leading-none text-stone-500 outline-sky-950 placeholder:text-stone-500 hover:border-stone-500 hover:bg-stone-900 focus:outline-2 active:bg-black" />
 
-          <div class="mt-2 flex justify-center gap-2 text-4xl">
-            <button v-for="i in 4" :key="i"
+          <div class="mx-auto mt-2 grid max-w-fit gap-2 text-4xl lg:grid-cols-2">
+            <button v-for="i in 4" :key="'position-' + i" @click.prevent="store.hunters[i - 1] = selectedSurvivor"
               class="rounded-lg border-2 px-4 py-2 leading-none outline-sky-950 hover:border-stone-500 hover:bg-stone-900 focus:outline-2 active:bg-black"
-              :class="store.hunters[i - 1].survivorId === selectedSurvivor ? 'text-stone-500 border-stone-500' : 'border-stone-800 text-stone-800'"
-              @click.prevent="store.hunters[i - 1] = selectedSurvivor">
+              :class="[store.hunters[i - 1].survivorId === selectedSurvivor ? 'text-stone-500 border-stone-500' : 'border-stone-800 text-stone-800', { 'lg:order-4': i === 3, 'lg:order-3': i === 4 }]">
               {{ i }}
             </button>
           </div>
@@ -429,33 +432,36 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                 <option class="bg-stone-800" value="" selected>
                   Select a weapon...
                 </option>
-                <option v-for="weapon, weaponId in WEAPONS" :key="'add-' + weaponId" class="bg-stone-800"
-                  :value="weaponId">
-                  {{ weapon.name }} {{ weapon.icon }}: {{ weapon.speed }}❨{{ weapon.acc }}+{{ weapon.str }}❩
+                <option v-for="weapon, i in WEAPONS" :key="'add-' + i" class="bg-stone-800" :value="i">
+                  {{ `${weapon.name} ${weapon.icon}: ${weapon.speed}❨${weapon.acc}+${weapon.str}❩` }}
                 </option>
               </select>
-              <button class="w-12 px-2 text-center"
-                @click.prevent="store.addWeapon(selectedSurvivor, selectedWeapon); selectedWeapon = ''">➕</button>
+              <button class="w-12 px-2 text-center" :style="`filter:grayscale(${store.settings.grayscale}%)`"
+                @click.prevent="addWeapon">
+                ➕
+              </button>
             </div>
             <div v-for="weaponId, i in store.survivors[selectedSurvivor].weapons" :key="weaponId + i"
               class="mt-1 flex justify-between border-t-2 border-stone-500">
               <GetValue v-slot="{ weapon }: { weapon: WeaponType }"
                 :weapon="WEAPONS[weaponId] ?? WEAPONS['FIST_N_TOOTH']">
                 <div class="px-2">
-                  {{ weapon.name }} <span class="grayscale"
-                    :style="`--tw-grayscale:grayscale(${store.settings.grayscale}%)`">{{ weapon.icon }}</span>:
-                  {{ ' ' }}
-                  {{ weapon.speed }}❨{{ weapon.acc }}+{{ weapon.str }}❩
+                  {{ weapon.name }}
+                  <span :style="`filter:grayscale(${store.settings.grayscale}%)`">
+                    {{ weapon.icon }}
+                  </span>{{ `: ${weapon.speed}❨${weapon.acc}+${weapon.str}❩` }}
                 </div>
-              </GetValue><!--  ❨1+1❩ ❪1+1❫ ⦇1+1⦈ -->
-              <button class="w-12 px-2 text-center" @click.prevent="store.removeWeapon(selectedSurvivor, i)">✖</button>
+              </GetValue>
+              <button class="w-12 px-2 text-center" :style="`filter:grayscale(${store.settings.grayscale}%)`"
+                @click.prevent="store.removeWeapon(selectedSurvivor, i)">
+                ✖
+              </button>
             </div>
           </div>
 
           <div class="flex justify-end">
-            <button
-              class="w-16 rounded-lg border-2 border-stone-800 px-1 text-center text-4xl leading-normal hover:bg-slate-800"
-              @click.prevent="clickDelete">
+            <button @click.prevent="clickDelete" :style="`filter:grayscale(${store.settings.grayscale}%)`"
+              class="w-16 rounded-lg border-2 border-stone-800 px-1 text-center text-4xl leading-normal hover:bg-slate-800">
               {{ confirmDelete ? '✔' : '🗑️' }}
             </button>
           </div>

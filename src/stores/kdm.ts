@@ -78,7 +78,7 @@ export const useKdmStore = defineStore('kdm', () => {
   }
 
   function knockedDown(hunterId: number) {
-    hunters.value[hunterId].status = (hunters.value[hunterId].status + 1) % 3
+    hunters.value[hunterId].status = (hunters.value[hunterId].status + 2) % 3
   }
 
   // Survivors:
