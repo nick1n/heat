@@ -98,6 +98,12 @@ export const useKdmStore = defineStore('kdm', () => {
   }
 
   function removeSurvivor(survivorId: number) {
+    if (survivors.value.length <= 1) return
+
+    hunters.value.forEach((h) => {
+      if (h.survivorId > survivorId) h.survivorId--
+      else if (h.survivorId === survivorId) h.survivorId = 0
+    })
     survivors.value.splice(survivorId, 1)
   }
 
