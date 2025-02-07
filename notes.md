@@ -40,6 +40,24 @@ Railroad Ink example webapp:
 http://horribleguild.com/railroad-ink-dice/
 https://www.horribleguild.com/railroad-ink-challenge/preview.html
 
+```html
+<style>
+@font-face {
+  font-family: kd-icons;
+  src:
+    url(https://kingdomdeath.com/_next/static/media/kd-icons.f8954c0d4f42224f0a7b49aa5ffe21a2.woff2) format('woff2'),
+    url(https://kingdomdeath.com/_next/static/media/kd-icons.c51aee6e4bab0dfcfca3205c5be79520.woff) format('woff');
+  font-style: normal;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+}
+span.stix {
+  font-family: 'kd-icons';
+  font-weight: 400;
+}
+</style>
+```
+
 White Lion Resources Deck Cheap/Damaged Sleeves:
 59.75x91.45x0.55mm
 9.11-9.77/18=0.51-0.55
@@ -293,7 +311,7 @@ flow rate: 0.98784 - 0.99813 = 0.992985
 12x16mm dowels
 
 Dowels:
-Depth ratio: 7.8mm - 0.1mm
+Depth ratio: 6.20mm or 7.8mm - 0.1mm
 Size: 12mm - 0.05mm
 
 If insane, depart w/ +1 survival & +1 str token.
@@ -305,3 +323,6 @@ Gain priority target unless you have stinky gear.
 Showdown, whenever you gain survival, +1 survival.
 Perfect hit, +2 strength until end of attack.
 Showdown, Act: all +2 insanity. On Death, encourage all.
+
+
+depart: +3 survival, +1 understanding, +3 insanity

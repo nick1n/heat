@@ -103,7 +103,7 @@ export const SCREAMING_ANTELOPE_L3: Monster = {
 }
 
 export const BUTCHER_L1: Monster = {
-  img: 'stencil-white-lion.png',
+  img: 'stencil-butcher.png',
   type: MS.MONSTER,
   name: "Butcher",
   lvl: 1,
@@ -112,5 +112,36 @@ export const BUTCHER_L1: Monster = {
     hp: 13,
     toughness: 9,
     movement: 5
+  },
+}
+
+export const BUTCHER_L2: Monster = {
+  img: 'stencil-butcher.png',
+  type: MS.MONSTER,
+  name: "Butcher",
+  lvl: 2,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 16,
+    movement: 5,
+    toughness: 12,
+    speed: 1,
+    str: 1,
+  },
+}
+
+export const BUTCHER_L3: Monster = {
+  img: 'stencil-butcher.png',
+  type: MS.MONSTER,
+  name: "Butcher",
+  lvl: 3,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 22,
+    movement: 5,
+    toughness: 15,
+    speed: 2,
+    str: 2,
+    acc: 2,
   },
 }

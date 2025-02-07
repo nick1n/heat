@@ -360,7 +360,8 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                   Select Monster
                 </h3>
 
-                <button v-for="m, key in MONSTERS" :key class="rounded-lg px-6 py-2 text-3xl hover:bg-sky-950"
+                <button v-for="m, key in MONSTERS" :key
+                  class="mx-auto block rounded-lg px-6 py-2 text-3xl hover:bg-sky-950"
                   @click.prevent="clickMonster(key, m)">
                   {{ m.name }} Lvl {{ m.lvl }}
                 </button>
