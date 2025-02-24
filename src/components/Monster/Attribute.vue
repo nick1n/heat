@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Attributes } from './types';
+import { type Attributes, MS } from './types';
 import { useKdmStore } from '@/stores/kdm';
 
-const { base, mod, attr, justBase = false, bottomBorder = false } = defineProps<{
+const { base, mod, attr, type = MS.MONSTER, justBase = false, bottomBorder = false } = defineProps<{
   base: number;
   mod: number;
   attr: keyof Attributes;
+  type?: MS;
   justBase?: boolean;
   bottomBorder?: boolean;
 }>()
@@ -15,9 +16,10 @@ const emit = defineEmits(['click'])
 
 const store = useKdmStore()
 
-const def = computed(() => attr === 'movement' ? 5 : 0)
+const def = computed(() => attr === 'movement' && type === MS.SURVIVOR ? 5 : 0)
 const ICONS: { [k in keyof Attributes]: string } = {
   acc: '🎯',
+  perf: '✨',
   eva: '💨',
   hp: '🩸',
   luck: '🍀',

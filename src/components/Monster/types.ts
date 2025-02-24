@@ -3,7 +3,9 @@ import * as WEAPONS from "@/components/Monster/weapons";
 // Monster or Survivor
 export const enum MS {
   MONSTER,
-  SURVIVOR
+  SURVIVOR,
+  ALL,
+  NONAME,
 }
 
 export const ATTRIBUTE_ORDERS: (keyof Attributes)[][] = [
@@ -14,6 +16,7 @@ export const ATTRIBUTE_ORDERS: (keyof Attributes)[][] = [
 export const ZERO_ATTRS: Attributes = {
   movement: 0,
   acc: 0,
+  perf: 0,
   str: 0,
   eva: 0,
   luck: 0,
@@ -38,6 +41,7 @@ export type MonsterStats = Monster & {
 export type Attributes = {
   movement: number;
   acc: number;
+  perf: number;
   str: number;
   eva: number;
   luck: number;
@@ -53,6 +57,7 @@ export type WeaponType = {
   acc: number;
   str: number;
   deadly?: number;
+  perfection?: number;
 }
 
 export type WEAPON_IDS = keyof typeof WEAPONS
@@ -84,6 +89,7 @@ export type Hunter = {
 }
 
 export const ACTIONS = {
+  ACT: '🎭',
   DODGE: '💨',
   ENCOURAGE: '🙌',
   DASH: '🏃',

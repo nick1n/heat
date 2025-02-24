@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted, onUnmounted, type Ref, computed, type FunctionalComponent, type Events, type EmitsOptions } from 'vue';
-import { useStorage, useTitle, type RemovableRef } from '@vueuse/core';
+import { useTitle } from '@vueuse/core';
 
 import Attribute from '@/components/Monster/Attribute.vue';
 import Weapon from '@/components/Monster/Weapon.vue';
-import { ATTRIBUTE_ORDERS, MS, ZERO_ATTRS, ACTIONS, type Attributes, type Monster, type MonsterStats, type Survivor, type WeaponType, type WEAPON_IDS, HunterStatus } from '@/components/Monster/types';
+import { ATTRIBUTE_ORDERS, MS, ZERO_ATTRS, ACTIONS, type Attributes, type Monster, type MonsterStats, type Survivor, type WeaponType, type WEAPON_IDS } from '@/components/Monster/types';
 import * as MONSTERS from '@/components/Monster/monsters';
 import * as WEAPONS from '@/components/Monster/weapons'
-import { useKdmStore } from '@/stores/kdm';
+import { START_SURVIVOR_ID, useKdmStore } from '@/stores/kdm';
 
 useTitle('KD:M Showdown')
 
@@ -38,21 +38,24 @@ function updateAttrs() {
     toughness: mon.base.toughness + mon.mod.toughness,
     movement: mon.base.movement + mon.mod.movement,
     acc: mon.base.acc + mon.mod.acc,
+    perf: mon.base.perf + mon.mod.perf,
     str: mon.base.str + mon.mod.str,
     eva: mon.base.eva + mon.mod.eva,
     luck: mon.base.luck + mon.mod.luck,
     speed: mon.base.speed + mon.mod.speed,
   }
 
+  const all = store.survivors[0].base
   survivorAttrs.value = store.hunters.map((i) => {
     const { base, mod } = store.survivors[i.survivorId]
     return {
-      movement: base.movement + mod.movement,
-      acc: base.acc + mod.acc,
-      str: base.str + mod.str,
-      eva: base.eva + mod.eva,
-      luck: base.luck + mod.luck,
-      speed: base.speed + mod.speed,
+      movement: all.movement + base.movement + mod.movement,
+      acc: all.acc + base.acc + mod.acc,
+      perf: all.perf + base.perf + mod.perf,
+      str: all.str + base.str + mod.str,
+      eva: all.eva + base.eva + mod.eva,
+      luck: all.luck + base.luck + mod.luck,
+      speed: all.speed + base.speed + mod.speed,
       hp: 0,
       toughness: 0,
     }
@@ -95,6 +98,7 @@ const toggleKnockedDown = ref(false)
 const survivorDialog = ref(false)
 const selectedSurvivor = ref(0)
 function showSurvivorDialog(survivorId: number) {
+  if (survivorId < START_SURVIVOR_ID) return
   selectedSurvivor.value = survivorId
   survivorDialog.value = true
 }
@@ -151,6 +155,12 @@ function keydown(e: KeyboardEvent) {
   }
 }
 
+const HUNTER_STATUSES = {
+  icons: ['🆗', '🔼', '🔽'],
+  text: ['Standing', 'Knocked down, stand at end of monster\'s turn THIS round.', 'Knocked down, stand at end of monster\'s turn NEXT round.'],
+  styles: ['border-emerald-800 opacity-50', 'border-yellow-800', 'border-rose-800'],
+} as const
+
 const capitalize = (x: string) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase()
 const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { slots }) => slots?.default?.(props)
 </script>
@@ -164,7 +174,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
     <div class="relative min-h-screen bg-contain bg-top bg-no-repeat" :style="`background-image: url(/img/${mon.img})`">
       <h1 class="pt-2 text-5xl font-bold leading-none lg:text-4xl">
         <button class="rounded-lg px-4 hover:bg-sky-950" @click.prevent="selectMonster = true">
-          {{ mon.name }} Lvl {{ mon.lvl }}
+          {{ mon.name }} {{ mon.lvl === 0 ? 'Prologue' : 'Lvl ' + mon.lvl }}
         </button>
       </h1>
       <div class="flex flex-wrap justify-center text-5xl font-bold lg:text-4xl">
@@ -214,11 +224,10 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
               <div v-if="!survivor.dead" class="flex items-center gap-1">
                 <button @click.prevent="store.knockedDown(i)"
                   class="relative h-10 w-10 rounded-lg border-[.25rem] text-xl leading-10"
-                  :class="['border-emerald-800 opacity-50', 'border-yellow-800', 'border-rose-800'][hunter.status]"
-                  :title="['Standing', 'Knocked down, stand at end of monster\'s turn THIS round.', 'Knocked down, stand at end of monster\'s turn NEXT round.'][hunter.status]">
+                  :class="HUNTER_STATUSES.styles[hunter.status]" :title="HUNTER_STATUSES.text[hunter.status]">
                   <div
                     class="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden text-center grayscale">
-                    {{ ['🆗', '🔼', '🔽'][hunter.status] }}
+                    {{ HUNTER_STATUSES.icons[hunter.status] }}
                   </div>
                   <div>&nbsp;</div>
                 </button>
@@ -239,9 +248,10 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
 
             <div class="text-4xl lg:text-2xl xl:text-3xl">
               <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'surv-' + attr" :attr
-                :base="survivor.base[attr]" :mod="survivor.mod[attr]" @click="dialog(survivor, attr)" />
+                :type="survivor.type" :base="survivor.base[attr]" :mod="survivor.mod[attr]"
+                @click="dialog(survivor, attr)" />
             </div>
-            <div class="grid grid-cols-[repeat(4,_auto)] justify-center text-xl font-normal leading-normal">
+            <div class="grid grid-cols-[repeat(5,_auto)] justify-center text-lg font-normal leading-normal">
               <Weapon v-for="weaponId in survivor.weapons" :key="weaponId" :weaponId :monAttr="mon.attr"
                 :survAttr="survivorAttrs[i]" :toggleBlindSpot :toggleKnockedDown />
             </div>
@@ -269,20 +279,22 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
       <div class="flex justify-center">
         <div class="grid grid-cols-12 px-2 text-4xl">
           <template v-for="survivor, i in store.survivors" :key="'list-' + survivor.name">
-            <div class="col-span-6 my-2 mr-2 min-w-0 text-right">
-              <button
-                class="max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 leading-normal hover:bg-sky-950"
-                :class="survivor.dead ? 'text-stone-600' : survivor.retired ? 'text-stone-400' : ''"
-                @click.prevent="showSurvivorDialog(i)">
-                <span class="filter">
-                  {{ survivor.icons + (survivor.dead ? '💀' : survivor.retired ? '👴' : '') }}
-                </span>
-                {{ survivor.name }}
-              </button>
-            </div>
-            <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'list-surv-' + attr" :attr
-              :base="survivor.base[attr]" :mod="survivor.mod[attr]" :justBase="true" :bottomBorder="true"
-              @click="dialog(survivor, attr, 'base')" />
+            <template v-if="i !== 0">
+              <div class="col-span-6 my-2 mr-2 min-w-0 text-right">
+                <button
+                  class="max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 leading-normal hover:bg-sky-950"
+                  :class="survivor.dead ? 'text-stone-600' : survivor.retired ? 'text-stone-400' : ''"
+                  @click.prevent="showSurvivorDialog(i)">
+                  <span class="filter">
+                    {{ survivor.icons + (survivor.dead ? '💀' : survivor.retired ? '👴' : '') }}
+                  </span>
+                  {{ survivor.name }}
+                </button>
+              </div>
+              <Attribute v-for="attr in ATTRIBUTE_ORDERS[store.settings.attrOrder]" :key="'list-surv-' + attr" :attr
+                :base="survivor.base[attr]" :mod="survivor.mod[attr]" :justBase="true" :bottomBorder="true"
+                :type="survivor.type" @click="dialog(survivor, attr, 'base')" />
+            </template>
           </template>
         </div>
       </div>
@@ -363,7 +375,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                 <button v-for="m, key in MONSTERS" :key
                   class="mx-auto block rounded-lg px-6 py-2 text-3xl hover:bg-sky-950"
                   @click.prevent="clickMonster(key, m)">
-                  {{ m.name }} Lvl {{ m.lvl }}
+                  {{ m.name }} {{ m.lvl === 0 ? 'Prologue' : 'Lvl ' + m.lvl }}
                 </button>
               </div>
             </div>

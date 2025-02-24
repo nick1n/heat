@@ -5,12 +5,32 @@ import { ATTRIBUTE_ORDERS, HunterStatus, MS, ZERO_ATTRS, type Action, type Hunte
 import * as MONSTERS from '@/components/Monster/monsters'
 
 const STARTING_SURVIVORS: Survivor[] = [{
+  type: MS.NONAME,
+  dead: false,
+  retired: false,
+  name: 'NONAME',
+  icons: '',
+  actions: [],
+  base: { ...ZERO_ATTRS },
+  mod: { ...ZERO_ATTRS },
+  weapons: []
+}, {
+  type: MS.ALL,
+  dead: false,
+  retired: false,
+  name: 'All',
+  icons: '',
+  actions: [],
+  base: { ...ZERO_ATTRS },
+  mod: { ...ZERO_ATTRS },
+  weapons: []
+}, {
   type: MS.SURVIVOR,
   dead: false,
   retired: false,
   name: 'Allister',
   icons: '',
-  actions: ['DODGE'],
+  actions: ['ACT', 'DODGE'],
   base: { ...ZERO_ATTRS, movement: 5 },
   mod: { ...ZERO_ATTRS },
   weapons: ['FOUNDING_STONE', 'FIST_N_TOOTH']
@@ -20,7 +40,7 @@ const STARTING_SURVIVORS: Survivor[] = [{
   retired: false,
   name: 'Ezra',
   icons: '',
-  actions: ['DODGE'],
+  actions: ['ACT', 'DODGE'],
   base: { ...ZERO_ATTRS, movement: 5 },
   mod: { ...ZERO_ATTRS },
   weapons: ['FOUNDING_STONE', 'FIST_N_TOOTH']
@@ -30,7 +50,7 @@ const STARTING_SURVIVORS: Survivor[] = [{
   retired: false,
   name: 'Lucy',
   icons: '',
-  actions: ['DODGE'],
+  actions: ['ACT', 'DODGE'],
   base: { ...ZERO_ATTRS, movement: 5 },
   mod: { ...ZERO_ATTRS },
   weapons: ['FOUNDING_STONE', 'FIST_N_TOOTH']
@@ -40,14 +60,17 @@ const STARTING_SURVIVORS: Survivor[] = [{
   retired: false,
   name: 'Zachary',
   icons: '',
-  actions: ['DODGE'],
+  actions: ['ACT', 'DODGE'],
   base: { ...ZERO_ATTRS, movement: 5 },
   mod: { ...ZERO_ATTRS },
   weapons: ['FOUNDING_STONE', 'FIST_N_TOOTH']
 }] as const
 
+const NAMES = ['Allister', 'Lucy', 'Zachary', 'Ezra', 'Titus', 'Morgan', 'Jackel', 'Brave', 'Wendy', 'Hollow', 'Morg', 'Aya', 'Xell', 'Zelda', 'Willow', 'Elsbeth', 'Glow', 'Lune'] as const
+
 const HUNTER: Hunter = { survivorId: 0, used: [], status: HunterStatus.STANDING } as const
 
+export const START_SURVIVOR_ID = 2 as const
 const PREFIX = 'kdm.v1.' as const
 
 export const useKdmStore = defineStore('kdm', () => {
@@ -55,10 +78,10 @@ export const useKdmStore = defineStore('kdm', () => {
   // Current Hunt/Showdown
   const selectedMonster = useStorage(PREFIX + 'selected-mon', 'WHITE_LION_L0') as RemovableRef<keyof typeof MONSTERS>
   const hunters = useStorage(PREFIX + 'hunters', [
-    { ...HUNTER },
-    { ...HUNTER, survivorId: 1 },
-    { ...HUNTER, survivorId: 2 },
-    { ...HUNTER, survivorId: 3 },
+    { ...HUNTER, survivorId: START_SURVIVOR_ID },
+    { ...HUNTER, survivorId: START_SURVIVOR_ID + 1 },
+    { ...HUNTER, survivorId: START_SURVIVOR_ID + 2 },
+    { ...HUNTER, survivorId: START_SURVIVOR_ID + 3 },
   ]) as RemovableRef<Hunter[]>
 
   function addHunter(id: number, survivorId: number) {
@@ -68,7 +91,12 @@ export const useKdmStore = defineStore('kdm', () => {
   const monController = useStorage(PREFIX + 'mon-controller', 0)
 
   function useSurvivalAction(hunterId: number, action: Action) {
-    hunters.value[hunterId].used.push(action)
+    const i = hunters.value[hunterId].used.indexOf(action)
+    if (i !== -1) {
+      hunters.value[hunterId].used.splice(i, 1)
+    } else {
+      hunters.value[hunterId].used.push(action)
+    }
   }
 
   function hasUsedAction(hunterId: number, action: Action) {
@@ -94,7 +122,17 @@ export const useKdmStore = defineStore('kdm', () => {
   const survivors = useStorage(PREFIX + 'survivors', [...STARTING_SURVIVORS])
 
   function addSurvivor() {
-    survivors.value.push({ ...STARTING_SURVIVORS[survivors.value.length % STARTING_SURVIVORS.length] })
+    survivors.value.push({
+      type: MS.SURVIVOR,
+      dead: false,
+      retired: false,
+      name: NAMES[survivors.value.length % NAMES.length],
+      icons: '',
+      actions: ['ACT', 'DODGE'],
+      base: { ...ZERO_ATTRS, movement: 5 },
+      mod: { ...ZERO_ATTRS },
+      weapons: ['FIST_N_TOOTH']
+    })
   }
 
   function removeSurvivor(survivorId: number) {
@@ -122,7 +160,7 @@ export const useKdmStore = defineStore('kdm', () => {
   }
 
   // Settings:
-  const attrOrder = useStorage(PREFIX + 'attr-order', 0)
+  const attrOrder = useStorage(PREFIX + 'attr-order', 1)
   function changeOrder() {
     attrOrder.value = ++attrOrder.value % ATTRIBUTE_ORDERS.length
   }
