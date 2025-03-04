@@ -161,6 +161,18 @@ const HUNTER_STATUSES = {
   styles: ['border-emerald-800 opacity-50', 'border-yellow-800', 'border-rose-800'],
 } as const
 
+const resetSetting = ref(false)
+function resetAllData() {
+  if (resetSetting.value) {
+    store.settings.resetAll()
+    clickMonster(store.selectedMonster, MONSTERS[store.selectedMonster])
+    settingsDialog.value = false
+    resetSetting.value = false
+  } else {
+    resetSetting.value = true
+  }
+}
+
 const capitalize = (x: string) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase()
 const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { slots }) => slots?.default?.(props)
 </script>
@@ -474,8 +486,8 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
       </dialog>
     </div>
 
-    <div class="fixed inset-0 bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto" @click="settingsDialog = false"
-      :class="settingsDialog ? '' : 'hidden'">
+    <div class="fixed inset-0 bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto"
+      :class="settingsDialog ? '' : 'hidden'" @click="settingsDialog = false; resetSetting = false">
       <dialog
         class="flex min-h-screen items-center justify-center bg-transparent px-4 pb-20 pt-4 text-center sm:block sm:p-0">
 
@@ -523,6 +535,13 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
               @input="store.settings.setOpacity"
               class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
               id="setting-opacity">
+          </div>
+
+          <!-- Reset All -->
+          <div class="space-y-2">
+            <button class="rounded border-2 border-stone-300 px-4" @click.prevent="resetAllData">
+              {{ resetSetting ? 'Are you sure?' : 'Reset All Data' }}
+            </button>
           </div>
         </div>
       </dialog>

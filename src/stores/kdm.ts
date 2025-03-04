@@ -66,7 +66,9 @@ const STARTING_SURVIVORS: Survivor[] = [{
   weapons: ['FOUNDING_STONE', 'FIST_N_TOOTH']
 }] as const
 
-const NAMES = ['Allister', 'Lucy', 'Zachary', 'Ezra', 'Titus', 'Morgan', 'Jackel', 'Brave', 'Wendy', 'Hollow', 'Morg', 'Aya', 'Xell', 'Zelda', 'Willow', 'Elsbeth', 'Glow', 'Lune'] as const
+const NAMES = [
+  ['Adam', 'Brave', 'Crag', 'Dusk', 'Edge', 'Flint', 'Glow', 'Hollow', 'Ink', 'Jackel', 'Kade', 'Lash', 'Morg', 'Nox', 'Onyx', 'Paul', 'Quinn', 'Raven', 'Shade', 'Titus', 'Urn', 'Vile', 'Willow', 'Xell', 'Yex', 'Zusk'],
+  ['Aya', 'Bane', 'Clove', 'Dorn', 'Elsbeth', 'Fang', 'Glaive', 'Holt', 'Ire', 'Jynx', 'Krex', 'Lune', 'Morgan', 'Numb', 'Orn', 'Pike', 'Quartz', 'Robin', 'Sable', 'Thorne', 'Umber', 'Vex', 'Wendy', 'Xyph', 'Yew', 'Zelda']] as const
 
 const HUNTER: Hunter = { survivorId: 0, used: [], status: HunterStatus.STANDING } as const
 
@@ -118,15 +120,27 @@ export const useKdmStore = defineStore('kdm', () => {
     hunters.value[hunterId].status = (hunters.value[hunterId].status + 2) % 3
   }
 
+  function resetShowdown() {
+    selectedMonster.value = 'WHITE_LION_L0'
+    hunters.value = [
+      { ...HUNTER, survivorId: START_SURVIVOR_ID },
+      { ...HUNTER, survivorId: START_SURVIVOR_ID + 1 },
+      { ...HUNTER, survivorId: START_SURVIVOR_ID + 2 },
+      { ...HUNTER, survivorId: START_SURVIVOR_ID + 3 },
+    ]
+    monController.value = 0
+  }
+
   // Survivors:
   const survivors = useStorage(PREFIX + 'survivors', [...STARTING_SURVIVORS])
+  const nameIndex = useStorage(PREFIX + 'name', 0)
 
   function addSurvivor() {
     survivors.value.push({
       type: MS.SURVIVOR,
       dead: false,
       retired: false,
-      name: NAMES[survivors.value.length % NAMES.length],
+      name: NAMES[Math.floor(Math.random() * 2)][nameIndex.value++ % NAMES[0].length],
       icons: '',
       actions: ['ACT', 'DODGE'],
       base: { ...ZERO_ATTRS, movement: 5 },
@@ -159,6 +173,25 @@ export const useKdmStore = defineStore('kdm', () => {
     survivors.value[survivorId].icons = (e.target as HTMLInputElement).value
   }
 
+  function resetSurvivors() {
+    survivors.value = [...STARTING_SURVIVORS]
+    survivors.value[0].actions = []
+    survivors.value[0].base = { ...ZERO_ATTRS }
+    survivors.value[0].mod = { ...ZERO_ATTRS }
+    survivors.value[0].weapons = []
+    survivors.value[1].actions = []
+    survivors.value[1].base = { ...ZERO_ATTRS }
+    survivors.value[1].mod = { ...ZERO_ATTRS }
+    survivors.value[1].weapons = []
+    for (let i = 2; i < 6; ++i) {
+      survivors.value[i].actions = ['ACT', 'DODGE']
+      survivors.value[i].base = { ...ZERO_ATTRS, movement: 5 }
+      survivors.value[i].mod = { ...ZERO_ATTRS }
+      survivors.value[i].weapons = ['FOUNDING_STONE', 'FIST_N_TOOTH']
+    }
+    nameIndex.value = 0
+  }
+
   // Settings:
   const attrOrder = useStorage(PREFIX + 'attr-order', 1)
   function changeOrder() {
@@ -184,6 +217,19 @@ export const useKdmStore = defineStore('kdm', () => {
     if (0 <= value && value <= 1) {
       opacity.value = value
     }
+  }
+
+  function resetSettings() {
+    attrOrder.value = 1
+    showMods.value = true
+    grayscale.value = 100
+    opacity.value = 0.05
+  }
+
+  function resetAll() {
+    resetShowdown()
+    resetSurvivors()
+    resetSettings()
   }
 
   return {
@@ -213,6 +259,7 @@ export const useKdmStore = defineStore('kdm', () => {
       setGrayscale,
       opacity,
       setOpacity,
+      resetAll,
     }
   }
 })
