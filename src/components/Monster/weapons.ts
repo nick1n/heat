@@ -25,6 +25,11 @@ export const FIST_N_TOOTH_MONSTER_CLAW: WeaponType = {
   speed: 2, acc: 7, str: 1, deadly: 1
 }
 
+export const BONE_AXE: WeaponType = {
+  name: 'Bone Axe', icon: '🦴🩸⚔',
+  speed: 2, acc: 6, str: 3
+}
+
 export const BONE_BLADE: WeaponType = {
   name: 'Bone Blade', icon: '🦴⚔',
   speed: 2, acc: 6, str: 2
@@ -35,6 +40,10 @@ export const BONE_CLUB: WeaponType = {
   speed: 2, acc: 6, str: 5,
 }
 
+export const BONE_DAGGER: WeaponType = {
+  name: 'Bone Dagger', icon: '✨⚔',
+  speed: 3, acc: 7, str: 1
+}
 export const BONE_DARTS: WeaponType = {
   name: 'Bone Darts', icon: '🦴🏹',
   speed: 1, acc: 7, str: 3
@@ -58,6 +67,16 @@ export const KING_SPEAR: WeaponType = {
 export const FOUNDING_STONE: WeaponType = {
   name: 'Founding Stone', icon: '⚔🏹',
   speed: 2, acc: 7, str: 1
+}
+
+export const LION_BEAST_KATAR: WeaponType = {
+  name: 'Lion Beast Katar', icon: '⚔',
+  speed: 2, acc: 7, str: 3, deadly: 1
+}
+
+export const LION_BEAST_KATAR_PAIRED: WeaponType = {
+  name: 'Lion Beast Katar', icon: '🔗⚔',
+  speed: 4, acc: 7, str: 3, deadly: 1
 }
 
 export const TWILIGHT_SWORD_0: WeaponType = {
