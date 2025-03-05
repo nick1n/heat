@@ -34,8 +34,8 @@ export const WHITE_LION_L2: Monster = {
   base: {
     ...ZERO_ATTRS,
     hp: 16,
-    toughness: 8,
-    movement: 6,
+    toughness: 10,
+    movement: 7,
     speed: 1,
     str: 1,
   },
