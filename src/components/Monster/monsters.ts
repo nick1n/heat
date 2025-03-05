@@ -102,6 +102,50 @@ export const SCREAMING_ANTELOPE_L3: Monster = {
   },
 }
 
+export const PHOENIX_L1: Monster = {
+  img: 'stencil-phoenix.png',
+  type: MS.MONSTER,
+  name: "Phoenix",
+  lvl: 1,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 13,
+    toughness: 10,
+    movement: 8
+  },
+}
+
+export const PHOENIX_L2: Monster = {
+  img: 'stencil-phoenix.png',
+  type: MS.MONSTER,
+  name: "Phoenix",
+  lvl: 2,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 18,
+    toughness: 12,
+    movement: 8,
+    speed: 1,
+    str: 1,
+  },
+}
+
+export const PHOENIX_L3: Monster = {
+  img: 'stencil-phoenix.png',
+  type: MS.MONSTER,
+  name: "Phoenix",
+  lvl: 3,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 23,
+    toughness: 17,
+    movement: 8,
+    speed: 2,
+    str: 3,
+    luck: 2
+  },
+}
+
 export const BUTCHER_L1: Monster = {
   img: 'stencil-butcher.png',
   type: MS.MONSTER,
