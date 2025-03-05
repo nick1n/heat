@@ -189,3 +189,46 @@ export const BUTCHER_L3: Monster = {
     acc: 2,
   },
 }
+
+export const HAND_L1: Monster = {
+  img: 'stencil-hand.png',
+  type: MS.MONSTER,
+  name: "The Hand",
+  lvl: 1,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 11,
+    toughness: 14,
+    movement: 5
+  },
+}
+
+export const HAND_L2: Monster = {
+  img: 'stencil-hand.png',
+  type: MS.MONSTER,
+  name: "The Hand",
+  lvl: 2,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 12,
+    movement: 6,
+    toughness: 15,
+    speed: 1,
+    str: 1,
+  },
+}
+
+export const HAND_L3: Monster = {
+  img: 'stencil-hand.png',
+  type: MS.MONSTER,
+  name: "The Hand",
+  lvl: 3,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 13,
+    movement: 6,
+    toughness: 30,
+    speed: 3,
+    str: 6,
+  },
+}
