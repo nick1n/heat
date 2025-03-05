@@ -183,7 +183,8 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
       .filter { --tw-grayscale: grayscale({{ store.settings.grayscale }}%) }
     </component>
 
-    <div class="relative min-h-screen bg-contain bg-top bg-no-repeat" :style="`background-image: url(/img/${mon.img})`">
+    <div class="relative min-h-screen bg-contain bg-top bg-no-repeat"
+      :style="mon.img ? `background-image: url(/img/${mon.img})` : ''">
       <h1 class="pt-2 text-5xl font-bold leading-none lg:text-4xl">
         <button class="rounded-lg px-4 hover:bg-sky-950" @click.prevent="selectMonster = true">
           {{ mon.name }} {{ mon.lvl === 0 ? 'Prologue' : 'Lvl ' + mon.lvl }}

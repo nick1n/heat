@@ -26,7 +26,7 @@ export const ZERO_ATTRS: Attributes = {
 }
 
 export type Monster = {
-  img: string;
+  img?: string;
   type: MS;
   name: string;
   lvl: number;
