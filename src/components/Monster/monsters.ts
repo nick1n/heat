@@ -146,6 +146,51 @@ export const PHOENIX_L3: Monster = {
   },
 }
 
+export const DUNG_BEETLE_KNIGHT_L1: Monster = {
+  img: 'stencil-dbk.png',
+  type: MS.MONSTER,
+  name: "Dung Beetle Knight",
+  lvl: 1,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 10,
+    toughness: 12,
+    movement: 7,
+  },
+}
+
+export const DUNG_BEETLE_KNIGHT_L2: Monster = {
+  img: 'stencil-dbk.png',
+  type: MS.MONSTER,
+  name: "Dung Beetle Knight",
+  lvl: 2,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 15,
+    toughness: 14,
+    movement: 7,
+    speed: 1,
+    str: 1,
+  },
+}
+
+export const DUNG_BEETLE_KNIGHT_L3: Monster = {
+  img: 'stencil-dbk.png',
+  type: MS.MONSTER,
+  name: "Dung Beetle Knight",
+  lvl: 3,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 20,
+    toughness: 18,
+    movement: 8,
+    speed: 2,
+    str: 2,
+    acc: 1,
+    eva: 1,
+  },
+}
+
 export const BUTCHER_L1: Monster = {
   img: 'stencil-butcher.png',
   type: MS.MONSTER,
