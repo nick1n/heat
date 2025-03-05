@@ -190,6 +190,50 @@ export const BUTCHER_L3: Monster = {
   },
 }
 
+export const KINGS_MAN_L1: Monster = {
+  img: 'stencil-kings-man.png',
+  type: MS.MONSTER,
+  name: "King's Man",
+  lvl: 1,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 13,
+    toughness: 12,
+    movement: 5
+  },
+}
+
+export const KINGS_MAN_L2: Monster = {
+  img: 'stencil-kings-man.png',
+  type: MS.MONSTER,
+  name: "King's Man",
+  lvl: 2,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 17,
+    movement: 6,
+    toughness: 15,
+    speed: 1,
+    str: 1,
+  },
+}
+
+export const KINGS_MAN_L3: Monster = {
+  img: 'stencil-kings-man.png',
+  type: MS.MONSTER,
+  name: "King's Man",
+  lvl: 3,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 20,
+    movement: 6,
+    toughness: 18,
+    speed: 2,
+    str: 2,
+    acc: 2,
+  },
+}
+
 export const HAND_L1: Monster = {
   img: 'stencil-hand.png',
   type: MS.MONSTER,
@@ -230,5 +274,17 @@ export const HAND_L3: Monster = {
     toughness: 30,
     speed: 3,
     str: 6,
+  },
+}
+
+export const GOLD_SMOKE_KNIGHT_L1: Monster = {
+  type: MS.MONSTER,
+  name: "Gold Smoke Knight",
+  lvl: 1,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 19,
+    toughness: 27,
+    movement: 8,
   },
 }
