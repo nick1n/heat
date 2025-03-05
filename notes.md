@@ -42,19 +42,19 @@ https://www.horribleguild.com/railroad-ink-challenge/preview.html
 
 ```html
 <style>
-@font-face {
-  font-family: kd-icons;
-  src:
-    url(https://kingdomdeath.com/_next/static/media/kd-icons.f8954c0d4f42224f0a7b49aa5ffe21a2.woff2) format('woff2'),
-    url(https://kingdomdeath.com/_next/static/media/kd-icons.c51aee6e4bab0dfcfca3205c5be79520.woff) format('woff');
-  font-style: normal;
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-}
-span.stix {
-  font-family: 'kd-icons';
-  font-weight: 400;
-}
+  @font-face {
+    font-family: kd-icons;
+    src:
+      url(https://kingdomdeath.com/_next/static/media/kd-icons.f8954c0d4f42224f0a7b49aa5ffe21a2.woff2) format('woff2'),
+      url(https://kingdomdeath.com/_next/static/media/kd-icons.c51aee6e4bab0dfcfca3205c5be79520.woff) format('woff');
+    font-style: normal;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+  }
+  span.stix {
+    font-family: 'kd-icons';
+    font-weight: 400;
+  }
 </style>
 ```
 
@@ -324,5 +324,6 @@ Showdown, whenever you gain survival, +1 survival.
 Perfect hit, +2 strength until end of attack.
 Showdown, Act: all +2 insanity. On Death, encourage all.
 
-
 depart: +3 survival, +1 understanding, +3 insanity
+
+SilveradoMediumCondensed 9px Bold
