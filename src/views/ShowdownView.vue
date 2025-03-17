@@ -264,7 +264,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                 :type="survivor.type" :base="survivor.base[attr]" :mod="survivor.mod[attr]"
                 @click="dialog(survivor, attr)" />
             </div>
-            <div class="grid grid-cols-[repeat(5,_auto)] justify-center text-xl font-normal leading-normal">
+            <div class="grid grid-cols-[repeat(4,_auto)] justify-center text-2xl font-normal leading-normal lg:text-xl">
               <Weapon v-for="weaponId in survivor.weapons" :key="weaponId" :weaponId :monAttr="mon.attr"
                 :survAttr="survivorAttrs[i]" :toggleBlindSpot :toggleKnockedDown />
             </div>
@@ -290,7 +290,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
       <h1 class="pt-4 text-4xl font-bold leading-loose">Survivors</h1>
 
       <div class="flex justify-center">
-        <div class="grid grid-cols-12 px-2 text-4xl">
+        <div class="grid min-w-[80%] grid-cols-12 px-2 text-4xl">
           <template v-for="survivor, i in store.survivors" :key="'list-' + survivor.name">
             <template v-if="i !== 0">
               <div class="col-span-6 my-2 mr-2 min-w-0 text-right">
