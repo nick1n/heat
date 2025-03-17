@@ -21,7 +21,7 @@ export const FIST_N_TOOTH: WeaponType = {
 }
 
 export const FIST_N_TOOTH_MONSTER_CLAW: WeaponType = {
-  name: 'Fist & Tooth', icon: '🩸⚔',
+  name: 'Fist & Tooth - MCS', icon: '🩸⚔',
   speed: 2, acc: 7, str: 1, deadly: 1
 }
 
@@ -44,6 +44,7 @@ export const BONE_DAGGER: WeaponType = {
   name: 'Bone Dagger', icon: '✨⚔',
   speed: 3, acc: 7, str: 1
 }
+
 export const BONE_DARTS: WeaponType = {
   name: 'Bone Darts', icon: '🦴🏹',
   speed: 1, acc: 7, str: 3

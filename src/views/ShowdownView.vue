@@ -264,7 +264,7 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
                 :type="survivor.type" :base="survivor.base[attr]" :mod="survivor.mod[attr]"
                 @click="dialog(survivor, attr)" />
             </div>
-            <div class="grid grid-cols-[repeat(5,_auto)] justify-center text-lg font-normal leading-normal">
+            <div class="grid grid-cols-[repeat(5,_auto)] justify-center text-xl font-normal leading-normal">
               <Weapon v-for="weaponId in survivor.weapons" :key="weaponId" :weaponId :monAttr="mon.attr"
                 :survAttr="survivorAttrs[i]" :toggleBlindSpot :toggleKnockedDown />
             </div>

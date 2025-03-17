@@ -29,9 +29,9 @@ const displayProbs = ref(false)
   <div
     class="col-span-5 hidden cursor-pointer self-center truncate border-t-2 border-stone-800 px-2 pt-1 text-left lg:block xl:hidden"
     @click="displayProbs = !displayProbs">
-    {{ weapon.name }} <span class="grayscale">{{ weapon.icon }}</span>:
+    {{ weapon.name }} <span class="tracking-tighter grayscale">{{ weapon.icon }}</span>:
   </div>
-  <div class="hidden cursor-pointer self-center border-stone-800 px-2 text-left lg:block xl:hidden"
+  <div class="hidden cursor-pointer self-center border-stone-800 px-2 pb-1 text-left lg:block xl:hidden"
     @click="displayProbs = !displayProbs">
     Roll {{ numOfDice }}
   </div>
@@ -39,25 +39,29 @@ const displayProbs = ref(false)
   <div dir="rtl"
     class="cursor-pointer self-center truncate border-t-2 border-stone-800 px-2 py-1 text-right lg:hidden xl:block"
     @click="displayProbs = !displayProbs">
-    {{ weapon.name }} <span class="grayscale">{{ weapon.icon }}</span>: Roll {{ numOfDice }}
+    {{ weapon.name }} <span class="tracking-tighter grayscale">{{ weapon.icon }}</span>: Roll {{ numOfDice }}
   </div>
 
-  <div class="cursor-pointer self-center border-t-2 border-stone-800 px-2 lg:border-0 lg:pb-1 xl:border-t-2 xl:py-1"
+  <div
+    class="cursor-pointer self-center border-t-2 border-stone-800 px-2 py-1 lg:border-0 lg:pt-0 xl:border-t-2 xl:pt-0"
     @click="displayProbs = !displayProbs">
     Hit: {{ lantern(hitOn) }}
   </div>
-  <div class="cursor-pointer self-center border-t-2 border-stone-800 px-2 lg:border-0 lg:pb-1 xl:border-t-2 xl:py-1"
+  <div
+    class="cursor-pointer self-center border-t-2 border-stone-800 px-2 py-1 lg:border-0 lg:pt-0 xl:border-t-2 xl:pt-0"
     @click="displayProbs = !displayProbs">
     <strong v-if="perfOn > 10">Can't PH</strong>
     <template v-else>
       Perf: {{ lantern(perfOn) }}
     </template>
   </div>
-  <div class="cursor-pointer self-center border-t-2 border-stone-800 px-2 lg:border-0 lg:pb-1 xl:border-t-2 xl:py-1"
+  <div
+    class="cursor-pointer self-center border-t-2 border-stone-800 px-2 py-1 lg:border-0 lg:pt-0 xl:border-t-2 xl:pt-0"
     @click="displayProbs = !displayProbs">
     Wnd: {{ lantern(woundOn) }}
   </div>
-  <div class="cursor-pointer self-center border-t-2 border-stone-800 px-2 lg:border-0 lg:pb-1 xl:border-t-2 xl:py-1"
+  <div
+    class="cursor-pointer self-center border-t-2 border-stone-800 px-2 py-1 lg:border-0 lg:pt-0 xl:border-t-2 xl:pt-0"
     @click="displayProbs = !displayProbs">
     <strong v-if="critOn > 10">Can't Crit</strong>
     <template v-else>
