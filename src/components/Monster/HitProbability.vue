@@ -31,7 +31,7 @@ function prob(numOfDice: number, numOfHits: number, on: number) {
 </script>
 
 <template>
-  <div v-for="(_, i) in rolls + 1" :key="i" class="col-span-5 leading-tight" :class="i === rolls ? 'mb-2' : ''">
+  <div v-for="(_, i) in rolls + 1" :key="i" class="col-span-4 leading-tight" :class="i === rolls ? 'mb-2' : ''">
     <template v-if="i === 0">
       Complete miss: <strong>{{ percent(Math.pow(hitOn / 10, rolls)) }}</strong>
     </template>
