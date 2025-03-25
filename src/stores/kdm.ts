@@ -78,6 +78,8 @@ const PREFIX = 'kdm.v1.' as const
 export const useKdmStore = defineStore('kdm', () => {
 
   // Current Hunt/Showdown
+  const toggleBlindSpot = useStorage(PREFIX + 'mon-blind', false)
+  const toggleKnockedDown = useStorage(PREFIX + 'mon-kd', false)
   const selectedMonster = useStorage(PREFIX + 'selected-mon', 'WHITE_LION_L0') as RemovableRef<keyof typeof MONSTERS>
   const hunters = useStorage(PREFIX + 'hunters', [
     { ...HUNTER, survivorId: START_SURVIVOR_ID },
@@ -113,6 +115,7 @@ export const useKdmStore = defineStore('kdm', () => {
         hunter.status--
       }
     })
+    toggleKnockedDown.value = false
     monController.value = ++monController.value % 4
   }
 
@@ -233,6 +236,8 @@ export const useKdmStore = defineStore('kdm', () => {
   }
 
   return {
+    toggleBlindSpot,
+    toggleKnockedDown,
     selectedMonster,
     hunters,
     addHunter,

@@ -92,9 +92,6 @@ function log(str: string) {
   lastLog.value = str
 }
 
-const toggleBlindSpot = ref(false)
-const toggleKnockedDown = ref(false)
-
 const survivorDialog = ref(false)
 const selectedSurvivor = ref(0)
 function showSurvivorDialog(survivorId: number) {
@@ -133,9 +130,9 @@ onUnmounted(() => {
 function keydown(e: KeyboardEvent) {
   const key = e.key.toLowerCase()
   if (key === 'k') {
-    toggleKnockedDown.value = !toggleKnockedDown.value
+    store.toggleKnockedDown = !store.toggleKnockedDown
   } else if (key === 'b') {
-    toggleBlindSpot.value = !toggleBlindSpot.value
+    store.toggleBlindSpot = !store.toggleBlindSpot
   } else if (key === 'm') {
     store.settings.showMods = !store.settings.showMods
   } else if (key === 'o') {
@@ -202,13 +199,13 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
         </div>
         <div class="grid grid-cols-3 justify-center">
           <button class="rounded-bl-lg border-r-2 border-t-2 border-stone-800 px-3 py-2 text-xl font-medium"
-            :class="toggleBlindSpot ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
-            @click.prevent="toggleBlindSpot = !toggleBlindSpot">
+            :class="store.toggleBlindSpot ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
+            @click.prevent="store.toggleBlindSpot = !store.toggleBlindSpot">
             Blind Spot
           </button>
           <button class="border-t-2 border-stone-800 px-3 py-2 text-xl font-medium"
-            :class="toggleKnockedDown ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
-            @click.prevent="toggleKnockedDown = !toggleKnockedDown">
+            :class="store.toggleKnockedDown ? 'bg-stone-800 hover:bg-stone-900' : 'hover:bg-stone-800'"
+            @click.prevent="store.toggleKnockedDown = !store.toggleKnockedDown">
             Knocked Down
           </button>
           <button @click.prevent="store.nextRound"
@@ -223,13 +220,13 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
           :class="{ 'lg:order-4': i === 2, 'lg:order-3': i === 3 }" class="min-w-0">
           <GetValue v-slot="{ survivor }: { survivor: Survivor }" :survivor="store.survivors[hunter.survivorId]">
             <h2 class="flex justify-between gap-2 text-4xl leading-normal">
-              <div class="my-2 text-stone-800">{{ i + 1 }}.</div>
+              <div class="my-2 text-stone-800">{{ store.monController === i ? '🎮' : (i + 1 + '.') }}</div>
               <button
                 class="my-2 min-w-0 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-4 py-1 text-2xl hover:bg-sky-950"
                 :class="survivor.dead ? 'text-stone-600' : survivor.retired ? 'text-stone-400' : ''"
                 @click.prevent="showSurvivorDialog(hunter.survivorId)">
                 <span class="filter">
-                  {{ survivor.icons + (store.monController === i ? '🎮' : '') + (survivor.dead ? '💀' : '') }}
+                  {{ survivor.icons + (survivor.dead ? '💀' : '') }}
                 </span>
                 {{ survivor.name }}
               </button>
@@ -266,7 +263,8 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
             </div>
             <div class="grid grid-cols-[repeat(4,_auto)] justify-center text-2xl font-normal leading-normal lg:text-xl">
               <Weapon v-for="weaponId in survivor.weapons" :key="weaponId" :weaponId :monAttr="mon.attr"
-                :survAttr="survivorAttrs[i]" :toggleBlindSpot :toggleKnockedDown />
+                :survAttr="survivorAttrs[i]" :survIcons="survivor.icons" :toggleBlindSpot="store.toggleBlindSpot"
+                :toggleKnockedDown="store.toggleKnockedDown" />
             </div>
           </GetValue>
         </div>

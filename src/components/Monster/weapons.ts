@@ -5,6 +5,7 @@ const LEGEND: string[] = [
   '🏋️‍♂️ - Cumbersome',
   '☠️ - Cursed',
   '🦴 - Frail',
+  '😡 - Frenzy',
   '🖤 - Irreplaceable',
   '⚔️ - Melee',
   '🔗 - Paired',
@@ -36,7 +37,7 @@ export const BONE_BLADE: WeaponType = {
 }
 
 export const BONE_CLUB: WeaponType = {
-  name: 'Bone Club', icon: '🏋️‍♂️⚔',
+  name: 'Bone Club', icon: '🏋️⚔',
   speed: 2, acc: 6, str: 5,
 }
 
@@ -46,7 +47,7 @@ export const BONE_DAGGER: WeaponType = {
 }
 
 export const BONE_DARTS: WeaponType = {
-  name: 'Bone Darts', icon: '🦴🏹',
+  name: 'Bone Darts', icon: '🦴🏹6',
   speed: 1, acc: 7, str: 3
 }
 
@@ -61,12 +62,12 @@ export const BEAST_KNUCKLE_PAIRED: WeaponType = {
 }
 
 export const KING_SPEAR: WeaponType = {
-  name: 'King Spear', icon: '🏹',
+  name: 'King Spear', icon: '⚔2',
   speed: 2, acc: 6, str: 3
 }
 
 export const FOUNDING_STONE: WeaponType = {
-  name: 'Founding Stone', icon: '⚔🏹',
+  name: 'Founding Stone', icon: '⚔🏹∞',
   speed: 2, acc: 7, str: 1
 }
 
@@ -81,12 +82,12 @@ export const LION_BEAST_KATAR_PAIRED: WeaponType = {
 }
 
 export const TWILIGHT_SWORD_0: WeaponType = {
-  name: 'Twilight Sword - 0', icon: '🏋️‍♂️🐢🧠⚔',
+  name: 'Twilight Sword - 0', icon: '🏋️🐢🧠⚔',
   speed: 1, acc: 9, str: 9
 }
 
 export const TWILIGHT_SWORD_1: WeaponType = {
-  name: 'Twilight Sword - 1', icon: '🏋️‍♂️🐢🧠⚔',
+  name: 'Twilight Sword - 1', icon: '🏋️🐢🧠⚔',
   speed: 1, acc: 8, str: 9
 }
 
@@ -131,16 +132,26 @@ export const BUTCHER_CLEAVER_PAIRED: WeaponType = {
 }
 
 export const CAT_GUT_BOW: WeaponType = {
-  name: 'Cat Gut Bow', icon: '🏋️‍♂️🏹',
+  name: 'Cat Gut Bow', icon: '🏋️🏹6',
   speed: 2, acc: 7, str: 3
 }
 
 export const CAT_GUT_BOW_AIM: WeaponType = {
-  name: 'Cat Gut Bow', icon: '🎯🏋️‍♂️🏹',
+  name: 'Cat Gut Bow - Aim', icon: '🏋️🏹6',
   speed: 1, acc: 5, str: 3
 }
 
 export const CLAW_HEAD_ARROW: WeaponType = {
-  name: 'Claw Head Arrow', icon: '🐢🔻🏹',
+  name: 'Claw Head Arrow', icon: '🐢🔻🏹*',
   speed: 1, acc: 6, str: 6
+}
+
+export const VESPERTINE_BOW: WeaponType = {
+  name: 'Vespertine Bow', icon: '🏹5',
+  speed: 3, acc: 6, str: 1, deadly: 1
+}
+
+export const VESPERTINE_BOW_AIM: WeaponType = {
+  name: 'Vespertine Bow - Aim', icon: '🐢🏹9',
+  speed: 3, acc: 2, str: 1, deadly: 1
 }
