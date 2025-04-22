@@ -333,3 +333,45 @@ export const GOLD_SMOKE_KNIGHT_L1: Monster = {
     movement: 8,
   },
 }
+
+export const FLOWER_KNIGHT_L1: Monster = {
+  img: 'stencil-fk.png',
+  type: MS.MONSTER,
+  name: "Flower Knight",
+  lvl: 1,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 12,
+    toughness: 6,
+    movement: 7,
+  },
+}
+
+export const FLOWER_KNIGHT_L2: Monster = {
+  img: 'stencil-fk.png',
+  type: MS.MONSTER,
+  name: "Flower Knight",
+  lvl: 2,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 14,
+    toughness: 8,
+    movement: 8,
+    str: 1,
+  },
+}
+
+export const FLOWER_KNIGHT_L3: Monster = {
+  img: 'stencil-fk.png',
+  type: MS.MONSTER,
+  name: "Flower Knight",
+  lvl: 3,
+  base: {
+    ...ZERO_ATTRS,
+    hp: 17,
+    toughness: 11,
+    movement: 9,
+    speed: 1,
+    str: 2,
+  },
+}
