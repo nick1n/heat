@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted, onUnmounted, type Ref, computed, type FunctionalComponent, type Events, type EmitsOptions } from 'vue';
-import { useTitle } from '@vueuse/core';
+import { useFullscreen, useTitle } from '@vueuse/core';
 
 import Attribute from '@/components/Monster/Attribute.vue';
 import Weapon from '@/components/Monster/Weapon.vue';
@@ -119,6 +119,7 @@ function clickDelete() {
   }
 }
 
+const { toggle: toggleFullscreen } = useFullscreen()
 const settingsDialog = ref(false)
 
 onMounted(() => {
@@ -210,7 +211,12 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
           </button>
           <button @click.prevent="store.nextRound"
             class="rounded-br-lg border-l-2 border-t-2 border-stone-800 px-3 py-2 text-xl font-medium hover:bg-stone-800">
-            Next Round <span class="inline-block -scale-x-[1] filter">🔄</span>
+            Next Round <span class="inline-block align-text-top">
+              <svg width="1.25rem" height="1.25rem" fill="none" viewBox="0 0 24 24">
+                <path fill="#fff"
+                  d="M16.38 6.2A6.96 6.96 0 0 0 12 4.5a7.5 7.5 0 1 0 7.06 10.03c.2-.52.71-.87 1.26-.76l.97.2c.54.12.9.66.73 1.18A10.5 10.5 0 1 1 12 1.5c2.78 0 4.95 1.27 6.51 2.57L20.3 2.3A1 1 0 0 1 22 3v5.5a1 1 0 0 1-1 1h-5.5a1 1 0 0 1-.7-1.7l1.58-1.6Z" />
+              </svg>
+            </span>
           </button>
         </div>
       </div>
@@ -270,10 +276,19 @@ const GetValue: FunctionalComponent<{ value: any }, EmitsOptions> = (props, { sl
         </div>
       </div>
 
-      <div class="absolute right-1 top-1">
-        <button class="rounded-lg border-2 border-stone-600 px-2 text-4xl leading-tight"
-          @click.prevent="settingsDialog = true">
-          <span class="filter">⚙</span>
+      <div class="absolute right-1 top-1 flex flex-col gap-1">
+        <button class="rounded-lg border-2 border-stone-600 p-1" @click.prevent="toggleFullscreen" title="Fullscreen">
+          <svg width="2.25rem" height="2.25rem" fill="none" viewBox="0 0 24 24">
+            <path fill="#fff"
+              d="M4 1.5A2.5 2.5 0 0 0 1.5 4v4.5c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-4h4c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1H4Zm16 0c1.4 0 2.5 1.1 2.5 2.5v4.5c0 .6-.4 1-1 1h-1a1 1 0 0 1-1-1v-4h-4a1 1 0 0 1-1-1v-1c0-.6.4-1 1-1H20Zm0 21c1.4 0 2.5-1.1 2.5-2.5v-4.5c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1v4h-4a1 1 0 0 0-1 1v1c0 .6.4 1 1 1H20ZM1.5 20c0 1.4 1.1 2.5 2.5 2.5h4.5c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1h-4v-4c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1V20Z" />
+          </svg>
+        </button>
+        <button class="rounded-lg border-2 border-stone-600 p-1" @click.prevent="settingsDialog = true"
+          title="Settings">
+          <svg width="2.25rem" height="2.25rem" fill="none" viewBox="0 0 24 24">
+            <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd"
+              d="M12.78.45c1.04 0 1.94.72 2.13 1.7l.09.44a2.99 2.99 0 0 0 3.9 2.19l.44-.15a2.2 2.2 0 0 1 2.58.94l.79 1.31c.52.88.33 1.98-.46 2.64l-.35.3a2.83 2.83 0 0 0 0 4.36l.35.3c.79.66.98 1.76.46 2.64l-.79 1.31a2.2 2.2 0 0 1-2.58.94l-.44-.15a2.99 2.99 0 0 0-3.9 2.19l-.09.43c-.2 1-1.09 1.71-2.13 1.71h-1.56a2.15 2.15 0 0 1-2.13-1.7L9 21.4a2.99 2.99 0 0 0-3.9-2.18l-.44.15a2.2 2.2 0 0 1-2.58-.94l-.79-1.31a2.06 2.06 0 0 1 .46-2.64l.35-.3a2.83 2.83 0 0 0 0-4.36l-.35-.3a2.06 2.06 0 0 1-.46-2.64l.79-1.31a2.2 2.2 0 0 1 2.58-.94l.44.15A2.99 2.99 0 0 0 9 2.6l.09-.45c.2-.98 1.09-1.7 2.13-1.7h1.56ZM12 15.3a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6Z" />
+          </svg>
         </button>
         <button
           class="hidden rounded-lg border-2 border-stone-900 p-2 leading-normal outline-sky-950 hover:bg-stone-900 focus:outline-2 active:bg-black"
