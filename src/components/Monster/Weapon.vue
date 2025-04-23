@@ -66,5 +66,6 @@ const displayProbs = ref(false)
       Crit: {{ lantern(critOn) }}
     </template>
   </div>
-  <HitProbability :rolls="numOfDice" :hit="hitOn" :wound="woundOn" :crit="critOn" v-if="displayProbs" />
+  <HitProbability :rolls="numOfDice" :hit="hitOn" :wound="woundOn" :crit="critOn" v-if="displayProbs"
+    @click="displayProbs = !displayProbs" />
 </template>
