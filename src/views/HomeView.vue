@@ -13,6 +13,9 @@ import { RouterLink } from 'vue-router'
     <div>
       <RouterLink to="/showdown" class="inline-block border-b-2 border-rose-500">KD:M Showdown</RouterLink>
     </div>
+    <div>
+      <RouterLink to="/hunts" class="inline-block border-b-2 border-rose-500">KD:M Hunt Events</RouterLink>
+    </div>
     <h1 class="mt-8">Reference Cards:</h1>
     <div>
       <RouterLink to="/king" class="inline-block border-b-2 border-rose-500">

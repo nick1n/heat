@@ -6,6 +6,7 @@ import TicketView from '../views/TicketView.vue'
 import MonsterView from '../views/MonsterView.vue'
 import ShowdownView from '../views/ShowdownView.vue'
 import KingAidPrint from '@/views/KingAidPrint.vue'
+import HuntsView from '@/views/HuntsView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,11 @@ const router = createRouter({
       path: '/showdown',
       name: 'showdown',
       component: ShowdownView
+    },
+    {
+      path: '/hunts',
+      name: 'hunts',
+      component: HuntsView
     }
   ]
 })
