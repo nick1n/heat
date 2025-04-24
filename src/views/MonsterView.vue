@@ -377,11 +377,13 @@
 
 <style>
 @media print {
+
   #vue-inspector-container,
   #__vue-devtools-container__ {
     display: none;
   }
 }
+
 .font-kdm-icons {
   font-family: 'KDM-All-Icons';
   font-size: 11px;
@@ -399,6 +401,11 @@
   line-height: 9px;
   /* vertical-align: middle; */
   /* letter-spacing: -1px; */
+}
+
+.font-kd-icon {
+  font-family: 'kd-icons';
+  font-weight: 400;
 }
 
 .font-kd-icons.text-9 {
