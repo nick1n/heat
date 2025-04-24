@@ -60,6 +60,7 @@ function click(die: number, i: number) {
   }
   if (val !== card.value) {
     loading.value = true
+    showBack.value = false
     card.value = val
   }
 }
