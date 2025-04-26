@@ -21,8 +21,9 @@ const fen = ref(true)
 const src = computed(() => fen.value ? `/hunts/fen/fen-${card.value}-min.png` : `/hunts/HE-${card.value}.jpg`)
 function change() {
   fen.value = !fen.value
-  showBack.value = false
-  if (showCard.value) flip()
+  if (fen.value) {
+    showBack.value = false
+  }
 }
 
 const backs = [11, 73]
