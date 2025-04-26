@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useTitle } from '@vueuse/core';
+import { useFullscreen, useTitle } from '@vueuse/core';
 import { computed, onMounted, ref } from 'vue';
 
 useTitle('KD:M Hunt Events')
 
-const card = ref(0)
+const card = ref(1)
 const showCard = ref(false)
 const showBack = ref(false)
 
@@ -65,12 +65,12 @@ function click(die: number, i: number) {
   }
 }
 
-onMounted(randomCard)
+const { toggle: toggleFullscreen } = useFullscreen()
 </script>
 
 <template>
   <div
-    class="font-kdm-text flex min-h-svh w-svw items-center justify-center overflow-hidden bg-stone-950 [perspective:1000px]">
+    class="font-kdm-text flex min-h-svh w-full items-center justify-center overflow-hidden bg-stone-950 [perspective:1000px]">
     <div
       class="relative max-h-full w-svw cursor-pointer transition-transform duration-500 [aspect-ratio:958/1504] [transform-style:preserve-3d]"
       :class="{ '[transform:rotateY(180deg)]': showCard }" @click="flip">
@@ -97,9 +97,10 @@ onMounted(randomCard)
       {{ loading ? 'Drawing...' : 'Draw' }}
     </button>
 
-    <div class="fixed inset-0 bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto" :class="showDialog ? '' : 'hidden'"
-      @click="showDialog = false">
-      <dialog class="flex min-h-screen items-center justify-center bg-transparent sm:block sm:p-0">
+    <div class="fixed bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto bg-white/30"
+      :class="showDialog ? '' : 'hidden'" @click="showDialog = false">
+      <dialog
+        class="flex min-h-screen items-center justify-center bg-transparent shadow-lg shadow-stone-950 sm:block sm:p-0">
         <div
           class="relative flex gap-8 rounded-3xl border-2 border-white bg-slate-950 px-10 py-5 text-center text-5xl font-bold">
           <div
@@ -126,6 +127,15 @@ onMounted(randomCard)
           </div>
         </div>
       </dialog>
+    </div>
+
+    <div class="fixed right-1 top-1">
+      <button @click.prevent="toggleFullscreen" title="Fullscreen">
+        <svg width="2.25rem" height="2.25rem" fill="none" viewBox="0 0 24 24">
+          <path fill="#fff"
+            d="M4 1.5A2.5 2.5 0 0 0 1.5 4v4.5c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-4h4c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1H4Zm16 0c1.4 0 2.5 1.1 2.5 2.5v4.5c0 .6-.4 1-1 1h-1a1 1 0 0 1-1-1v-4h-4a1 1 0 0 1-1-1v-1c0-.6.4-1 1-1H20Zm0 21c1.4 0 2.5-1.1 2.5-2.5v-4.5c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1v4h-4a1 1 0 0 0-1 1v1c0 .6.4 1 1 1H20ZM1.5 20c0 1.4 1.1 2.5 2.5 2.5h4.5c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1h-4v-4c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1V20Z" />
+        </svg>
+      </button>
     </div>
 
   </div>
