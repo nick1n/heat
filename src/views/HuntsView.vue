@@ -18,7 +18,8 @@ const second = computed(() => card.value % 10)
 const showDialog = ref(false)
 
 const fen = ref(true)
-const src = computed(() => fen.value ? `/hunts/fen/fen-${card.value}-min.png` : `/hunts/HE-${card.value}.jpg`)
+const frontSrc = computed(() => fen.value ? `/hunts/fen/fen-${card.value}-min.png` : `/hunts/HE-${card.value}.jpg`)
+const backSrc = computed(() => fen.value ? "/hunts/fen/fen-back.png" : "/hunts/Hunt-Event-Back.jpg")
 function change() {
   fen.value = !fen.value
   if (fen.value) {
@@ -75,6 +76,8 @@ function click(die: number, i: number) {
 }
 
 const { toggle: toggleFullscreen } = useFullscreen()
+
+const showHelp = ref(false)
 </script>
 
 <template>
@@ -86,9 +89,8 @@ const { toggle: toggleFullscreen } = useFullscreen()
       @click="flip">
       <img v-if="showBack" :src="`/hunts/HE-${card}-Back.jpg`"
         class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
-      <img v-else src="/hunts/Hunt-Event-Back.jpg"
-        class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
-      <img :src="src" @load="transitioning = false; loading = false"
+      <img v-else :src="backSrc" class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
+      <img :src="frontSrc" @load="transitioning = false; loading = false"
         class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
     </div>
     <div class="absolute bottom-0 left-0 flex gap-8 p-4 text-center text-5xl font-bold">
@@ -114,10 +116,10 @@ const { toggle: toggleFullscreen } = useFullscreen()
             d="M4 1.5A2.5 2.5 0 0 0 1.5 4v4.5c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-4h4c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1H4Zm16 0c1.4 0 2.5 1.1 2.5 2.5v4.5c0 .6-.4 1-1 1h-1a1 1 0 0 1-1-1v-4h-4a1 1 0 0 1-1-1v-1c0-.6.4-1 1-1H20Zm0 21c1.4 0 2.5-1.1 2.5-2.5v-4.5c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1v4h-4a1 1 0 0 0-1 1v1c0 .6.4 1 1 1H20ZM1.5 20c0 1.4 1.1 2.5 2.5 2.5h4.5c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1h-4v-4c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1V20Z" />
         </svg>
       </button>
-      <button @click.prevent="change" title="Change">
+      <button @click.prevent="showHelp = true" title="About">
         <svg width="2.25rem" height="2.25rem" fill="none" viewBox="0 0 24 24">
           <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd"
-            d="M12.78.45c1.04 0 1.94.72 2.13 1.7l.09.44a2.99 2.99 0 0 0 3.9 2.19l.44-.15a2.2 2.2 0 0 1 2.58.94l.79 1.31c.52.88.33 1.98-.46 2.64l-.35.3a2.83 2.83 0 0 0 0 4.36l.35.3c.79.66.98 1.76.46 2.64l-.79 1.31a2.2 2.2 0 0 1-2.58.94l-.44-.15a2.99 2.99 0 0 0-3.9 2.19l-.09.43c-.2 1-1.09 1.71-2.13 1.71h-1.56a2.15 2.15 0 0 1-2.13-1.7L9 21.4a2.99 2.99 0 0 0-3.9-2.18l-.44.15a2.2 2.2 0 0 1-2.58-.94l-.79-1.31a2.06 2.06 0 0 1 .46-2.64l.35-.3a2.83 2.83 0 0 0 0-4.36l-.35-.3a2.06 2.06 0 0 1-.46-2.64l.79-1.31a2.2 2.2 0 0 1 2.58-.94l.44.15A2.99 2.99 0 0 0 9 2.6l.09-.45c.2-.98 1.09-1.7 2.13-1.7h1.56ZM12 15.3a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6Z" />
+            d="M1 12a11 11 0 1 1 22 0 11 11 0 0 1-22 0Zm9.3 1.4c-.07.31.2.6.55.6h2.2a.6.6 0 0 0 .56-.4 3 3 0 0 1 .64-.85l.7-.69c.93-.88 1.8-1.7 1.8-3.15 0-2.5-2.17-3.91-4.48-3.91-1.77 0-4.2.8-4.69 3.5-.1.55.37 1 .92 1h1.41c.53 0 .92-.42 1.1-.92.18-.47.53-.82 1.26-.82 1.34 0 1.34 1.46.56 2.42-.29.37-.63.69-.97 1-.68.65-1.35 1.28-1.56 2.21ZM14 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
         </svg>
       </button>
     </div>
@@ -148,6 +150,41 @@ const { toggle: toggleFullscreen } = useFullscreen()
             class="absolute -right-4 -top-6 pt-[1px] text-white transition-transform duration-200 [text-shadow:0_0_3px_black]"
             :style="`transform:translateY(${3.75 + (second !== 0 ? second - 1 : 9) * 7}rem)`">
             ◀
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 top-0 z-10 overflow-y-auto bg-white/30" :class="showHelp ? '' : 'hidden'"
+      @click="showHelp = false">
+      <dialog class="flex min-h-screen items-center justify-center bg-transparent sm:block sm:p-0">
+        <div
+          class="relative flex flex-col rounded-3xl border-2 border-white bg-slate-950 px-10 py-5 text-3xl font-bold text-white shadow-2xl shadow-stone-950">
+          <div class="flex cursor-pointer justify-between" @click.stop="change">
+            <div>Cards by Fen:</div>
+            <div class="relative">
+              <input id="setting-fen" type="checkbox" :checked="fen" @input.stop="change" class="peer sr-only">
+              <div
+                class="peer h-8 w-16 rounded-full bg-gray-700 after:absolute after:left-0 after:top-0 after:h-8 after:w-8 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800">
+              </div>
+            </div>
+          </div>
+          <div>
+            <a class="underline" href="https://patreon.com/FenPaints">patreon.com/FenPaints</a>
+          </div>
+          <div class="mt-8 flex cursor-pointer justify-between" @click.stop="change">
+            <div>Cards by <a href="https://boardgamegeek.com/user/Kekasi">Kekasi</a>:</div>
+            <div class="relative">
+              <input id="setting-kekasi" type="checkbox" :checked="!fen" @input.stop="change" class="peer sr-only">
+              <div
+                class="peer h-8 w-16 rounded-full bg-gray-700 after:absolute after:left-0 after:top-0 after:h-8 after:w-8 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800">
+              </div>
+            </div>
+          </div>
+          <div>
+            <a class="underline" href="https://boardgamegeek.com/filepage/255740/kdm-15-hunt-event-reference-cards">
+              boardgamegeek.com/filepage/255740
+            </a>
           </div>
         </div>
       </dialog>
