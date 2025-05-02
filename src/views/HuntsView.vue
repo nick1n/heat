@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFullscreen, useTitle } from '@vueuse/core';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 useTitle('KD:M Hunt Events')
 
@@ -89,7 +89,7 @@ const showHelp = ref(false)
 
 const firstRand = ref(0)
 const secondRand = ref(0)
-const interval = ref(0)
+const interval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
 function roll() {
   interval.value = setInterval(() => {
     firstRand.value = Math.floor(Math.random() * 10)
