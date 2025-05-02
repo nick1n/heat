@@ -48,7 +48,8 @@ function flip() {
 
 function draw() {
   if (transitioning.value) return
-  if (loading.value) return
+
+  roll()
 
   showCard.value = false
   showBack.value = false
@@ -75,6 +76,7 @@ function click(die: number, i: number) {
     val = 100
   }
   if (val !== card.value) {
+    roll()
     loading.value = true
     showBack.value = false
     card.value = val
@@ -84,6 +86,22 @@ function click(die: number, i: number) {
 const { toggle: toggleFullscreen, isFullscreen } = useFullscreen()
 
 const showHelp = ref(false)
+
+const firstRand = ref(0)
+const secondRand = ref(0)
+const interval = ref(0)
+function roll() {
+  interval.value = setInterval(() => {
+    firstRand.value = Math.floor(Math.random() * 10)
+    secondRand.value = Math.floor(Math.random() * 10)
+  }, 200)
+}
+
+function stop() {
+  clearInterval(interval.value)
+  transitioning.value = false
+  loading.value = false
+}
 </script>
 
 <template>
@@ -96,7 +114,7 @@ const showHelp = ref(false)
         <img v-if="showBack" :src="`/hunts/HE-${card}-Back.jpg`"
           class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
         <img v-else :src="backSrc" class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
-        <img :src="frontSrc" @load="transitioning = false; loading = false"
+        <img :src="frontSrc" @load="stop"
           class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
       </div>
     </div>
@@ -201,13 +219,21 @@ const showHelp = ref(false)
   </div>
 
   <div class="font-kdm-text fixed bottom-0 left-0 z-10 flex gap-8 overflow-hidden p-4 text-center text-6xl font-bold">
-    <button class="relative h-20 w-20 rotate-45 rounded-lg border-2 border-white bg-white/80 text-black"
-      @click.prevent="selectHunt">
-      <div class="-rotate-45" :class="{ 'font-kd-icon': first === 0 }">{{ first === 0 ? 'e' : first }}</div>
+    <button
+      class="relative h-20 w-20 -rotate-45 rounded-lg border-2 border-white bg-white/80 text-black transition-transform duration-200"
+      :style="loading ? `--tw-rotate: -${secondRand / 9 * 360}deg` : ''" @click.prevent="selectHunt">
+      <div v-if="loading" class="rotate-45" :class="{ 'font-kd-icon': firstRand === 0 }">
+        {{ firstRand === 0 ? 'e' : firstRand }}
+      </div>
+      <div v-else class="rotate-45" :class="{ 'font-kd-icon': first === 0 }">{{ first === 0 ? 'e' : first }}</div>
     </button>
-    <button class="relative h-20 w-20 rotate-45 rounded-lg border-2 border-white bg-slate-950/80 text-white"
-      @click.prevent="selectHunt">
-      <div class="-rotate-45" :class="{ 'font-kd-icon': second === 0 }">{{ second === 0 ? 'e' : second }}</div>
+    <button
+      class="relative h-20 w-20 rotate-45 rounded-lg border-2 border-white bg-slate-950/80 text-white transition-transform duration-200"
+      :style="loading ? `--tw-rotate: ${firstRand / 9 * 360}deg` : ''" @click.prevent="selectHunt">
+      <div v-if="loading" class="-rotate-45" :class="{ 'font-kd-icon': secondRand === 0 }">
+        {{ secondRand === 0 ? 'e' : secondRand }}
+      </div>
+      <div v-else class="-rotate-45" :class="{ 'font-kd-icon': second === 0 }">{{ second === 0 ? 'e' : second }}</div>
     </button>
   </div>
 
