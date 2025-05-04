@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <main class="text-center text-2xl">
+  <main class="text-center text-4xl">
     <h1 class="mt-8">Game Aids:</h1>
     <div>
       <RouterLink to="/ai" class="inline-block border-b-2 border-rose-500">
@@ -19,12 +19,12 @@ import { RouterLink } from 'vue-router'
     <h1 class="mt-8">Reference Cards:</h1>
     <div>
       <RouterLink to="/king" class="inline-block border-b-2 border-rose-500">
-        The King's Dilemma
+        The King's Dilemma (Mobile)
       </RouterLink>
     </div>
     <div>
       <RouterLink to="/king-print" class="inline-block border-b-2 border-rose-500">
-        The King's Dilemma Printable
+        The King's Dilemma (Printable)
       </RouterLink>
     </div>
     <div>

@@ -185,7 +185,7 @@ function stop() {
       class="absolute bottom-0 left-0 right-0 top-0 z-10 flex items-center justify-center overflow-y-auto bg-white/30"
       :class="showDialog ? '' : 'hidden'" @click="showDialog = false">
       <dialog
-        class="relative flex gap-8 rounded-3xl border-2 border-white bg-slate-950 p-10 text-center text-5xl font-bold shadow-2xl shadow-stone-950">
+        class="relative flex gap-8 rounded-3xl border-[.2rem] border-white bg-slate-950 p-10 text-center text-5xl font-bold shadow-2xl shadow-stone-950">
         <div class="absolute -left-7 top-0 transition-transform duration-200"
           :style="`transform:translateY(${2.6 + (first !== 0 ? first - 1 : 9) * 6}rem)`">
           <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="none" viewBox="0 0 24 24">
@@ -195,14 +195,14 @@ function stop() {
         </div>
         <div class="flex flex-col gap-8">
           <button v-for="i in 10" :key="i" @click.prevent.stop="click(10, i)" :title="i % 10 + '0'"
-            class="h-16 w-16 rotate-45 cursor-pointer rounded-lg border-[.3rem] border-white bg-white text-stone-950 transition-shadow duration-300 hover:shadow-[0_0_1.5rem_0.5rem_rgba(255,255,255,0.9),0_0_3rem_1.5rem_rgba(255,255,255,0.7)]"
+            class="h-16 w-16 rotate-45 cursor-pointer rounded-lg border-[.2rem] border-white bg-white text-stone-950 transition-shadow duration-300 hover:shadow-[0_0_1.5rem_0.5rem_rgba(255,255,255,0.9),0_0_3rem_1.5rem_rgba(255,255,255,0.7)]"
             :class="{ 'animate-pulse shadow-[0_0_1rem_2px_rgba(255,255,255,0.7),0_0_2rem_0.5rem_rgba(255,255,255,0.5)]': first === i % 10 }">
             <div class="-rotate-45" :class="{ 'font-kd-icon': i === 10 }">{{ i === 10 ? 'e' : i }}</div>
           </button>
         </div>
         <div class="flex flex-col gap-8">
           <button v-for="i in 10" :key="i" @click.prevent.stop="click(1, i)" :title="'' + i"
-            class="h-16 w-16 rotate-45 cursor-pointer rounded-lg border-[.3rem] border-white bg-slate-950 text-white transition-shadow duration-300 hover:shadow-[0_0_1.5rem_0.5rem_rgba(255,255,255,0.9),0_0_3rem_1.5rem_rgba(255,255,255,0.7)]"
+            class="h-16 w-16 rotate-45 cursor-pointer rounded-lg border-[.2rem] border-white bg-slate-950 text-white transition-shadow duration-300 hover:shadow-[0_0_1.5rem_0.5rem_rgba(255,255,255,0.9),0_0_3rem_1.5rem_rgba(255,255,255,0.7)]"
             :class="{ 'animate-pulse shadow-[0_0_1rem_2px_rgba(255,255,255,0.7),0_0_2rem_0.5rem_rgba(255,255,255,0.5)]': second === i % 10 }">
             <div class="-rotate-45" :class="{ 'font-kd-icon': i === 10 }">{{ i === 10 ? 'e' : i }}</div>
           </button>
