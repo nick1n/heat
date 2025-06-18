@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFullscreen, useTitle } from '@vueuse/core';
+import { useFullscreen, useLocalStorage, useTitle } from '@vueuse/core';
 import { computed, ref } from 'vue';
 
 useTitle('KD:M Hunt Events')
@@ -23,8 +23,14 @@ function selectHunt() {
   }
 }
 
-const fen = ref(true)
-const frontSrc = computed(() => fen.value ? `/hunts/fen/fen-${card.value}-min.png` : `/hunts/HE-${card.value}.jpg`)
+const bravadoBeta = useLocalStorage('setting-bravadoBeta', false)
+const suffix = computed(() => card.value === 78 && bravadoBeta.value ? '-beta' : '')
+function changeBravadoBeta() {
+  bravadoBeta.value = !bravadoBeta.value
+}
+
+const fen = useLocalStorage('setting-fen', true)
+const frontSrc = computed(() => fen.value ? `/hunts/fen/fen-${card.value}-min${suffix.value}.png` : `/hunts/HE-${card.value}${suffix.value}.jpg`)
 const backSrc = computed(() => fen.value ? "/hunts/fen/fen-back.png" : "/hunts/Hunt-Event-Back.jpg")
 function change() {
   fen.value = !fen.value
@@ -146,13 +152,26 @@ function stop() {
     </button>
 
     <div
-      class="absolute bottom-0 left-0 right-0 top-0 z-20 flex items-center justify-center overflow-y-auto bg-white/30"
+      class="absolute bottom-0 left-0 right-0 top-0 z-20 flex cursor-pointer select-none items-center justify-center overflow-y-auto bg-white/30"
       :class="showHelp ? '' : 'hidden'" @click="showHelp = false">
-      <dialog
-        class="relative flex flex-col rounded-3xl border-2 border-white bg-slate-950 p-10 text-3xl font-bold text-white shadow-2xl shadow-stone-950">
-        <div class="mb-4">All credits for the cards go to</div>
+      <dialog @click.stop
+        class="relative flex cursor-auto flex-col rounded-3xl border-2 border-white bg-slate-950 p-10 text-3xl font-bold text-white shadow-2xl shadow-stone-950">
+
+        <div class="mb-2">White Box:</div>
+        <div class="mb-10 flex cursor-pointer justify-between" @click.stop="changeBravadoBeta">
+          <div>Great Game Hunter - Bravado</div>
+          <div class="relative">
+            <input id="setting-betabravado" type="checkbox" :checked="bravadoBeta" @input.stop="changeBravadoBeta"
+              class="peer sr-only">
+            <div
+              class="peer h-8 w-16 rounded-full bg-gray-700 after:absolute after:left-0 after:top-0 after:h-8 after:w-8 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800">
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">All credits for the card images go to:</div>
         <div class="mb-2 flex cursor-pointer justify-between" @click.stop="change">
-          <div>Fen:</div>
+          <div>Fen</div>
           <div class="relative">
             <input id="setting-fen" type="checkbox" :checked="fen" @input.stop="change" class="peer sr-only">
             <div
@@ -163,9 +182,9 @@ function stop() {
         <div>
           <a class="underline" href="https://patreon.com/FenPaints">patreon.com/FenPaints</a>
         </div>
-        <div class="my-4">&amp;</div>
+        <div class="my-4 text-center">&mdash; &amp; &mdash;</div>
         <div class="mb-2 flex cursor-pointer justify-between" @click.stop="change">
-          <div><a href="https://boardgamegeek.com/user/Kekasi">Kekasi</a>:</div>
+          <div><a href="https://boardgamegeek.com/user/Kekasi">Kekasi</a></div>
           <div class="relative">
             <input id="setting-kekasi" type="checkbox" :checked="!fen" @input.stop="change" class="peer sr-only">
             <div
