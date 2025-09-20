@@ -149,7 +149,7 @@ function stop() {
     </div>
 
     <button
-      class="absolute bottom-0 right-0 z-10 w-64 rounded-tl-2xl bg-slate-950/80 p-6 text-center text-4xl font-bold text-white shadow-lg ring-1 ring-white/10"
+      class="absolute bottom-0 right-0 z-10 w-64 select-none rounded-tl-2xl bg-slate-950/80 p-6 text-center text-4xl font-bold text-white shadow-lg ring-1 ring-white/30"
       @click.prevent="draw">
       {{ loading ? 'Drawing...' : 'Randomize' }}
     </button>
@@ -158,26 +158,26 @@ function stop() {
       class="absolute bottom-0 left-0 right-0 top-0 z-20 flex cursor-pointer select-none items-center justify-center overflow-y-auto bg-white/30"
       :class="showHelp ? '' : 'hidden'" @click="showHelp = false">
       <dialog @click.stop
-        class="relative flex cursor-auto flex-col rounded-3xl bg-slate-950/80 p-10 text-3xl font-bold text-white shadow-lg ring-1 ring-white/10">
+        class="relative flex cursor-auto flex-col rounded-3xl bg-slate-950/80 p-10 text-3xl font-bold text-white shadow-lg ring-1 ring-white/30">
 
-        <div class="mb-2">White Box:</div>
-        <label for="setting-betabravado" class="group mb-10 flex cursor-pointer gap-4">
-          <div>
+        <div class="mb-4">White Box:</div>
+        <label for="setting-betabravado" class="group mb-10 flex cursor-pointer items-center gap-4">
+          <div class="corner-squircle items-center rounded-lg p-2 focus-within:bg-white/30 group-hover:bg-white/30">
             <input id="setting-betabravado" type="checkbox" :checked="bravadoBeta" @input.stop="changeBravadoBeta"
               class="peer sr-only">
             <div
-              class="peer relative h-8 w-8 border-2 border-white transition-colors after:absolute after:inset-0.5 after:origin-center after:scale-0 after:bg-white after:transition-transform group-hover:bg-gray-700 peer-checked:after:scale-100">
+              class="peer relative h-7 w-7 border-[.2rem] border-white transition-colors after:absolute after:inset-[.2rem] after:origin-center after:scale-0 after:bg-white after:transition-transform peer-checked:after:scale-100">
             </div>
           </div>
           <div>Great Game Hunter - Bravado</div>
         </label>
 
         <div class="mb-4">All card images by:</div>
-        <label for="setting-fen" class="group mb-2 flex cursor-pointer gap-4">
-          <div>
+        <label for="setting-fen" class="group mb-2 flex cursor-pointer items-center gap-4">
+          <div class="corner-squircle items-center rounded-lg p-2 focus-within:bg-white/30 group-hover:bg-white/30">
             <input id="setting-fen" type="checkbox" :checked="fen" @input.stop="change" class="peer sr-only">
             <div
-              class="peer relative h-8 w-8 border-2 border-white transition-colors after:absolute after:inset-0.5 after:origin-center after:scale-0 after:bg-white after:transition-transform group-hover:bg-gray-700 peer-checked:after:scale-100">
+              class="peer relative h-7 w-7 border-[.2rem] border-white transition-colors after:absolute after:inset-[.2rem] after:origin-center after:scale-0 after:bg-white after:transition-transform peer-checked:after:scale-100">
             </div>
           </div>
           <div>Fen</div>
@@ -186,11 +186,11 @@ function stop() {
           <a class="underline" href="https://patreon.com/FenPaints">patreon.com/FenPaints</a>
         </div>
         <div class="my-4 text-center">&mdash; &amp; &mdash;</div>
-        <label for="setting-kekasi" class="group mb-2 flex cursor-pointer gap-4">
-          <div>
+        <label for="setting-kekasi" class="group mb-2 flex cursor-pointer items-center gap-4">
+          <div class="corner-squircle items-center rounded-lg p-2 focus-within:bg-white/30 group-hover:bg-white/30">
             <input id="setting-kekasi" type="checkbox" :checked="!fen" @input.stop="change" class="peer sr-only">
             <div
-              class="peer relative h-8 w-8 border-2 border-white transition-colors after:absolute after:inset-0.5 after:origin-center after:scale-0 after:bg-white after:transition-transform group-hover:bg-gray-700 peer-checked:after:scale-100">
+              class="peer relative h-7 w-7 border-[.2rem] border-white transition-colors after:absolute after:inset-[.2rem] after:origin-center after:scale-0 after:bg-white after:transition-transform peer-checked:after:scale-100">
             </div>
           </div>
           <div>Kekasi</div>
@@ -203,7 +203,8 @@ function stop() {
       </dialog>
     </div>
 
-    <div class="font-kdm-text fixed bottom-0 left-0 z-10 flex gap-8 overflow-hidden p-4 text-center text-6xl font-bold">
+    <div
+      class="font-kdm-text fixed bottom-0 left-0 z-10 flex select-none gap-8 overflow-hidden p-4 text-center text-6xl font-bold">
       <button
         class="relative h-20 w-20 -rotate-45 rounded-lg border-2 border-white bg-white/80 text-black transition-transform duration-200 ease-in-out"
         :style="loading ? `--tw-rotate: -${secondRand / 9 * 360}deg` : ''" @click.prevent="selectHunt">
@@ -222,10 +223,10 @@ function stop() {
       </button>
     </div>
 
-    <div class="absolute inset-0 z-20 flex items-center justify-center overflow-y-auto bg-white/30"
+    <div class="absolute inset-0 z-20 flex select-none items-center justify-center overflow-y-auto bg-white/30"
       :class="showDialog ? '' : 'hidden'" @click="showDialog = false">
       <dialog
-        class="relative flex gap-8 rounded-3xl bg-slate-950/80 p-10 text-center text-5xl font-bold shadow-lg shadow-stone-950 ring-1 ring-white/10">
+        class="relative flex gap-8 rounded-3xl bg-slate-950/80 p-10 text-center text-5xl font-bold shadow-lg shadow-stone-950 ring-1 ring-white/30">
         <div class="absolute -left-7 top-0 transition-transform duration-200"
           :style="`transform:translateY(${2.6 + (first !== 0 ? first - 1 : 9) * 6}rem)`">
           <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="none" viewBox="0 0 24 24">

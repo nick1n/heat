@@ -5,3 +5,9 @@
 html {
   font-size: 2.2vmin;
 }
+
+.corner-squircle {
+  @supports (corner-shape: squircle) {
+    corner-shape: squircle;
+  }
+}
