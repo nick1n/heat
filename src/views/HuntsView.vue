@@ -39,14 +39,14 @@ function change() {
   }
 }
 
-const backs = [11, 73]
+const twoSided = [[11, 73], [100]]
 function flip() {
   if (transitioning.value) return
   if (loading.value) return
 
   showCard.value = !showCard.value
   transitioning.value = true
-  if (!fen.value && backs.includes(card.value) && showCard.value && !showBack.value) {
+  if (twoSided[+fen.value].includes(card.value) && showCard.value && !showBack.value) {
     setTimeout(() => showBack.value = true, duration)
   }
   setTimeout(() => transitioning.value = false, duration)
@@ -57,11 +57,11 @@ function draw() {
 
   roll()
 
-  showCard.value = false
   showBack.value = false
   transitioning.value = true
   loading.value = true
   setTimeout(() => {
+    showCard.value = false
     randomCard()
   }, duration)
 }
@@ -112,17 +112,20 @@ function stop() {
 
 <template>
   <div
-    class="font-kdm-text relative flex min-h-svh w-full items-center justify-center bg-stone-950 [perspective:1000px]">
-    <div class="w-full overflow-hidden landscape:h-svh landscape:w-auto"
+    class="font-kdm-text relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-stone-950 [perspective:1000px]">
+    <div class="relative w-full landscape:h-svh landscape:w-auto"
       :class="{ '[aspect-ratio:1059/1500]': fen, '[aspect-ratio:958/1504]': !fen }">
-      <div class="relative h-full w-full cursor-pointer transition-transform duration-500 [transform-style:preserve-3d]"
-        :class="{ '[transform:rotateY(180deg)]': showCard }" @click="flip">
-        <img v-if="showBack" :src="`/hunts/HE-${card}-Back.jpg`"
-          class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
-        <img v-else :src="backSrc" class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
-        <img :src="frontSrc" @load="stop"
-          class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-      </div>
+      <transition enter-active-class="animate-card-in" leave-active-class="animate-card-out">
+        <div v-show="!loading" :key="card"
+          class="absolute inset-0 cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.3,1.4,0.6,1)] [transform-style:preserve-3d]"
+          :class="{ '[transform:rotateY(180deg)]': showCard }" @click="flip">
+          <img v-if="showBack" :src="`/hunts/kekasi/HE-${card}-Back.jpg`"
+            class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
+          <img v-else :src="backSrc" class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
+          <img :src="frontSrc" @load="stop"
+            class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        </div>
+      </transition>
     </div>
 
     <div class="absolute right-1 top-1 flex flex-col gap-1">
@@ -146,52 +149,52 @@ function stop() {
     </div>
 
     <button
-      class="absolute bottom-0 right-0 z-10 w-64 rounded-tl-2xl border-l-2 border-t-2 border-white bg-slate-950/80 p-6 text-center text-4xl font-bold text-white"
+      class="absolute bottom-0 right-0 z-10 w-64 rounded-tl-2xl bg-slate-950/80 p-6 text-center text-4xl font-bold text-white shadow-lg ring-1 ring-white/10"
       @click.prevent="draw">
-      {{ loading ? 'Drawing...' : 'Draw' }}
+      {{ loading ? 'Drawing...' : 'Randomize' }}
     </button>
 
     <div
       class="absolute bottom-0 left-0 right-0 top-0 z-20 flex cursor-pointer select-none items-center justify-center overflow-y-auto bg-white/30"
       :class="showHelp ? '' : 'hidden'" @click="showHelp = false">
       <dialog @click.stop
-        class="relative flex cursor-auto flex-col rounded-3xl border-2 border-white bg-slate-950 p-10 text-3xl font-bold text-white shadow-2xl shadow-stone-950">
+        class="relative flex cursor-auto flex-col rounded-3xl bg-slate-950/80 p-10 text-3xl font-bold text-white shadow-lg ring-1 ring-white/10">
 
         <div class="mb-2">White Box:</div>
-        <div class="mb-10 flex cursor-pointer justify-between" @click.stop="changeBravadoBeta">
-          <div>Great Game Hunter - Bravado</div>
-          <div class="relative">
+        <label for="setting-betabravado" class="group mb-10 flex cursor-pointer gap-4">
+          <div>
             <input id="setting-betabravado" type="checkbox" :checked="bravadoBeta" @input.stop="changeBravadoBeta"
               class="peer sr-only">
             <div
-              class="peer h-8 w-16 rounded-full bg-gray-700 after:absolute after:left-0 after:top-0 after:h-8 after:w-8 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800">
+              class="peer relative h-8 w-8 border-2 border-white transition-colors after:absolute after:inset-0.5 after:origin-center after:scale-0 after:bg-white after:transition-transform group-hover:bg-gray-700 peer-checked:after:scale-100">
             </div>
           </div>
-        </div>
+          <div>Great Game Hunter - Bravado</div>
+        </label>
 
-        <div class="mb-4">All credits for the card images go to:</div>
-        <div class="mb-2 flex cursor-pointer justify-between" @click.stop="change">
-          <div>Fen</div>
-          <div class="relative">
+        <div class="mb-4">All card images by:</div>
+        <label for="setting-fen" class="group mb-2 flex cursor-pointer gap-4">
+          <div>
             <input id="setting-fen" type="checkbox" :checked="fen" @input.stop="change" class="peer sr-only">
             <div
-              class="peer h-8 w-16 rounded-full bg-gray-700 after:absolute after:left-0 after:top-0 after:h-8 after:w-8 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800">
+              class="peer relative h-8 w-8 border-2 border-white transition-colors after:absolute after:inset-0.5 after:origin-center after:scale-0 after:bg-white after:transition-transform group-hover:bg-gray-700 peer-checked:after:scale-100">
             </div>
           </div>
-        </div>
+          <div>Fen</div>
+        </label>
         <div>
           <a class="underline" href="https://patreon.com/FenPaints">patreon.com/FenPaints</a>
         </div>
         <div class="my-4 text-center">&mdash; &amp; &mdash;</div>
-        <div class="mb-2 flex cursor-pointer justify-between" @click.stop="change">
-          <div><a href="https://boardgamegeek.com/user/Kekasi">Kekasi</a></div>
-          <div class="relative">
+        <label for="setting-kekasi" class="group mb-2 flex cursor-pointer gap-4">
+          <div>
             <input id="setting-kekasi" type="checkbox" :checked="!fen" @input.stop="change" class="peer sr-only">
             <div
-              class="peer h-8 w-16 rounded-full bg-gray-700 after:absolute after:left-0 after:top-0 after:h-8 after:w-8 after:rounded-full after:bg-white after:transition-transform after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800">
+              class="peer relative h-8 w-8 border-2 border-white transition-colors after:absolute after:inset-0.5 after:origin-center after:scale-0 after:bg-white after:transition-transform group-hover:bg-gray-700 peer-checked:after:scale-100">
             </div>
           </div>
-        </div>
+          <div>Kekasi</div>
+        </label>
         <div>
           <a class="underline" href="https://boardgamegeek.com/filepage/255740/kdm-15-hunt-event-reference-cards">
             boardgamegeek.com/filepage/255740
@@ -200,11 +203,29 @@ function stop() {
       </dialog>
     </div>
 
-    <div
-      class="absolute bottom-0 left-0 right-0 top-0 z-10 flex items-center justify-center overflow-y-auto bg-white/30"
+    <div class="font-kdm-text fixed bottom-0 left-0 z-10 flex gap-8 overflow-hidden p-4 text-center text-6xl font-bold">
+      <button
+        class="relative h-20 w-20 -rotate-45 rounded-lg border-2 border-white bg-white/80 text-black transition-transform duration-200 ease-in-out"
+        :style="loading ? `--tw-rotate: -${secondRand / 9 * 360}deg` : ''" @click.prevent="selectHunt">
+        <div v-if="loading" class="rotate-45" :class="{ 'font-kd-icon': firstRand === 0 }">
+          {{ firstRand === 0 ? 'e' : firstRand }}
+        </div>
+        <div v-else class="rotate-45" :class="{ 'font-kd-icon': first === 0 }">{{ first === 0 ? 'e' : first }}</div>
+      </button>
+      <button
+        class="relative h-20 w-20 rotate-45 rounded-lg border-2 border-white bg-slate-950/80 text-white transition-transform duration-200"
+        :style="loading ? `--tw-rotate: ${firstRand / 9 * 360}deg` : ''" @click.prevent="selectHunt">
+        <div v-if="loading" class="-rotate-45" :class="{ 'font-kd-icon': secondRand === 0 }">
+          {{ secondRand === 0 ? 'e' : secondRand }}
+        </div>
+        <div v-else class="-rotate-45" :class="{ 'font-kd-icon': second === 0 }">{{ second === 0 ? 'e' : second }}</div>
+      </button>
+    </div>
+
+    <div class="absolute inset-0 z-20 flex items-center justify-center overflow-y-auto bg-white/30"
       :class="showDialog ? '' : 'hidden'" @click="showDialog = false">
       <dialog
-        class="relative flex gap-8 rounded-3xl border-[.2rem] border-white bg-slate-950 p-10 text-center text-5xl font-bold shadow-2xl shadow-stone-950">
+        class="relative flex gap-8 rounded-3xl bg-slate-950/80 p-10 text-center text-5xl font-bold shadow-lg shadow-stone-950 ring-1 ring-white/10">
         <div class="absolute -left-7 top-0 transition-transform duration-200"
           :style="`transform:translateY(${2.6 + (first !== 0 ? first - 1 : 9) * 6}rem)`">
           <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="none" viewBox="0 0 24 24">
@@ -235,25 +256,6 @@ function stop() {
         </div>
       </dialog>
     </div>
-  </div>
-
-  <div class="font-kdm-text fixed bottom-0 left-0 z-10 flex gap-8 overflow-hidden p-4 text-center text-6xl font-bold">
-    <button
-      class="relative h-20 w-20 -rotate-45 rounded-lg border-2 border-white bg-white/80 text-black transition-transform duration-200"
-      :style="loading ? `--tw-rotate: -${secondRand / 9 * 360}deg` : ''" @click.prevent="selectHunt">
-      <div v-if="loading" class="rotate-45" :class="{ 'font-kd-icon': firstRand === 0 }">
-        {{ firstRand === 0 ? 'e' : firstRand }}
-      </div>
-      <div v-else class="rotate-45" :class="{ 'font-kd-icon': first === 0 }">{{ first === 0 ? 'e' : first }}</div>
-    </button>
-    <button
-      class="relative h-20 w-20 rotate-45 rounded-lg border-2 border-white bg-slate-950/80 text-white transition-transform duration-200"
-      :style="loading ? `--tw-rotate: ${firstRand / 9 * 360}deg` : ''" @click.prevent="selectHunt">
-      <div v-if="loading" class="-rotate-45" :class="{ 'font-kd-icon': secondRand === 0 }">
-        {{ secondRand === 0 ? 'e' : secondRand }}
-      </div>
-      <div v-else class="-rotate-45" :class="{ 'font-kd-icon': second === 0 }">{{ second === 0 ? 'e' : second }}</div>
-    </button>
   </div>
 
 </template>
