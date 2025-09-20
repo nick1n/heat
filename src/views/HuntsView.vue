@@ -30,8 +30,8 @@ function changeBravadoBeta() {
 }
 
 const fen = useLocalStorage('setting-fen', true)
-const frontSrc = computed(() => fen.value ? `/hunts/fen/fen-${card.value}-min${suffix.value}.png` : `/hunts/HE-${card.value}${suffix.value}.jpg`)
-const backSrc = computed(() => fen.value ? "/hunts/fen/fen-back.png" : "/hunts/Hunt-Event-Back.jpg")
+const frontSrc = computed(() => fen.value ? `/hunts/fen/fen-${card.value}-min${suffix.value}.png` : `/hunts/kekasi/HE-${card.value}${suffix.value}.jpg`)
+const backSrc = computed(() => fen.value ? "/hunts/fen/fen-back.png" : "/hunts/kekasi/Hunt-Event-Back.jpg")
 function change() {
   fen.value = !fen.value
   if (fen.value) {
