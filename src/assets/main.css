@@ -11,3 +11,39 @@ html {
     corner-shape: squircle;
   }
 }
+
+@keyframes modal-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-in-child {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-modal-in {
+  animation: modal-in 0.2s ease-in;
+  overflow: hidden;
+
+  & > dialog {
+    animation: modal-in-child 0.2s ease-in;
+  }
+}
+
+.animate-modal-out {
+  animation: modal-in 0.2s ease-out reverse;
+  overflow: hidden;
+
+  & > dialog {
+    animation: modal-in-child 0.2s ease-out reverse;
+  }
+}
