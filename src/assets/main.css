@@ -30,9 +30,11 @@ html {
   }
 }
 
-.animate-modal-in {
+.animate-modal-in,
+.animate-modal-out {
   animation: modal-in 0.2s ease-in;
   overflow: hidden;
+  scrollbar-gutter: stable;
 
   & > dialog {
     animation: modal-in-child 0.2s ease-in;
@@ -40,10 +42,9 @@ html {
 }
 
 .animate-modal-out {
-  animation: modal-in 0.2s ease-out reverse;
-  overflow: hidden;
+  animation-direction: reverse;
 
   & > dialog {
-    animation: modal-in-child 0.2s ease-out reverse;
+    animation-direction: reverse;
   }
 }

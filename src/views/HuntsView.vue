@@ -113,17 +113,17 @@ function stop() {
 <template>
   <div
     class="font-kdm-text relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-stone-950 [perspective:1000px]">
-    <div class="relative max-h-full w-full overflow-hidden rounded-3xl landscape:h-svh landscape:w-auto"
+    <div class="relative max-h-full w-full landscape:h-svh landscape:w-auto"
       :class="fen ? '[aspect-ratio:1059/1500]' : '[aspect-ratio:958/1504]'">
       <transition enter-active-class="animate-card-in" leave-active-class="animate-card-out">
         <div v-show="!loading" :key="card"
           class="absolute inset-0 cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.3,1.4,0.6,1)] [transform-style:preserve-3d]"
           :class="{ '[transform:rotateY(180deg)]': showCard }" @click="flip">
           <img v-if="showBack" :src="`/hunts/kekasi/HE-${card}-Back.jpg`"
-            class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
-          <img v-else :src="backSrc" class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden]">
+            class="absolute inset-0 rounded-3xl [backface-visibility:hidden]">
+          <img v-else :src="backSrc" class="absolute inset-0 rounded-3xl [backface-visibility:hidden]">
           <img :src="frontSrc" @load="stop"
-            class="absolute left-0 top-0 h-full w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+            class="absolute inset-0 rounded-3xl [backface-visibility:hidden] [transform:rotateY(180deg)]">
         </div>
       </transition>
     </div>
