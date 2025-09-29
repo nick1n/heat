@@ -111,8 +111,8 @@ function stop() {
 </script>
 
 <template>
-  <div
-    class="font-kdm-text relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-stone-950 [perspective:1000px]">
+  <div style="background-image: url('/img/stonefaces-bg.png');"
+    class="font-kdm-text relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-stone-950 bg-[length:40%] bg-repeat [perspective:1000px]">
     <div class="relative max-h-full w-full landscape:h-svh landscape:w-auto"
       :class="fen ? '[aspect-ratio:1059/1500]' : '[aspect-ratio:958/1504]'">
       <transition enter-active-class="animate-card-in" leave-active-class="animate-card-out">
