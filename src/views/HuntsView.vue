@@ -39,8 +39,10 @@ function change() {
   }
 }
 
+const hasClicked = ref(false)
 const twoSided = [[11, 73], [100]]
 function flip() {
+  hasClicked.value = true
   if (transitioning.value) return
   if (loading.value) return
 
@@ -124,6 +126,8 @@ function stop() {
           <img v-else :src="backSrc" class="absolute inset-0 rounded-3xl [backface-visibility:hidden]">
           <img :src="frontSrc" @load="stop"
             class="absolute inset-0 rounded-3xl [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <span v-if="!hasClicked"
+            class="pointer-events-none absolute inset-1/2 h-10 w-10 animate-ripple rounded-full border-4 border-white opacity-0"></span>
         </div>
       </transition>
     </div>
