@@ -1,4 +1,9 @@
 {
+  "name": "Guidepost",
+  "short_name": "Guidepost",
+  "description": "Guidepost",
+  "version": "0.1",
+  "author": "Nicholas Ness",
   "theme_color": "#1a1a1a",
   "background_color": "#1a1a1a",
   "icons": [
@@ -7,12 +12,9 @@
   ],
   "orientation": "portrait",
   "display": "standalone",
-  "dir": "left",
   "lang": "en-US",
-  "name": "Guidepost",
-  "short_name": "Guidepost",
   "start_url": "https://heat.1n.is/#/",
   "scope": "https://heat.1n.is/#/",
-  "description": "Guidepost",
+  "manifest_version": 2,
   "id": "1ef830f5-ae41-4dc7-8723-62cabe84622f"
 }

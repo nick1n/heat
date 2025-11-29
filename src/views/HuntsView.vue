@@ -174,8 +174,9 @@ function stop() {
 
     <!-- Top right util icons -->
     <div class="absolute flex flex-col gap-1 right-1 top-1">
-      <button @click.prevent="toggleFullscreen" title="Fullscreen" class="transition-opacity hover:opacity-80"
-        :class="showCard || showBack ? 'opacity-20' : 'opacity-70'">
+      <button @click.prevent="toggleFullscreen" title="Fullscreen"
+        class="transition-opacity duration-1000 hover:duration-150 hover:opacity-90"
+        :class="showCard || showBack ? 'opacity-10' : 'opacity-70'">
         <svg v-if="isFullscreen" width="5rem" height="5rem" fill="none" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
           <path fill="#fff"
@@ -186,8 +187,9 @@ function stop() {
             d="M4 1.5A2.5 2.5 0 0 0 1.5 4v4.5c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-4h4c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1H4Zm16 0c1.4 0 2.5 1.1 2.5 2.5v4.5c0 .6-.4 1-1 1h-1a1 1 0 0 1-1-1v-4h-4a1 1 0 0 1-1-1v-1c0-.6.4-1 1-1H20Zm0 21c1.4 0 2.5-1.1 2.5-2.5v-4.5c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1v4h-4a1 1 0 0 0-1 1v1c0 .6.4 1 1 1H20ZM1.5 20c0 1.4 1.1 2.5 2.5 2.5h4.5c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1h-4v-4c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1V20Z" />
         </svg>
       </button>
-      <button @click.prevent="showHelp = true" title="About &amp; Settings" class="transition-opacity hover:opacity-80"
-        :class="showCard || showBack ? 'opacity-20' : 'opacity-70'">
+      <button @click.prevent="showHelp = true" title="About &amp; Settings"
+        class="transition-opacity duration-1000 hover:duration-150 hover:opacity-90"
+        :class="showCard || showBack ? 'opacity-10' : 'opacity-70'">
         <svg width="5rem" height="5rem" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd"
             d="M1 12a11 11 0 1 1 22 0 11 11 0 0 1-22 0Zm9.3 1.4c-.07.31.2.6.55.6h2.2a.6.6 0 0 0 .56-.4 3 3 0 0 1 .64-.85l.7-.69c.93-.88 1.8-1.7 1.8-3.15 0-2.5-2.17-3.91-4.48-3.91-1.77 0-4.2.8-4.69 3.5-.1.55.37 1 .92 1h1.41c.53 0 .92-.42 1.1-.92.18-.47.53-.82 1.26-.82 1.34 0 1.34 1.46.56 2.42-.29.37-.63.69-.97 1-.68.65-1.35 1.28-1.56 2.21ZM14 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
@@ -196,8 +198,8 @@ function stop() {
     </div>
 
     <button
-      class="absolute bottom-0 right-0 z-10 p-6 text-4xl font-bold text-center text-white transition-opacity shadow-lg select-none w-60 rounded-tl-2xl bg-slate-950 ring-2 ring-white hover:opacity-80"
-      :class="showCard || showBack ? 'opacity-20' : 'opacity-70'" @click.prevent="draw" title="Draw random card">
+      class="absolute bottom-0 right-0 z-10 p-6 text-4xl font-bold text-center text-white transition-opacity duration-1000 shadow-lg select-none w-60 rounded-tl-[4rem] corner-squircle bg-slate-950 ring-2 ring-white hover:duration-150 hover:opacity-90"
+      :class="showCard || showBack ? 'opacity-10' : 'opacity-70'" @click.prevent="draw" title="Draw random card">
       {{ loading ? 'Drawing...' : 'Random' }}
     </button>
 
@@ -293,8 +295,8 @@ function stop() {
     </transition>
 
     <button
-      class="fixed bottom-0 left-0 z-10 flex gap-8 p-4 overflow-hidden text-6xl font-bold text-center transition-opacity select-none font-kdm-text hover:opacity-80"
-      :class="showCard || showBack ? 'opacity-20' : 'opacity-70'" @click.prevent="selectHunt" title="Select hunt event">
+      class="fixed bottom-0 left-0 z-10 flex gap-8 p-4 overflow-hidden text-6xl font-bold text-center transition-opacity duration-1000 select-none font-kdm-text hover:duration-150 hover:opacity-90"
+      :class="showCard || showBack ? 'opacity-10' : 'opacity-70'" @click.prevent="selectHunt" title="Select hunt event">
       <div
         class="relative w-16 h-16 text-black transition-transform duration-200 ease-in-out -rotate-45 bg-white border-2 border-white rounded-xl"
         :style="loading ? `--tw-rotate: -${(secondRand / 9) * 360}deg` : ''">

@@ -6,7 +6,7 @@ export default {
       keyframes: {
         ripple: {
           '0%': { transform: 'translate(-50%, -50%) scale(0)', opacity: '.8' },
-          '100%': { transform: 'translate(-50%, -50%) scale(3)', opacity: '0' }
+          '100%': { transform: 'translate(-50%, -50%) scale(10)', opacity: '0' }
         },
         'card-out': {
           '0%': { transform: 'translateX(0) rotateZ(0deg)', opacity: 1 },
