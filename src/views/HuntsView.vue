@@ -148,28 +148,30 @@ function stop() {
 
     <!-- Top right util icons -->
     <div class="absolute flex flex-col gap-1 right-1 top-1">
-      <button @click.prevent="toggleFullscreen" title="Fullscreen">
+      <button @click.prevent="toggleFullscreen" title="Fullscreen" class="transition-opacity hover:opacity-80"
+        :class="showCard || showBack ? 'opacity-20' : 'opacity-70'">
         <svg v-if="isFullscreen" width="5rem" height="5rem" fill="none" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
-          <path fill="#fff9"
+          <path fill="#fff"
             d="M7 9.5c1.4 0 2.5-1.1 2.5-2.5V2.5c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1v4h-4a1 1 0 0 0-1 1v1c0 .6.4 1 1 1H7ZM17 9.5A2.5 2.5 0 0 1 14.5 7V2.5c0-.6.4-1 1-1h1c.6 0 1 .4 1 1v4h4c.6 0 1 .4 1 1v1c0 .6-.4 1-1 1H17ZM17 14.5a2.5 2.5 0 0 0-2.5 2.5v4.5c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-4h4c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1H17ZM9.5 17c0-1.4-1.1-2.5-2.5-2.5H2.5a1 1 0 0 0-1 1v1c0 .6.4 1 1 1h4v4c0 .6.4 1 1 1h1c.6 0 1-.4 1-1V17Z" />
         </svg>
         <svg v-else width="5rem" height="5rem" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#fff9"
+          <path fill="#fff"
             d="M4 1.5A2.5 2.5 0 0 0 1.5 4v4.5c0 .6.4 1 1 1h1c.6 0 1-.4 1-1v-4h4c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1H4Zm16 0c1.4 0 2.5 1.1 2.5 2.5v4.5c0 .6-.4 1-1 1h-1a1 1 0 0 1-1-1v-4h-4a1 1 0 0 1-1-1v-1c0-.6.4-1 1-1H20Zm0 21c1.4 0 2.5-1.1 2.5-2.5v-4.5c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1v4h-4a1 1 0 0 0-1 1v1c0 .6.4 1 1 1H20ZM1.5 20c0 1.4 1.1 2.5 2.5 2.5h4.5c.6 0 1-.4 1-1v-1c0-.6-.4-1-1-1h-4v-4c0-.6-.4-1-1-1h-1a1 1 0 0 0-1 1V20Z" />
         </svg>
       </button>
-      <button @click.prevent="showHelp = true" title="About">
+      <button @click.prevent="showHelp = true" title="About" class="transition-opacity hover:opacity-80"
+        :class="showCard || showBack ? 'opacity-20' : 'opacity-70'">
         <svg width="5rem" height="5rem" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#fff9" fill-rule="evenodd" clip-rule="evenodd"
+          <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd"
             d="M1 12a11 11 0 1 1 22 0 11 11 0 0 1-22 0Zm9.3 1.4c-.07.31.2.6.55.6h2.2a.6.6 0 0 0 .56-.4 3 3 0 0 1 .64-.85l.7-.69c.93-.88 1.8-1.7 1.8-3.15 0-2.5-2.17-3.91-4.48-3.91-1.77 0-4.2.8-4.69 3.5-.1.55.37 1 .92 1h1.41c.53 0 .92-.42 1.1-.92.18-.47.53-.82 1.26-.82 1.34 0 1.34 1.46.56 2.42-.29.37-.63.69-.97 1-.68.65-1.35 1.28-1.56 2.21ZM14 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
         </svg>
       </button>
     </div>
 
     <button
-      class="absolute bottom-0 right-0 z-10 p-5 text-4xl font-bold text-center text-white shadow-lg select-none w-60 rounded-tl-2xl bg-slate-950/80 ring-1 ring-white/30"
-      @click.prevent="draw">
+      class="absolute bottom-0 right-0 z-10 p-6 text-4xl font-bold text-center text-white transition-opacity shadow-lg select-none w-60 rounded-tl-2xl bg-slate-950 ring-2 ring-white hover:opacity-80"
+      :class="showCard || showBack ? 'opacity-20' : 'opacity-70'" @click.prevent="draw">
       {{ loading ? 'Drawing...' : 'Random' }}
     </button>
 
@@ -178,8 +180,8 @@ function stop() {
       <div v-show="showHelp" @click="showHelp = false"
         class="absolute inset-0 z-20 flex items-center justify-center overflow-y-auto cursor-pointer select-none bg-black/60">
         <dialog @click.stop
-          class="relative flex flex-col p-10 text-3xl font-bold text-white shadow-lg cursor-auto rounded-3xl bg-slate-950/80 ring-1 ring-white/30">
-          <div class="mb-4">White Boxes:</div>
+          class="relative flex flex-col p-6 text-3xl font-bold text-white shadow-lg cursor-auto rounded-3xl bg-slate-950/80 ring-2 ring-white/30">
+          <div class="mb-3">Expansions:</div>
           <label for="setting-devilsatan" class="flex items-center gap-4 cursor-pointer group">
             <div class="items-center p-2 rounded-lg corner-squircle focus-within:bg-white/30 group-hover:bg-white/30">
               <input id="setting-devilsatan" type="checkbox" :checked="devilSatan"
@@ -190,7 +192,7 @@ function stop() {
             </div>
             <div>Devil Satan</div>
           </label>
-          <label for="setting-betabravado" class="flex items-center gap-4 mb-8 cursor-pointer group">
+          <label for="setting-betabravado" class="flex items-center gap-4 cursor-pointer group">
             <div class="items-center p-2 rounded-lg corner-squircle focus-within:bg-white/30 group-hover:bg-white/30">
               <input id="setting-betabravado" type="checkbox" :checked="bravadoBeta"
                 @input.stop="bravadoBeta = !bravadoBeta" class="sr-only peer" />
@@ -200,9 +202,19 @@ function stop() {
             </div>
             <div>Great Game Hunter - Bravado</div>
           </label>
+          <label for="setting-gregalope" class="flex items-center gap-4 cursor-pointer group">
+            <div class="items-center p-2 rounded-lg corner-squircle focus-within:bg-white/30 group-hover:bg-white/30">
+              <input id="setting-gregalope" type="checkbox" :checked="gregalopeCE"
+                @input.stop="gregalopeCE = !gregalopeCE" class="sr-only peer" />
+              <div
+                class="peer relative h-7 w-7 border-[.2rem] border-white transition-colors after:absolute after:inset-[.2rem] after:origin-center after:scale-0 after:bg-white after:transition-transform peer-checked:after:scale-100">
+              </div>
+            </div>
+            <div>Gregalope CE (CCG Only)</div>
+          </label>
 
-          <div class="mb-4">Card images by:</div>
-          <label for="setting-fen" class="flex items-center gap-4 cursor-pointer group">
+          <div class="my-3">Card images by:</div>
+          <label for="setting-fen" class="flex items-center cursor-pointer group">
             <div class="items-center p-2 rounded-lg corner-squircle focus-within:bg-white/30 group-hover:bg-white/30">
               <input id="setting-fen" type="checkbox" :checked="images === 'fen'" @input.stop="changeImages('fen')"
                 class="sr-only peer" />
@@ -215,7 +227,7 @@ function stop() {
           <div>
             <a class="underline" href="https://patreon.com/FenPaints">patreon.com/FenPaints</a>
           </div>
-          <div class="leading-none text-center">&mdash; &mdash; &mdash;</div>
+          <div class="leading-none text-center">&mdash; or &mdash;</div>
           <label for="setting-kekasi" class="flex items-center gap-4 cursor-pointer group">
             <div class="items-center p-2 rounded-lg corner-squircle focus-within:bg-white/30 group-hover:bg-white/30">
               <input id="setting-kekasi" type="checkbox" :checked="images === 'kekasi'"
@@ -231,7 +243,7 @@ function stop() {
               boardgamegeek.com/filepage/255740
             </a>
           </div>
-          <div class="leading-none text-center">&mdash; &mdash; &mdash;</div>
+          <div class="leading-none text-center">&mdash; or &mdash;</div>
           <label for="setting-ccg" class="flex items-center gap-4 cursor-pointer group">
             <div class="items-center p-2 rounded-lg corner-squircle focus-within:bg-white/30 group-hover:bg-white/30">
               <input id="setting-ccg" type="checkbox" :checked="images === 'ccg'" @input.stop="changeImages('ccg')"
@@ -249,36 +261,37 @@ function stop() {
             </a>
           </div>
 
-          <div class="mt-10">And thank you to Adam Poots Games!</div>
+          <div class="mt-6">And thank you to Adam Poots Games!</div>
         </dialog>
       </div>
     </transition>
 
-    <div
-      class="fixed bottom-0 left-0 z-10 flex gap-8 p-4 overflow-hidden text-6xl font-bold text-center select-none font-kdm-text">
-      <button
-        class="relative w-20 h-20 text-black transition-transform duration-200 ease-in-out -rotate-45 border-2 border-white rounded-xl bg-white/80"
-        :style="loading ? `--tw-rotate: -${(secondRand / 9) * 360}deg` : ''" @click.prevent="selectHunt">
+    <button
+      class="fixed bottom-0 left-0 z-10 flex gap-8 p-4 overflow-hidden text-6xl font-bold text-center transition-opacity select-none font-kdm-text hover:opacity-80"
+      :class="showCard || showBack ? 'opacity-20' : 'opacity-70'" @click.prevent="selectHunt">
+      <div
+        class="relative w-16 h-16 text-black transition-transform duration-200 ease-in-out -rotate-45 bg-white border-2 border-white rounded-xl"
+        :style="loading ? `--tw-rotate: -${(secondRand / 9) * 360}deg` : ''">
         <div v-if="loading" class="rotate-45" :class="{ 'font-kd-icon': firstRand === 0 }">
           {{ firstRand === 0 ? 'e' : firstRand }}
         </div>
         <div v-else class="rotate-45" :class="{ 'font-kd-icon': first === 0 }">{{ first === 0 ? 'e' : first }}</div>
-      </button>
-      <button
-        class="relative w-20 h-20 text-white transition-transform duration-200 rotate-45 border-2 border-white rounded-xl bg-slate-950/80"
-        :style="loading ? `--tw-rotate: ${(firstRand / 9) * 360}deg` : ''" @click.prevent="selectHunt">
+      </div>
+      <div
+        class="relative w-16 h-16 text-white transition-transform duration-200 ease-in-out rotate-45 border-2 border-white rounded-xl bg-slate-950"
+        :style="loading ? `--tw-rotate: ${(firstRand / 9) * 360}deg` : ''">
         <div v-if="loading" class="-rotate-45" :class="{ 'font-kd-icon': secondRand === 0 }">
           {{ secondRand === 0 ? 'e' : secondRand }}
         </div>
         <div v-else class="-rotate-45" :class="{ 'font-kd-icon': second === 0 }">{{ second === 0 ? 'e' : second }}</div>
-      </button>
-    </div>
+      </div>
+    </button>
 
     <transition enter-active-class="animate-modal-in" leave-active-class="animate-modal-out">
       <div v-show="showDialog" @click="showDialog = false"
         class="absolute inset-0 z-20 flex items-center justify-center overflow-y-auto select-none bg-black/60">
         <dialog
-          class="relative flex gap-8 p-10 text-5xl font-bold text-center shadow-lg rounded-2xl bg-slate-950/80 shadow-stone-950 ring-1 ring-white/30">
+          class="relative flex gap-8 p-10 text-5xl font-bold text-center shadow-lg rounded-2xl bg-slate-950/80 shadow-stone-950 ring-2 ring-white/30">
           <div class="absolute top-0 transition-transform duration-200 -left-7"
             :style="`transform:translateY(${2.6 + (first !== 0 ? first - 1 : 9) * 5.75}rem)`">
             <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" fill="none" viewBox="0 0 24 24">
