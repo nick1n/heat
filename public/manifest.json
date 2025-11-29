@@ -1,0 +1,18 @@
+{
+  "theme_color": "#1a1a1a",
+  "background_color": "#1a1a1a",
+  "icons": [
+    { "purpose": "maskable", "sizes": "512x512", "src": "/icon512_maskable.png", "type": "image/png" },
+    { "purpose": "any", "sizes": "512x512", "src": "/icon512_rounded.png", "type": "image/png" }
+  ],
+  "orientation": "portrait",
+  "display": "standalone",
+  "dir": "left",
+  "lang": "en-US",
+  "name": "Guidepost",
+  "short_name": "Guidepost",
+  "start_url": "https://heat.1n.is/#/",
+  "scope": "https://heat.1n.is/#/",
+  "description": "Guidepost",
+  "id": "1ef830f5-ae41-4dc7-8723-62cabe84622f"
+}
