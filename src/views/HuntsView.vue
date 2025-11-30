@@ -175,7 +175,7 @@ function stop() {
     <!-- Top right util icons -->
     <div class="absolute flex flex-col gap-1 right-1 top-1">
       <button @click.prevent="toggleFullscreen" title="Fullscreen"
-        class="transition-opacity duration-1000 hover:duration-150 hover:opacity-90"
+        class="transition-opacity duration-500 hover:duration-150 hover:opacity-90"
         :class="showCard || showBack ? 'opacity-10' : 'opacity-70'">
         <svg v-if="isFullscreen" width="5rem" height="5rem" fill="none" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
@@ -188,7 +188,7 @@ function stop() {
         </svg>
       </button>
       <button @click.prevent="showHelp = true" title="About &amp; Settings"
-        class="transition-opacity duration-1000 hover:duration-150 hover:opacity-90"
+        class="transition-opacity duration-500 hover:duration-150 hover:opacity-90"
         :class="showCard || showBack ? 'opacity-10' : 'opacity-70'">
         <svg width="5rem" height="5rem" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd"
@@ -198,7 +198,7 @@ function stop() {
     </div>
 
     <button
-      class="absolute bottom-0 right-0 z-10 p-6 text-4xl font-bold text-center text-white transition-opacity duration-1000 shadow-lg select-none w-60 rounded-tl-[4rem] corner-squircle bg-slate-950 ring-2 ring-white hover:duration-150 hover:opacity-90"
+      class="absolute bottom-0 right-0 z-10 p-6 text-4xl font-bold text-center text-white transition-opacity duration-500 shadow-lg select-none w-60 rounded-tl-[4rem] corner-squircle bg-slate-950 ring-2 ring-white hover:duration-150 hover:opacity-90"
       :class="showCard || showBack ? 'opacity-10' : 'opacity-70'" @click.prevent="draw" title="Draw random card">
       {{ loading ? 'Drawing...' : 'Random' }}
     </button>
@@ -295,7 +295,7 @@ function stop() {
     </transition>
 
     <button
-      class="fixed bottom-0 left-0 z-10 flex gap-8 p-4 overflow-hidden text-6xl font-bold text-center transition-opacity duration-1000 select-none font-kdm-text hover:duration-150 hover:opacity-90"
+      class="fixed bottom-0 left-0 z-10 flex gap-8 p-4 overflow-hidden text-6xl font-bold text-center transition-opacity duration-500 select-none font-kdm-text hover:duration-150 hover:opacity-90"
       :class="showCard || showBack ? 'opacity-10' : 'opacity-70'" @click.prevent="selectHunt" title="Select hunt event">
       <div
         class="relative w-16 h-16 text-black transition-transform duration-200 ease-in-out -rotate-45 bg-white border-2 border-white rounded-xl"
