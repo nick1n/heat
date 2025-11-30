@@ -155,7 +155,7 @@ function stop() {
     <link rel="preload" :href="frontSrc" as="image">
     <link v-if="isDoubleSided" rel="preload" :href="showBackSrc" as="image">
 
-    <div class="relative " :class="aspectRatio ? 'h-svh w-auto' : 'w-full max-h-full'"
+    <div class="relative" :class="aspectRatio ? 'h-svh w-auto' : 'w-full max-h-full'"
       :style="`aspect-ratio:${settings[option].aspectRatio}`">
       <transition enter-active-class="animate-card-in" leave-active-class="animate-card-out">
         <div v-show="!loading" :key="card"
